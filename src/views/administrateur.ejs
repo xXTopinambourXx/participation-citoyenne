@@ -1,7 +1,59 @@
 <%- include("../partials/header") %>
 
-<main>
-  admin
+<main class="m-4 md:mx-50 md:mt-15 gap-8 flex flex-col md:flex-col">
+  <div class="flex flex-col items-start justify-center h-full">
+    <div class="flex flex-row items-center justify-between w-full">
+      <h1 class="text-xl md:text-4xl font-bold mb-4">Administrateur</h1>
+      <a href="/consultations/new" class="bg-primary text-white py-2 px-4 rounded-xl hover:bg-blue-600 transition duration-300 flex items-center gap-2">
+        <span class="material-symbols-outlined ">
+          add
+        </span>
+        <p class="text-lg">Nouvelle consultation</p>
+      </a>
+    </div>
+
+    <div class="h-1.5 bg-secondary w-[10%] mb-4"></div>
+
+    <p class="text-md md:text-lg text-tertiary">Gérez les consultations de la ville : créez, modifiez, supprimez, suivez les participations et consultez les retours citoyens.</p>
+  </div>
+
+  <divc class="flex flex-col md:flex-row gap-4 md:gap-6 mt-4">
+    <%- include("../partials/components/infocard", {
+        number: 17,
+        title: "Consultations",
+        icon: "article",
+        bgColor: "bg-blue-100",
+        textColor: "text-blue-900",
+        iconColor: "text-blue-600"
+    }) %>
+
+    <%- include("../partials/components/infocard", {
+        number: 4,
+        title: "En cours",
+        icon: "schedule",
+        bgColor: "bg-green-100",
+        textColor: "text-green-900",
+        iconColor: "text-green-600"
+    }) %>
+
+    <%- include("../partials/components/infocard", {
+        number: 3,
+        title: "À venir",
+        icon: "calendar_month",
+        bgColor: "bg-orange-100",
+        textColor: "text-orange-900",
+        iconColor: "text-orange-600"
+    }) %>
+
+    <%- include("../partials/components/infocard", {
+        number: 10,
+        title: "Terminées",
+        icon: "check_circle",
+        bgColor: "bg-purple-100",
+        textColor: "text-purple-900",
+        iconColor: "text-purple-600"
+    }) %>
+  </div>
 </main>
 
 <%- include("../partials/footer") %>

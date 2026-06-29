@@ -101,3 +101,7 @@ nav ul li a:focus::after{
   'GRAD' 0,
   'opsz' 48;
 }
+
+.material-symbols-outlined.infocard {
+  font-size: 95px;
+}
