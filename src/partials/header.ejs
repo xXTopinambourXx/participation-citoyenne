@@ -44,16 +44,22 @@
     </header>
 
     <!-- Secondary color separator -->
-    <div class="bg-secondary h-2 md:h-4 w-full"></div>
+    <div class="bg-secondary h-2 md:h-4 w-full hidden sm:block"></div>
 
     <!-- Navigation -->
 
+    <div class="flex flex-row items-center justify-center gap-2 md:gap-4 py-2 md:py-4 text-white bg-secondary cursor-pointer md:hidden" id="menu-toggle">
+      <span class="material-symbols-outlined">menu</span>
+
+      <p class="text-lg">Menu</p>
+    </div>
+
     <!-- Separator -->
     <div
-      class="border-b-1 border-tertiary/30 border-solid flex justify-between items-center"
+      class="border-b-1 border-tertiary/30 border-solid flex justify-between items-center hidden md:flex"
     >
       <!-- Navigation links -->
-      <nav class="bg-white text-tertiary py-2 md:py-4 ml-4 md:ml-10">
+      <nav class="bg-white text-tertiary py-2 md:py-4 ml-4 md:ml-10 navbar">
         <ul
           class="flex justify-start gap-4 md:gap-16 text-md md:text-lg font-medium"
           id="nav-links"
