@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Participation Citoyenne</title>
+
+    <!-- Link to the compiled CSS -->
+    <link rel="stylesheet" href="/public/styles/build.css" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
+    />
+    <!-- Material Symbols Outlined -->
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+    />
+    <link rel="stylesheet" href="/public/styles/theme.css" />
+  </head>
+
+  <body class="font-roboto h-screen">
+    <header class="header">
+      <!-- Left part of the header (Logo, title and subtitle) -->
+      <div class="left">
+        <!-- Logo -->
+        <div
+          class="flex justify-start items-center gap-4 md:gap-8 h-full ml-4 md:ml-10"
+        >
+          <div
+            class="bg-white p-2 rounded-xl w-[75px] h-[75px] md:w-[100px] md:h-[100px] flex items-center justify-center bg-[url('/public/assets/Paris-logo.jpg')] bg-cover bg-center"
+          ></div>
+
+          <!-- Title and subtitle -->
+          <div>
+            <h1 class="text-2xl md:text-4xl font-bold"><%= title %></h1>
+            <h3 class="text-base md:text-lg"><%= subtitle %></h3>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right part of the header (Banner)-->
+      <div class="right"></div>
+    </header>
+
+    <!-- Secondary color separator -->
+    <div class="bg-secondary h-2 md:h-4 w-full"></div>
+
+    <!-- Navigation -->
+
+    <!-- Separator -->
+    <div
+      class="border-b-1 border-tertiary/30 border-solid flex justify-between items-center"
+    >
+      <!-- Navigation links -->
+      <nav class="bg-white text-tertiary py-2 md:py-4 ml-4 md:ml-10">
+        <ul
+          class="flex justify-start gap-4 md:gap-16 text-md md:text-lg font-medium"
+          id="nav-links"
+        >
+          <li>
+            <a href="/" class="hover:text-primary" id="accueil">Accueil</a>
+          </li>
+          <li>
+            <a href="/consultations" class="hover:text-primary" id="consultations">Consultations</a>
+          </li>
+          <li><a href="/aide" class="hover:text-primary" id="aide">Aide</a></li>
+          <li>
+            <a href="/admin" class="hover:text-primary" id="admin"
+              >Administrateur</a
+            >
+          </li>
+        </ul>
+      </nav>
+
+      <!-- Identification section -->
+      <div
+        class="text-tertiary py-2 md:py-4 mx-4 md:mx-10 flex flex-row items-center text-md md:text-lg gap-2 md:gap-4"
+      >
+        <a href="#" id="open-login-modal" class="text-tertiary font-light">
+          Se connecter
+        </a>
+
+        <div class="h-6 bg-tertiary w-0.5 opacity-20"></div>
+
+        <a
+          href="#"
+          id="open-register-modal"
+          class="text-tertiary font-semibold"
+        >
+          S'inscrire
+        </a>
+      </div>
+    </div>
+  </body>
+</html>

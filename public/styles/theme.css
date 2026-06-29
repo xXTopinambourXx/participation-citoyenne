@@ -1,0 +1,103 @@
+.header {
+    position: relative;
+    width: 100%;
+    height: 11rem;
+
+    .left {
+        background-color: var(--color-primary);
+        color: white;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 70%;
+        height: 11rem;
+        z-index: 1;
+        clip-path: polygon(0 0, 100% 0, 70% 100%, 0% 100%);
+    }
+
+    .right {
+        background-image: url("/public/assets/bandeau_haut_paris.jpeg");
+        background-position: center;
+        background-size: cover;
+        align-items: center;
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 51%;
+        height: 11rem;
+        z-index: 0;
+    }
+}
+
+@media screen and (max-width: 950px) {
+    .header {
+        height: 8rem;
+        .left {
+            width: 100%;
+            height: 8rem;
+            clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+        }
+
+        .right {
+            display: none;
+        }
+    }
+}
+
+nav ul li a {
+  color: inherit;
+  text-decoration: none;
+  display: block;
+  position: relative;
+  padding: 0.2em 0;
+}
+
+/* Fade in */
+nav ul li a::after {
+  content: '';
+  position: absolute;
+  bottom: -1em;
+  left: 0;
+  width: 100%;
+  height: 0.15em;
+  background-color: var(--color-primary);
+  opacity: 0;
+  transition: opacity 300ms, transform 300ms;
+}
+
+/* Scale from center */
+nav ul li a::after {
+  opacity: 1;
+  transform: scale(0);
+  transform-origin: center;
+}
+
+nav ul li a:hover::after,
+nav ul li a:focus::after{
+  transform: scale(1);
+}
+
+.active {
+  font-weight: bold;
+  color: var(--color-primary);
+}
+
+.active::after {
+    content: '';
+    position: absolute;
+    bottom: -1em;
+    left: 0;
+    width: 100%;
+    height: 0.15em;
+    background-color: var(--color-primary);
+}
+
+/* Icons */
+.material-symbols-outlined {
+    font-size: 30px;
+  font-variation-settings:
+  'FILL' 0,
+  'wght' 400,
+  'GRAD' 0,
+  'opsz' 48;
+}

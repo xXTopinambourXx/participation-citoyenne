@@ -1,0 +1,55 @@
+<div
+  id="auth-modal"
+  class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/50"
+>
+  <div class="bg-white rounded-xl p-8 pt-6 w-full max-w-md relative">
+
+    <div class="flex justify-between items-center mb-4">
+      <div class="flex flex-col gap-1">
+        <h2 id="modal-title" class="text-3xl font-semibold">
+          Se connecter
+        </h2>
+
+        <div class="h-1.5 bg-primary w-[50%]"></div>
+      </div>
+
+      <button
+        id="close-modal"
+        class="align-center cursor-pointer"
+      >
+        <span class="material-symbols-outlined">
+          close
+        </span>
+      </button>
+
+    </div>
+
+    <form class="flex flex-col gap-4 w-full" id="modal-form">
+      <div class="gap-2">
+        <p class="font-medium color-black">Adresse e-mail</p>
+        <input
+          type="email"
+          class="border rounded p-2 w-full border-gray-300 focus:border-primary focus:outline-hidden"
+          required
+        />
+      </div>
+
+      <div class="gap-2">
+        <p class="font-medium color-black">Mot de passe</p>
+        <input
+          type="password"
+          class="border rounded p-2 w-full border-gray-300 focus:border-primary focus:outline-hidden"
+          required
+        />
+      </div>
+
+      <button
+        type="submit"
+        class="bg-primary/80 text-white font-bold rounded p-2 w-full hover:bg-primary transition-colors"
+      >
+        Se connecter
+      </button>
+    </form>
+
+  </div>
+</div>

@@ -1,0 +1,195 @@
+<!-- Parent container -->
+<div>
+  <!-- Header container with search bar and filters -->
+  <div class="flex flex-col gap-4 md:gap-8">
+    <!-- Search bar with sorting methods -->
+    <div class="flex items-center gap-4 md:gap-8 h-14">
+      <!-- Search bar -->
+      <div class="relative flex-1 h-full">
+        <!-- Search icon -->
+        <span
+          class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-tertiary"
+        >
+          search
+        </span>
+
+        <!-- Input field for searching consultations -->
+        <input
+          type="text"
+          placeholder="Rechercher une consultation..."
+          class="w-full h-full border-2 border-gray-300 rounded-xl pl-12 pr-4 focus:border-primary focus:outline-none"
+        />
+      </div>
+
+      <!-- Filtre -->
+      <div
+        class="flex items-center gap-3 h-full px-4 border-2 border-gray-300 rounded-xl"
+      >
+        <span class="material-symbols-outlined text-tertiary">
+          filter_alt
+        </span>
+
+        <label for="sort" class="text-tertiary font-semibold whitespace-nowrap">
+          Trier par :
+        </label>
+
+        <select
+          id="sort"
+          class="bg-transparent border-2 border-gray-100 p-2 rounded-lg focus:border-primary focus:outline-none text-tertiary"
+        >
+          <option value="date">Plus récentes</option>
+          <option value="title">Plus populaires</option>
+          <option value="status">Plus anciennes</option>
+        </select>
+      </div>
+    </div>
+    <!-- Filters container -->
+    <div class="flex items-center gap-4 h-14">
+      <!-- Chip -->
+      <div
+        class="bg-primary text-white py-3 px-5 rounded-full text-sm font-semibold"
+      >
+        Tous (<%= consultations.length %>)
+      </div>
+
+      <!-- Chip -->
+      <div
+        class="border-1 border-green-600 bg-none text-green-600 py-3 px-5 rounded-full text-sm font-semibold"
+      >
+        En cours (<%= consultations.filter(c => c.status === 'en-cours').length %>)
+      </div>
+
+      <!-- Chip -->
+      <div
+        class="border-1 border-orange-600 bg-none text-orange-600 py-3 px-5 rounded-full text-sm font-semibold"
+      >
+        À venir (<%= consultations.filter(c => c.status === 'a-venir').length %>)
+      </div>
+
+      <!-- Chip -->
+      <div
+        class="border-1 border-purple-600 bg-none text-purple-600 py-3 px-5 rounded-full text-sm font-semibold"
+      >
+        Terminées (<%= consultations.filter(c => c.status === 'termine').length %>)
+      </div>
+    </div>
+
+    <!-- Consultation list container -->
+    <div>
+      <div class="rounded-xl bg-white shadow-md w-[100%] xl:w-[45%]">
+
+        <!-- Header -->
+        <div class="items-center bg-[url('/public/assets/consultation-list-header.jpg')] bg-cover rounded-t-xl bg-center p-4 md:p-6 relative overflow-hidden">
+
+          <h2 class="text-xl md:text-3xl font-bold text-white w-[60%]">
+            Consultation sur le ciel public et le soleil
+          </h2>
+
+          <div class="absolute top-0 right-0 bg-green-600 text-white py-2 px-8 rounded-bl-[20px] rounded-tr-xl text-lg font-semibold">
+              En cours
+          </div>
+        </div>
+
+        <!-- Body -->
+        <div class="flex flex-col p-4 md:px-6 gap-4 md:gap-6">
+
+          <!-- Description -->
+          <div class="text-tertiary text-md md:text-lg">
+            La Ville de Paris envisage de mettre en place des mesures pour favoriser l’observation du ciel étoilé et améliorer l’accès à la lumière naturelle dans les espaces publics. Souhaitez-vous soutenir ce projet ?
+          </div>
+
+          <!-- Informations -->
+          <div class="flex flex-col gap-2 md:gap-6">
+            <div class="flex flex-row flex-wrap gap-4 items-center">
+
+              <!-- Group -->
+              <div class="flex items-center gap-2">
+                <span class="material-symbols-outlined text-primary">
+                  group
+                </span>
+
+                <span class="text-primary text-md md:text-lg font-semibold">
+                  1 234 participants
+                </span>
+              </div>
+
+              <!-- Divider -->
+              <div class="h-6 bg-tertiary w-0.5 opacity-20 hidden md:block"></div>
+
+              <!-- Schedule-->
+              <div class="flex items-center gap-2">
+                <span class="material-symbols-outlined text-tertiary">
+                  schedule
+                </span>
+
+                <span class="text-tertiary text-md md:text-lg font-medium">
+                  Fin le 24 juin 2026
+                </span>
+              </div>
+            </div>
+
+            <!-- Vote -->
+            <div class="flex flex-row items-center">
+              <div class="bg-green-600 w-[25%] h-3 rounded-l-full"></div>
+
+              <div class="bg-yellow-600 w-[25%] h-3"></div>
+
+              <div class="bg-gray-600 w-[25%] h-3"></div>
+
+              <div class="bg-red-600 w-[25%] h-3 rounded-r-full"></div>
+            </div>
+
+            <!-- Legend -->
+            <div class="flex flex-row flex-wrap justify-between w-full items-center">
+              <div class="flex flex-row items-center gap-2">
+                <div class="bg-green-600 w-4 h-4 rounded-full"></div>
+                <p>Très favorable
+                  <span class="font-semibold">
+                    25%
+                  </span>
+                </p>
+              </div>
+
+              <div class="flex flex-row items-center gap-2">
+                <div class="bg-yellow-600 w-4 h-4 rounded-full"></div>
+                <p>Favorable
+                  <span class="font-semibold">
+                    25%
+                  </span>
+                </p>
+              </div>
+
+              <div class="flex flex-row items-center gap-2">
+                <div class="bg-gray-600 w-4 h-4 rounded-full"></div>
+                <p>Neutre
+                  <span class="font-semibold">
+                    25%
+                  </span>
+                </p>
+              </div>
+
+              <div class="flex flex-row items-center gap-2">
+                <div class="bg-red-600 w-4 h-4 rounded-full"></div>
+                <p>Opposé
+                  <span class="font-semibold">
+                    25%
+                  </span>
+                </p>
+              </div>
+
+            </div>
+          </div>
+
+          <div class="flex items-center justify-end">
+            <a href="/consultations/1" class="bg-primary/80 text-white font-bold rounded-xl px-4 py-2 w-full md:w-auto hover:bg-primary transition-colors flex items-center justify-center gap-2">
+              <span class="material-symbols-outlined">
+                check
+              </span>
+              Voter maintenant
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

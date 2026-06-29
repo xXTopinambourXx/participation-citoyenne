@@ -1,0 +1,43 @@
+{
+  "name": "participation-citoyenne",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "css": "postcss public/styles/main.css -o public/styles/build.css --watch",
+    "dev": "concurrently \"npm:css\" \"tsx watch src/app.ts\"",
+    "build": "tsup src/app.ts --format esm --clean",
+    "start": "node dist/app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xXTopinambourXx/participation-citoyenne.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/xXTopinambourXx/participation-citoyenne/issues"
+  },
+  "homepage": "https://github.com/xXTopinambourXx/participation-citoyenne#readme",
+  "dependencies": {
+    "@tailwindcss/postcss": "^4.3.1",
+    "bcrypt": "^6.0.0",
+    "dotenv": "^17.4.2",
+    "ejs": "^6.0.1",
+    "express": "^5.2.1",
+    "mysql2": "^3.22.5",
+    "postcss": "^8.5.15",
+    "postcss-cli": "^11.0.1",
+    "tailwindcss": "^4.3.1"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.6",
+    "@types/node": "^26.0.0",
+    "concurrently": "^10.0.3",
+    "tsup": "^8.5.1",
+    "tsx": "^4.22.4",
+    "typescript": "^6.0.3"
+  }
+}

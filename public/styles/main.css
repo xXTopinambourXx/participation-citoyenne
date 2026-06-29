@@ -1,0 +1,9 @@
+@import "tailwindcss";
+
+/* Define your custom properties here */
+@theme static {
+    --color-primary: #2979FF;
+    --color-secondary: #F5CC03;
+    --color-tertiary: #434343;
+    --font-roboto: 'Roboto', sans-serif;
+}
