@@ -48,11 +48,48 @@
 
     <!-- Navigation -->
 
-    <div class="flex flex-row items-center justify-center gap-2 md:gap-4 py-2 md:py-4 text-white bg-secondary cursor-pointer md:hidden" id="menu-toggle">
-      <span class="material-symbols-outlined">menu</span>
+    <div
+      class="flex flex-row items-center justify-center gap-2 md:gap-4 py-2 md:py-4 text-white bg-secondary cursor-pointer md:hidden"
+      id="dropdown"
+    >
+      <span class="material-symbols-outlined transition-transform duration-300" id="dropdown-icon">menu</span>
 
       <p class="text-lg">Menu</p>
     </div>
+
+    <ul
+      id="dropdown-links"
+      class="max-h-0 overflow-hidden opacity-0 transition-all duration-300 ease-in-out bg-white text-center md:hidden"
+    >
+      <li><a href="/" class="block p-4 hover:text-primary border-b-1 border-tertiary/30 border-solid">Accueil</a></li>
+      <li>
+        <a href="/consultations" class="block p-4 hover:text-secondary border-b-1 border-tertiary/30 border-solid"
+          >Consultations</a
+        >
+      </li>
+      <li><a href="/aide" class="block p-4 hover:text-primary border-b-1 border-tertiary/30 border-solid">Aide</a></li>
+      <li>
+        <a href="/admin" class="block p-4 hover:text-primary border-b-1 border-tertiary/30 border-solid">Administrateur</a>
+      </li>
+
+      <div
+        class="text-tertiary p-4 flex flex-row justify-center items-center text-md md:text-lg gap-2 md:gap-4"
+      >
+        <a href="#" id="open-login-modal" class="text-tertiary font-light">
+          Se connecter
+        </a>
+
+        <div class="h-6 bg-tertiary w-0.5 opacity-20"></div>
+
+        <a
+          href="#"
+          id="open-register-modal"
+          class="text-tertiary font-semibold"
+        >
+          S'inscrire
+        </a>
+      </div>
+    </ul>
 
     <!-- Separator -->
     <div
@@ -68,7 +105,12 @@
             <a href="/" class="hover:text-primary" id="accueil">Accueil</a>
           </li>
           <li>
-            <a href="/consultations" class="hover:text-primary" id="consultations">Consultations</a>
+            <a
+              href="/consultations"
+              class="hover:text-primary"
+              id="consultations"
+              >Consultations</a
+            >
           </li>
           <li><a href="/aide" class="hover:text-primary" id="aide">Aide</a></li>
           <li>

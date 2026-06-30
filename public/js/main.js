@@ -35,4 +35,25 @@ window.addEventListener("click", (event) => {
 /* ------------------ End of Modal Part ------------------ */
 
 
+/* ------------------ Menu déroulant ------------------ */
+const dropdown = document.getElementById("dropdown");
+const links = document.getElementById("dropdown-links");
+const icon = document.getElementById("dropdown-icon");
+
+dropdown.addEventListener("click", () => {
+    const opened = links.classList.contains("max-h-96");
+    icon.classList.toggle("rotate-90");
+
+    if (opened) {
+        links.classList.remove("max-h-96", "opacity-100");
+        links.classList.add("max-h-0", "opacity-0");
+
+        icon.textContent = "menu";
+    } else {
+        links.classList.remove("max-h-0", "opacity-0");
+        links.classList.add("max-h-96", "opacity-100");
+
+        icon.textContent = "close";
+    }
+});
 
