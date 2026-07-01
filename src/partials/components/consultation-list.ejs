@@ -2,10 +2,14 @@
 <div>
   <!-- Header container with search bar and filters -->
   <div class="flex flex-col gap-4 md:gap-8">
+
+
     <!-- Search bar with sorting methods -->
-    <div class="flex items-center gap-4 md:gap-8 h-14">
+    <div class="flex flex-col md:flex-row gap-4 md:gap-8">
+
+
       <!-- Search bar -->
-      <div class="relative flex-1 h-full">
+      <div class="relative md:flex-1 w-full h-14">
         <!-- Search icon -->
         <span
           class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-tertiary"
@@ -23,7 +27,7 @@
 
       <!-- Filtre -->
       <div
-        class="flex items-center gap-3 h-full px-4 border-2 border-gray-300 rounded-xl"
+        class="flex items-center gap-3 h-14 px-4 border-2 border-gray-300 rounded-xl"
       >
         <span class="material-symbols-outlined text-tertiary">
           filter_alt
@@ -35,7 +39,7 @@
 
         <select
           id="sort"
-          class="bg-transparent border-2 border-gray-100 p-2 rounded-lg focus:border-primary focus:outline-none text-tertiary"
+          class="h-10 bg-transparent border border-gray-200 rounded-lg px-3 focus:border-primary focus:outline-none text-tertiary"
         >
           <option value="date">Plus récentes</option>
           <option value="title">Plus populaires</option>
@@ -43,8 +47,10 @@
         </select>
       </div>
     </div>
+
+
     <!-- Filters container -->
-    <div class="flex items-center gap-4 h-14">
+    <div class="flex flex-wrap items-center gap-4">
       <!-- Chip -->
       <div
         class="bg-primary text-white py-3 px-5 rounded-full text-sm font-semibold"
@@ -75,13 +81,13 @@
     </div>
 
     <!-- Consultation list container -->
-    <div>
-      <div class="rounded-xl bg-white shadow-md w-[100%] xl:w-[45%]">
+    <div class="flex">
+      <div class="w-full xl:w-[45%] rounded-xl bg-white shadow-md">
 
         <!-- Header -->
         <div class="items-center bg-[url('/public/assets/consultation-list-header.jpg')] bg-cover rounded-t-xl bg-center p-4 md:p-6 relative overflow-hidden">
 
-          <h2 class="text-xl md:text-3xl font-bold text-white w-[60%]">
+          <h2 class="text-xl md:text-3xl font-bold text-white w-[60%] text-shadow-lg">
             Consultation sur le ciel public et le soleil
           </h2>
 

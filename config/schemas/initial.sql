@@ -17,6 +17,8 @@ CREATE TABLE consultation (
 
     statut TINYINT UNSIGNED NOT NULL,-- 0 : A venir, 1 : En cours, 2 : Terminee
 
+    budget INT UNSIGNED,
+
     date_creation INT UNSIGNED NOT NULL,
     date_debut INT UNSIGNED NOT NULL,
     date_fin INT UNSIGNED NOT NULL,
@@ -27,6 +29,11 @@ CREATE TABLE consultation (
         FOREIGN KEY (createur_consultation_id) 
         REFERENCES utilisateur(id_utilisateur) 
         ON DELETE CASCADE
+    
+    CONSTRAINT fk_consultation_etiquette
+        FOREIGN KEY (etiquette_id)
+        REFERENCES etiquette(id_etiquette)
+        ON DELETE SET NULL
 );
 
 CREATE TABLE proposition (
@@ -124,4 +131,31 @@ CREATE TABLE soutien (
 
     CONSTRAINT uq_soutien_proposition
         UNIQUE (createur_soutien_id, proposition_id)
+);
+
+CREATE TABLE etiquette (
+    id_etiquette INT AUTO_INCREMENT PRIMARY KEY,
+
+    nom VARCHAR(255) NOT NULL UNIQUE,
+
+    couleur VARCHAR(7) NOT NULL,
+
+    icone VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE consultation_etiquette (
+    consultation_id INT NOT NULL,
+    etiquette_id INT NOT NULL,
+
+    PRIMARY KEY (consultation_id, etiquette_id),
+
+    CONSTRAINT fk_ce_consultation
+        FOREIGN KEY (consultation_id)
+        REFERENCES consultation(id_consultation)
+        ON DELETE CASCADE,
+
+    CONSTRAINT fk_ce_etiquette
+        FOREIGN KEY (etiquette_id)
+        REFERENCES etiquette(id_etiquette)
+        ON DELETE CASCADE
 );

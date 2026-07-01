@@ -1,10 +1,15 @@
 <%- include("../partials/header") %>
 
 <main class="m-12 lg:mx-50 lg:mt-15 gap-8 flex flex-col md:flex-col">
-  <div class="flex flex-col items-start justify-center h-full">
+  <div class="flex flex-col items-start justify-center h-full gap-4">
+
     <div class="flex flex-row items-center justify-between w-full">
-      <h1 class="text-xl md:text-4xl font-bold mb-4">Administrateur</h1>
-      <a href="/consultations/new" class="bg-primary text-white py-2 px-4 rounded-xl hover:bg-blue-600 transition duration-300 flex items-center gap-2">
+      <div class="flex flex-col gap-2">
+        <h1 class="text-xl md:text-4xl font-bold">Administrateur</h1>
+
+        <div class="h-1.5 bg-secondary w-[50%]"></div>
+      </div>
+      <a href="/consultations/new" class="hidden md:flex bg-primary text-white py-2 px-4 rounded-xl hover:bg-blue-600 transition duration-300 items-center gap-2">
         <span class="material-symbols-outlined ">
           add
         </span>
@@ -12,12 +17,17 @@
       </a>
     </div>
 
-    <div class="h-1.5 bg-secondary w-[10%] mb-4"></div>
-
     <p class="text-md md:text-lg text-tertiary">Gérez les consultations de la ville : créez, modifiez, supprimez, suivez les participations et consultez les retours citoyens.</p>
+
+    <a href="/consultations/new" class="flex md:hidden bg-primary text-white py-2 px-4 rounded-xl hover:bg-blue-600 transition duration-300 items-center gap-2">
+        <span class="material-symbols-outlined ">
+          add
+        </span>
+        <p class="text-lg">Nouvelle consultation</p>
+    </a>
   </div>
 
-  <divc class="flex flex-col xl:flex-row gap-4 md:gap-6 mt-4">
+  <div class="flex flex-col xl:flex-row gap-4 md:gap-6">
     <%- include("../partials/components/infocard", {
         number: 17,
         title: "Consultations",
@@ -54,6 +64,46 @@
         iconColor: "text-purple-600"
     }) %>
   </div>
+
+  <div class="flex flex-row flex-wrap justify-between h-12">
+    <div class="flex gap-6 flex-wrap">
+      <button class="bg-primary text-white px-6 py-2 rounded-xl">
+        Toutes (<%= consultations.length %>)
+      </button>
+
+      <button class="border-2 border-gray-300 bg-none px-6 py-2 rounded-xl">
+        En cours (<%= consultations.filter(c => c.status === 'en-cours').length %>)
+      </button>
+
+      <button class="border-2 border-gray-300 bg-none px-6 py-2 rounded-xl">
+        À venir (<%= consultations.filter(c => c.status === 'a-venir').length %>)
+      </button>
+
+      <button class="border-2 border-gray-300 bg-none px-6 py-2 rounded-xl">
+        Terminées (<%= consultations.filter(c => c.status === 'termine').length %>)
+      </button>
+    </div>
+
+    <!-- Search bar -->
+    <div class="relative w-[30%] h-full">
+      <!-- Search icon -->
+      <span
+        class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-tertiary"
+      >
+        search
+      </span>
+
+      <!-- Input field for searching consultations -->
+      <input
+        type="text"
+        placeholder="Rechercher une consultation..."
+        class="w-full h-full border-2 border-gray-300 rounded-xl pl-12 pr-4 focus:border-primary focus:outline-none"
+      />
+    </div>
+
+  </div>
+
+  <%- include("../partials/components/list-admin", { consultations }) %>
 </main>
 
 <%- include("../partials/footer") %>

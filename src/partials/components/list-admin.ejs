@@ -1,0 +1,32 @@
+<div class="w-full flex flex-col gap-4">
+    <div class="grid grid-cols-12 items-center gap-4 border-2 border-gray-300 rounded-xl px-6 py-4 font-semibold text-sm md:text-base">
+
+        <div class="col-span-1">
+            <input type="checkbox" id="select-all">
+        </div>
+
+        <div class="col-span-4 flex items-center gap-2 cursor-pointer">
+            <p>Titre</p>
+            <span class="material-symbols-outlined text-lg">unfold_more</span>
+        </div>
+
+        <div class="col-span-2">
+            Statut
+        </div>
+
+        <div class="col-span-2">
+            Étiquettes
+        </div>
+
+        <div class="col-span-2 flex items-center gap-2 cursor-pointer">
+            <p>Date</p>
+            <span class="material-symbols-outlined text-lg">unfold_more</span>
+        </div>
+
+        <div class="col-span-1 text-center">
+            Actions
+        </div>
+    </div>
+
+    <%- include("./list-admin-card", { consultations }) %>
+</div>

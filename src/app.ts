@@ -2,6 +2,7 @@ import express from "express";
 import path from "path";
 import "dotenv/config";
 import { consultations } from "./data/consultation.js";
+import consultationRoutes from "./routes/consultationRoutes.js";
 
 const app = express();
 const PORT = process.env.PORT;
@@ -22,16 +23,14 @@ app.get("/", (_req, res) => {
   res.render("accueil");
 });
 
-app.get("/consultations", (_req, res) => {
-  res.render("consultations", { consultations });
-});
+app.use("/consultations", consultationRoutes);
 
 app.get("/aide", (_req, res) => {
   res.render("aide");
 });
 
 app.get("/admin", (_req, res) => {
-  res.render("administrateur")
+  res.render("administrateur", { consultations });
 });
 
 app.listen(PORT, () => {
