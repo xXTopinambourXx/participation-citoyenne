@@ -1,29 +1,33 @@
 import { Database } from "../core/database/Database.js";
-
-export interface Consultation {
-    id_consultation: number;
-    titre: string;
-    descr: string;
-    statut: number;
-    budget: number;
-    date_creation: number;
-    date_debut: number;
-    date_fin: number;
-    createur_consultation_id: number;
-}
+import type { Consultation } from "../models/Consultation.js";
 
 export class ConsultationRepository {
 
     public static async findAll(): Promise<Consultation[]> {
-        return Database.query<Consultation>(
-            "SELECT * FROM consultation ORDER BY date_creation DESC"
-        );
+        return Database.query<Consultation>(`
+            SELECT
+                c.*,
+                COUNT(v.id_vote) AS nbParticipants
+            FROM consultation c
+            LEFT JOIN vote v
+                ON v.consultation_id = c.id_consultation
+            GROUP BY c.id_consultation
+        `);
     }
 
     public static async findById(id: number): Promise<Consultation | null> {
 
         const consultations = await Database.query<Consultation>(
-            "SELECT * FROM consultation WHERE id_consultation = ?",
+            `
+            SELECT
+                c.*,
+                COUNT(v.id_vote) AS nbParticipants
+            FROM consultation c
+            LEFT JOIN vote v
+                ON v.consultation_id = c.id_consultation
+            WHERE c.id_consultation = ?
+            GROUP BY c.id_consultation
+            `,
             [id]
         );
 
@@ -37,8 +41,8 @@ export class ConsultationRepository {
         return Database.execute(
             `
             INSERT INTO consultation
-            (titre, descr, statut, budget, date_creation, date_debut, date_fin, createur_consultation_id)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+            (titre, descr, budget, date_creation, date_debut, date_fin, createur_consultation_id)
+            VALUES (?, ?, ?, ?, ?, ?, ?)
             `,
             [
                 consultation.titre,
@@ -54,7 +58,7 @@ export class ConsultationRepository {
 
     public static async update(
         id: number,
-        consultation: Omit<Consultation, "id_consultation" | "titre" | "descr" | "statut" | "budget" | "date_creation" | "createur_consultation_id">
+        consultation: Omit<Consultation, "id_consultation" | "titre" | "descr" | "statut" | "nbParticipants" | "budget" | "date_creation" | "createur_consultation_id">
     ) {
 
         return Database.execute(

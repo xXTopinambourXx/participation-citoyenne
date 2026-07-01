@@ -29,11 +29,6 @@ CREATE TABLE consultation (
         FOREIGN KEY (createur_consultation_id) 
         REFERENCES utilisateur(id_utilisateur) 
         ON DELETE CASCADE
-    
-    CONSTRAINT fk_consultation_etiquette
-        FOREIGN KEY (etiquette_id)
-        REFERENCES etiquette(id_etiquette)
-        ON DELETE SET NULL
 );
 
 CREATE TABLE proposition (
@@ -155,6 +150,23 @@ CREATE TABLE consultation_etiquette (
         ON DELETE CASCADE,
 
     CONSTRAINT fk_ce_etiquette
+        FOREIGN KEY (etiquette_id)
+        REFERENCES etiquette(id_etiquette)
+        ON DELETE CASCADE
+);
+
+CREATE TABLE proposition_etiquette (
+    proposition_id INT NOT NULL,
+    etiquette_id INT NOT NULL,
+
+    PRIMARY KEY (proposition_id, etiquette_id),
+
+    CONSTRAINT fk_pe_proposition
+        FOREIGN KEY (proposition_id)
+        REFERENCES proposition(id_proposition)
+        ON DELETE CASCADE,
+
+    CONSTRAINT fk_pe_etiquette
         FOREIGN KEY (etiquette_id)
         REFERENCES etiquette(id_etiquette)
         ON DELETE CASCADE

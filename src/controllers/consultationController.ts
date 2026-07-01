@@ -6,7 +6,6 @@ export class ConsultationController {
     static async index(req: Request, res: Response) {
 
         const consultations = await ConsultationRepository.findAll();
-
         res.render("consultations", { consultations });
     }
 
@@ -28,6 +27,7 @@ export class ConsultationController {
             descr: consultation.descr,
             statut: consultation.statut,
             budget: consultation.budget,
+            nbParticipants: consultation.nbParticipants,
             date_creation: consultation.date_creation,
             date_debut: consultation.date_debut,
             date_fin: consultation.date_fin,

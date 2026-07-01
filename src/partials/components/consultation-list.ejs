@@ -62,140 +62,29 @@
       <div
         class="border-1 border-green-600 bg-none text-green-600 py-3 px-5 rounded-full text-sm font-semibold"
       >
-        En cours (<%= consultations.filter(c => c.status === 'en-cours').length %>)
+        En cours (<%= consultations.filter(c => c.statut === 1).length %>)
       </div>
 
       <!-- Chip -->
       <div
-        class="border-1 border-orange-600 bg-none text-orange-600 py-3 px-5 rounded-full text-sm font-semibold"
+        class="border-1 border-yellow-500 bg-none text-yellow-500 py-3 px-5 rounded-full text-sm font-semibold"
       >
-        À venir (<%= consultations.filter(c => c.status === 'a-venir').length %>)
+        À venir (<%= consultations.filter(c => c.statut === 0).length %>)
       </div>
 
       <!-- Chip -->
       <div
         class="border-1 border-purple-600 bg-none text-purple-600 py-3 px-5 rounded-full text-sm font-semibold"
       >
-        Terminées (<%= consultations.filter(c => c.status === 'termine').length %>)
+        Terminées (<%= consultations.filter(c => c.statut === 2).length %>)
       </div>
     </div>
 
     <!-- Consultation list container -->
-    <div class="flex">
-      <div class="w-full xl:w-[45%] rounded-xl bg-white shadow-md">
-
-        <!-- Header -->
-        <div class="items-center bg-[url('/public/assets/consultation-list-header.jpg')] bg-cover rounded-t-xl bg-center p-4 md:p-6 relative overflow-hidden">
-
-          <h2 class="text-xl md:text-3xl font-bold text-white w-[60%] text-shadow-lg">
-            Consultation sur le ciel public et le soleil
-          </h2>
-
-          <div class="absolute top-0 right-0 bg-green-600 text-white py-2 px-8 rounded-bl-[20px] rounded-tr-xl text-lg font-semibold">
-              En cours
-          </div>
-        </div>
-
-        <!-- Body -->
-        <div class="flex flex-col p-4 md:px-6 gap-4 md:gap-6">
-
-          <!-- Description -->
-          <div class="text-tertiary text-md md:text-lg">
-            La Ville de Paris envisage de mettre en place des mesures pour favoriser l’observation du ciel étoilé et améliorer l’accès à la lumière naturelle dans les espaces publics. Souhaitez-vous soutenir ce projet ?
-          </div>
-
-          <!-- Informations -->
-          <div class="flex flex-col gap-2 md:gap-6">
-            <div class="flex flex-row flex-wrap gap-4 items-center">
-
-              <!-- Group -->
-              <div class="flex items-center gap-2">
-                <span class="material-symbols-outlined text-primary">
-                  group
-                </span>
-
-                <span class="text-primary text-md md:text-lg font-semibold">
-                  1 234 participants
-                </span>
-              </div>
-
-              <!-- Divider -->
-              <div class="h-6 bg-tertiary w-0.5 opacity-20 hidden md:block"></div>
-
-              <!-- Schedule-->
-              <div class="flex items-center gap-2">
-                <span class="material-symbols-outlined text-tertiary">
-                  schedule
-                </span>
-
-                <span class="text-tertiary text-md md:text-lg font-medium">
-                  Fin le 24 juin 2026
-                </span>
-              </div>
-            </div>
-
-            <!-- Vote -->
-            <div class="flex flex-row items-center">
-              <div class="bg-green-600 w-[25%] h-3 rounded-l-full"></div>
-
-              <div class="bg-yellow-600 w-[25%] h-3"></div>
-
-              <div class="bg-gray-600 w-[25%] h-3"></div>
-
-              <div class="bg-red-600 w-[25%] h-3 rounded-r-full"></div>
-            </div>
-
-            <!-- Legend -->
-            <div class="flex flex-row flex-wrap justify-between w-full items-center">
-              <div class="flex flex-row items-center gap-2">
-                <div class="bg-green-600 w-4 h-4 rounded-full"></div>
-                <p>Très favorable
-                  <span class="font-semibold">
-                    25%
-                  </span>
-                </p>
-              </div>
-
-              <div class="flex flex-row items-center gap-2">
-                <div class="bg-yellow-600 w-4 h-4 rounded-full"></div>
-                <p>Favorable
-                  <span class="font-semibold">
-                    25%
-                  </span>
-                </p>
-              </div>
-
-              <div class="flex flex-row items-center gap-2">
-                <div class="bg-gray-600 w-4 h-4 rounded-full"></div>
-                <p>Neutre
-                  <span class="font-semibold">
-                    25%
-                  </span>
-                </p>
-              </div>
-
-              <div class="flex flex-row items-center gap-2">
-                <div class="bg-red-600 w-4 h-4 rounded-full"></div>
-                <p>Opposé
-                  <span class="font-semibold">
-                    25%
-                  </span>
-                </p>
-              </div>
-
-            </div>
-          </div>
-
-          <div class="flex items-center justify-end">
-            <a href="/consultations/1" class="bg-primary/80 text-white font-bold rounded-xl px-4 py-2 w-full md:w-auto hover:bg-primary transition-colors flex items-center justify-center gap-2">
-              <span class="material-symbols-outlined">
-                check
-              </span>
-              Voter maintenant
-            </a>
-          </div>
-        </div>
-      </div>
+    <div class="w-full flex-row flex-wrap gap-4 md:gap-6 flex grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+      <% consultations.forEach(consultation => { %>
+        <%- include("./consultation-card", { consultation }) %>
+      <%}); %>
     </div>
   </div>
 </div>
