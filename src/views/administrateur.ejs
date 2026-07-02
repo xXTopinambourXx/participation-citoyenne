@@ -29,7 +29,7 @@
 
   <div class="flex flex-col xl:flex-row gap-4 md:gap-6">
     <%- include("../partials/components/infocard", {
-        number: 17,
+        number: consultations.length,
         title: "Consultations",
         icon: "article",
         bgColor: "bg-blue-100",
@@ -38,7 +38,7 @@
     }) %>
 
     <%- include("../partials/components/infocard", {
-        number: 4,
+        number: consultations.filter(c => c.statut === 1).length,
         title: "En cours",
         icon: "schedule",
         bgColor: "bg-green-100",
@@ -47,7 +47,7 @@
     }) %>
 
     <%- include("../partials/components/infocard", {
-        number: 3,
+        number: consultations.filter(c => c.statut === 0).length,
         title: "À venir",
         icon: "calendar_month",
         bgColor: "bg-orange-100",
@@ -56,7 +56,7 @@
     }) %>
 
     <%- include("../partials/components/infocard", {
-        number: 10,
+        number: consultations.filter(c => c.statut === 2).length,
         title: "Terminées",
         icon: "check_circle",
         bgColor: "bg-purple-100",
@@ -72,15 +72,15 @@
       </button>
 
       <button class="border-2 border-gray-300 bg-none px-6 py-2 rounded-xl">
-        En cours (<%= consultations.filter(c => c.status === 'en-cours').length %>)
+        En cours (<%= consultations.filter(c => c.statut === 1).length %>)
       </button>
 
       <button class="border-2 border-gray-300 bg-none px-6 py-2 rounded-xl">
-        À venir (<%= consultations.filter(c => c.status === 'a-venir').length %>)
+        À venir (<%= consultations.filter(c => c.statut === 0).length %>)
       </button>
 
       <button class="border-2 border-gray-300 bg-none px-6 py-2 rounded-xl">
-        Terminées (<%= consultations.filter(c => c.status === 'termine').length %>)
+        Terminées (<%= consultations.filter(c => c.statut === 2).length %>)
       </button>
     </div>
 
@@ -103,7 +103,11 @@
 
   </div>
 
-  <%- include("../partials/components/list-admin") %>
+  <%- include("../partials/components/list-admin", { consultations }) %>
+
+  <% consultations.forEach(consultation => { %>
+    <%- include("../partials/components/list-admin-card", { consultation: consultation }) %>
+  <% }) %>
 </main>
 
 <%- include("../partials/footer") %>

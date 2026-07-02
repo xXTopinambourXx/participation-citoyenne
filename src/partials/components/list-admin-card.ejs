@@ -7,22 +7,26 @@
         <div class="bg-[url(../../public/assets/consultation-list-header.jpg)] bg-cover bg-center w-22 h-16 rounded-xl"></div>
 
         <div class="flex flex-col gap-2">
-            <h2 class="text-lg md:text-xl font-bold">Consultation sur le ciel public et le soleil</h2>
-            <p class="text-sm md:text-md text-tertiary" id="id-card">#12345</p>
+            <h2 class="text-lg md:text-xl font-bold"><%= consultation.title %></h2>
+            <p class="text-sm md:text-md text-tertiary" id="id-card">#id-<%= consultation.id_consultation %></p>
         </div>
     </div>
 
     <div class="text-green-900 font-semibold col-span-1">
         <div class="flex flex-row bg-green-600/20 px-2 py-1 rounded-lg gap-2 items-center justify-center border-2 border-green-600/20">
             <div class="rounded-full min-w-3 min-h-3 bg-green-900"></div>
-            <p class="whitespace-nowrap">En cours</p>
+            <p class="whitespace-nowrap"><%= consultation.statut == 1 ? 'En cours' : consultation.statut == 0 ? 'À venir' : 'Terminée' %></p>
         </div>
     </div>
 
     <div class="flex flex-col flex-wrap gap-2 items-center justify-start col-span-2">
-        <p class="text-sm md:text-md bg-blue-200 text-blue-900 px-4 py-2 rounded-full">Environnement</p>
-
-        <p class="text-sm md:text-md bg-purple-200 text-purple-900 px-4 py-2 rounded-full">Urbanisme</p>
+        <% if(consultation.etiquettes && consultation.etiquettes.length > 0) { %>
+            <% consultation.etiquettes.forEach(tag => { %>
+                <p class="text-sm md:text-md bg-blue-200 text-blue-900 px-4 py-2 rounded-full"><%= tag.nom %></p>
+            <% }); %>
+        <% } else { %>
+            <p class="text-sm md:text-md text-tertiary">Aucune étiquette</p>
+        <% } %>
     </div>
 
     <div class="col-span-2">

@@ -1,11 +1,21 @@
 import type { Request, Response } from "express";
 import { ConsultationRepository } from "../repositories/ConsultationRepository.js";
+import { EtiquetteRepository } from "../repositories/EtiquetteRepository.js";
 
 export class ConsultationController {
 
     static async index(req: Request, res: Response) {
 
         const consultations = await ConsultationRepository.findAll();
+
+        for (const consultation of consultations) {
+
+            consultation.etiquettes =
+                await EtiquetteRepository.findByConsultation(
+                    consultation.id_consultation
+                );
+        }
+
         res.render("consultations", { consultations });
     }
 
@@ -13,6 +23,15 @@ export class ConsultationController {
 
         const consultation = await ConsultationRepository.findById(
             Number(req.params.id)
+        );
+
+        if (!consultation) {
+            res.status(404).send("Consultation not found");
+            return;
+        }
+
+        consultation.etiquettes = await EtiquetteRepository.findByConsultation(
+            consultation.id_consultation
         );
 
         res.render("consultation", { consultation });
