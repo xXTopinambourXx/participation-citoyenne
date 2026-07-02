@@ -13,6 +13,7 @@ const modalForm = document.getElementById("modal-form");
 const closeBtn = document.getElementById("close-modal");
 
 loginBtn.addEventListener("click", () => {
+    console.log("Login button clicked");
     modal.classList.remove("hidden");
     modalTitle.textContent = "Se connecter";
 });

@@ -1,4 +1,4 @@
-<div class="w-full rounded-xl bg-white shadow-md">
+<div class="w-full h-full rounded-xl bg-white shadow-md flex flex-col">
     <!-- Header -->
     <div class="flex items-center min-h-32 rounded-t-xl p-4 md:p-6 relative overflow-hidden">
 
@@ -14,7 +14,7 @@
     </div>
 
     <!-- Body -->
-    <div class="flex flex-col p-4 md:px-6 gap-4 md:gap-6">
+    <div class="flex flex-col flex-1 p-4 md:px-6 gap-4 md:gap-6">
 
         <!-- Description -->
         <div class="text-tertiary text-md md:text-lg">
@@ -23,87 +23,87 @@
 
         <!-- Informations -->
         <div class="flex flex-col gap-2 md:gap-6">
-        <div class="flex flex-row flex-wrap gap-4 items-center">
+            <div class="flex flex-row flex-wrap gap-2 items-center">
 
-            <!-- Group -->
-            <div class="flex items-center gap-2">
-            <span class="material-symbols-outlined text-primary">
-                group
-            </span>
+                <!-- Group -->
+                <div class="flex items-center gap-2">
+                    <span class="material-symbols-outlined text-primary">
+                        group
+                    </span>
 
-            <span class="text-primary text-md md:text-lg font-semibold">
-                <%= consultation.nbParticipants %> participants
-            </span>
+                    <span class="text-primary text-md font-semibold">
+                        <%= consultation.nbParticipants %> participants
+                    </span>
+                </div>
+
+                <!-- Divider -->
+                <div class="h-6 bg-tertiary w-0.5 opacity-20 hidden md:block"></div>
+
+                <!-- Schedule-->
+                <div class="flex items-center gap-2">
+                    <span class="material-symbols-outlined text-tertiary">
+                        schedule
+                    </span>
+
+                    <span class="text-tertiary text-md font-medium">
+                        Fin le <% var dateFin = new Date(consultation.date_fin * 1000); %><%= dateFin.toLocaleDateString("fr-FR", { day: "2-digit", month: "2-digit", year: "numeric" }) %>
+                    </span>
+                </div>
             </div>
 
-            <!-- Divider -->
-            <div class="h-6 bg-tertiary w-0.5 opacity-20 hidden md:block"></div>
+            <!-- Vote -->
+            <div class="flex flex-row items-center">
+                <div class="bg-green-600 w-[25%] h-3 rounded-l-full"></div>
 
-            <!-- Schedule-->
-            <div class="flex items-center gap-2">
-            <span class="material-symbols-outlined text-tertiary">
-                schedule
-            </span>
+                <div class="bg-yellow-600 w-[25%] h-3"></div>
 
-            <span class="text-tertiary text-md md:text-lg font-medium">
-                Fin le <% var dateFin = new Date(consultation.date_fin * 1000); %><%= dateFin.toLocaleDateString("fr-FR", { day: "2-digit", month: "2-digit", year: "numeric" }) %>
-            </span>
+                <div class="bg-gray-600 w-[25%] h-3"></div>
+
+                <div class="bg-red-600 w-[25%] h-3 rounded-r-full"></div>
+            </div>
+
+            <!-- Legend -->
+            <div class="flex flex-row flex-wrap justify-start w-full items-center gap-4">
+                <div class="flex flex-row items-center gap-2">
+                <div class="bg-green-600 w-4 h-4 rounded-full"></div>
+                <p>Très favorable
+                    <span class="font-semibold">
+                    25%
+                    </span>
+                </p>
+                </div>
+
+                <div class="flex flex-row items-center gap-2">
+                <div class="bg-yellow-600 w-4 h-4 rounded-full"></div>
+                <p>Favorable
+                    <span class="font-semibold">
+                    25%
+                    </span>
+                </p>
+                </div>
+
+                <div class="flex flex-row items-center gap-2">
+                <div class="bg-gray-600 w-4 h-4 rounded-full"></div>
+                <p>Neutre
+                    <span class="font-semibold">
+                    25%
+                    </span>
+                </p>
+                </div>
+
+                <div class="flex flex-row items-center gap-2">
+                <div class="bg-red-600 w-4 h-4 rounded-full"></div>
+                <p>Opposé
+                    <span class="font-semibold">
+                    25%
+                    </span>
+                </p>
+                </div>
+
             </div>
         </div>
 
-        <!-- Vote -->
-        <div class="flex flex-row items-center">
-            <div class="bg-green-600 w-[25%] h-3 rounded-l-full"></div>
-
-            <div class="bg-yellow-600 w-[25%] h-3"></div>
-
-            <div class="bg-gray-600 w-[25%] h-3"></div>
-
-            <div class="bg-red-600 w-[25%] h-3 rounded-r-full"></div>
-        </div>
-
-        <!-- Legend -->
-        <div class="flex flex-row flex-wrap justify-start w-full items-center gap-4">
-            <div class="flex flex-row items-center gap-2">
-            <div class="bg-green-600 w-4 h-4 rounded-full"></div>
-            <p>Très favorable
-                <span class="font-semibold">
-                25%
-                </span>
-            </p>
-            </div>
-
-            <div class="flex flex-row items-center gap-2">
-            <div class="bg-yellow-600 w-4 h-4 rounded-full"></div>
-            <p>Favorable
-                <span class="font-semibold">
-                25%
-                </span>
-            </p>
-            </div>
-
-            <div class="flex flex-row items-center gap-2">
-            <div class="bg-gray-600 w-4 h-4 rounded-full"></div>
-            <p>Neutre
-                <span class="font-semibold">
-                25%
-                </span>
-            </p>
-            </div>
-
-            <div class="flex flex-row items-center gap-2">
-            <div class="bg-red-600 w-4 h-4 rounded-full"></div>
-            <p>Opposé
-                <span class="font-semibold">
-                25%
-                </span>
-            </p>
-            </div>
-
-        </div>
-        </div>
-
-        <div class="flex items-center justify-end">
+        <div class="flex justify-end w-full mt-auto">
         <a href="/consultations/<%= consultation.id_consultation %>" class="bg-primary/80 text-white font-bold rounded-xl px-4 py-2 w-full md:w-auto hover:bg-primary transition-colors flex items-center justify-center gap-2">
             <span class="material-symbols-outlined">
             check

@@ -1,9 +1,14 @@
-import { existsSync, readFileSync } from "fs";
+import { readFileSync } from "fs";
 import { type ConnectionOptions, createPool, type Pool, type ResultSetHeader, type RowDataPacket } from "mysql2";
 import { join } from "path";
 import { logInfo } from "../../utils/logger.js";
 import { ConfigManager } from "../ConfigManager.js";
 import { Transaction } from "./Transaction.js";
+import { fileURLToPath } from 'url';
+import path from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 export type QueryValue = string | number | null | boolean | Date | Buffer | unknown;
 export type RowData = Record<string, QueryValue>;
@@ -89,7 +94,7 @@ export class Database {
         if (results[0] && results[0].nbTables === 0) {
 
             // Fichier sql contenant le schéma de la BDD
-            const sqlFilePath = join(__dirname, "..", "..", "..", "..", "config", "schemas", "initial.sql");
+            const sqlFilePath = join(__dirname, "..", "..", "..", "config", "schemas", "initial.sql");
             const sqlFile = readFileSync(sqlFilePath, "utf-8");
 
             await this.executerSQL(sqlFile);
