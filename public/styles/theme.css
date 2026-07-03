@@ -105,3 +105,11 @@ nav ul li a:focus::after{
 .material-symbols-outlined.infocard {
   font-size: 95px;
 }
+
+.material-symbols-outlined.infocard-large {
+  font-size: 125px;
+}
+
+.material-symbols-outlined.icone-sm {
+  font-size: 16px;
+}

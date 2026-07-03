@@ -5,7 +5,7 @@ import consultationRoutes from "./routes/consultationRoutes.js";
 import adminRoute from "./routes/adminRoute.js";
 
 const app = express();
-const PORT = process.env.PORT;
+const PORT = Number(process.env.PORT) || 3000;
 
 app.set("view engine", "ejs");
 app.set("views", path.join(process.cwd(), "src/views"));
@@ -14,6 +14,7 @@ app.use("/public", express.static("public"));
 
 /* Variables locales pour le titre et le sous-titre */
 app.use((req, res, next) => {
+  res.locals.path = req.path;
   res.locals.title = "Participation Citoyenne";
   res.locals.subtitle = "De la ville de Paris";
   next();
@@ -32,5 +33,5 @@ app.get("/aide", (_req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`Serveur démarré sur http://localhost:${PORT}`);
+  console.log(`Serveur démarré sur le port ${PORT}`);
 });

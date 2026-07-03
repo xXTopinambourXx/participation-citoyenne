@@ -2,8 +2,8 @@
 const modal = document.getElementById("auth-modal");
 
 /* Buttons to open the modal */
-const loginBtn = document.getElementById("open-login-modal");
-const registerBtn = document.getElementById("open-register-modal");
+const loginBtn = document.getElementsByClassName("open-login-modal");
+const registerBtn = document.getElementsByClassName("open-register-modal");
 
 /* Elements of the modal */
 const modalTitle = document.getElementById("modal-title");
@@ -12,16 +12,21 @@ const modalForm = document.getElementById("modal-form");
 /* Button to close the modal */
 const closeBtn = document.getElementById("close-modal");
 
-loginBtn.addEventListener("click", () => {
-    console.log("Login button clicked");
-    modal.classList.remove("hidden");
-    modalTitle.textContent = "Se connecter";
-});
+for(const btn of loginBtn) {
+    btn.addEventListener("click", () => {
+        console.log("Login button clicked");
+        modal.classList.remove("hidden");
+        modalTitle.textContent = "Se connecter";
+    });
+}
 
-registerBtn.addEventListener("click", () => {
-    modal.classList.remove("hidden");
-    modalTitle.textContent = "Inscription";
-});
+for(const btn of registerBtn) {
+    btn.addEventListener("click", () => {
+        console.log("Register button clicked");
+        modal.classList.remove("hidden");
+        modalTitle.textContent = "Inscription";
+    });
+}
 
 closeBtn.addEventListener("click", () => {
     modal.classList.add("hidden");
@@ -58,3 +63,4 @@ dropdown.addEventListener("click", () => {
     }
 });
 
+/* ------------------ End of Menu déroulant ------------------ */

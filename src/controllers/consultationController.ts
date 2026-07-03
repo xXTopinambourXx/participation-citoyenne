@@ -34,7 +34,7 @@ export class ConsultationController {
             consultation.id_consultation
         );
 
-        res.render("consultation", { consultation });
+        res.render("consultation/show", { consultation });
     }
 
     static async create(req: Request, res: Response) {

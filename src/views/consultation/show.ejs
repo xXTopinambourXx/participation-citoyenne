@@ -1,0 +1,134 @@
+<%- include ("../../partials/header") %>
+
+<main
+  class="m-12 xl:mx-50 xl:mt-15 gap-8 flex flex-col grid grid-cols-12"
+>
+  <div class="flex flex-col items-start h-full gap-4 col-span-8">
+    <div class="flex flex-col gap-2">
+      <h1 class="text-xl md:text-4xl font-bold"><%= consultation.titre %></h1>
+
+      <div class="h-1.5 bg-secondary w-[50%]"></div>
+    </div>
+
+    <p class="text-md md:text-lg text-tertiary"><%= consultation.descr %></p>
+  </div>
+
+  <div class="flex flex-col items-start justify-center h-full gap-4 col-span-4">
+    <!-- Schedule -->
+    <%  const timeLeft = consultation.date_fin * 1000 - Date.now();
+    %>
+
+    <% if(consultation.statut === 1) { %>
+        <div
+        class="flex flex-col items-start justify-center px-6 py-4 bg-green-100 rounded-xl w-full gap-2 relative overflow-hidden"
+        >
+        <h2 class="text-2xl text-tertiary/90">Temps restant</h2>
+
+        <h1 class="text-4xl font-bold text-tertiary">
+            <%  const jours = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+                const heures = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            %>    
+            <%= jours %>j <%= heures %>h  
+        </h1>
+
+        <span class="material-symbols-outlined text-3xl md:text-4xl absolute -bottom-7 -right-8 infocard-large rotate-[225deg] text-green-600">
+            schedule
+        </span>
+        </div>
+    <% } else if (consultation.statut === 0) { %>
+        <div
+        class="flex flex-col items-start justify-center px-6 py-4 bg-orange-100 rounded-xl w-full gap-2 relative overflow-hidden"
+        >
+        <h2 class="text-2xl text-tertiary/90">Début du vote le</h2>
+
+        <h1 class="text-4xl font-bold text-tertiary">
+            <%= new Date(consultation.date_debut * 1000).toLocaleDateString("fr-FR", {
+            year: "numeric",
+            month: "2-digit",
+            day: "2-digit",
+            }) %>
+        </h1>
+
+        <span class="material-symbols-outlined text-3xl md:text-4xl absolute -bottom-7 -right-8 infocard-large text-orange-600">
+            calendar_month
+        </span>
+        </div>
+    <% } else { %>
+        <div
+        class="flex flex-col items-start justify-center px-6 py-4 bg-purple-100 rounded-xl w-full gap-2 relative overflow-hidden"
+        >
+        <h2 class="text-2xl text-tertiary/90">Consultation terminée le</h2>
+
+        <h1 class="text-4xl font-bold text-tertiary">
+            <%= new Date(consultation.date_fin * 1000).toLocaleDateString("fr-FR", {
+            year: "numeric",
+            month: "2-digit",
+            day: "2-digit",
+            }) %>
+
+        <span class="material-symbols-outlined text-3xl md:text-4xl absolute -bottom-7 -right-8 infocard-large text-purple-600">
+            check_circle
+        </span>
+        </div>
+    <% } %>
+
+    <!-- Details -->
+    <div class="flex flex-col bg-gray-200 px-6 py-4 rounded-xl w-full gap-4">
+        <!-- Proposé par -->
+        <p class="text-2xl text-tertiary">Proposé par :</p>
+        <div class="flex items-start gap-8">
+            <div class="rounded-full min-w-12 min-h-12 bg-gray-300"></div>
+            <p class="text-md md:text-xl font-semibold">Service urbanisme de la mairie de Paris</p>
+        </div>
+
+        <!-- Budget -->
+        <% if( consultation.budget !== null && consultation.budget !== undefined) { %>
+            <div class="w-full h-0.5 bg-gray-600/30"></div>
+            <p class="text-2xl text-tertiary">Budget</p>
+            <h1 class="text-4xl font-bold text-tertiary"><%= consultation.budget %></h1>
+        <% } %>
+
+        <!-- Étiquettes -->
+        <% if( consultation.etiquettes && consultation.etiquettes.length > 0 ) { %>
+            <div class="w-full h-0.5 bg-gray-600/30"></div>
+            <p class="text-2xl text-tertiary">Étiquettes</p>
+            <div class="flex flex-wrap gap-4 flex-col justify-start items-start md:flex-row">
+                <% consultation.etiquettes.forEach(function(etiquette) { %>
+                    <div class="flex items-center gap-2 px-4 py-1.5 rounded-full <%= etiquette.couleur %>">
+                        <span class="material-symbols-outlined">
+                            <%= etiquette.icone %>
+                        </span>
+
+                        <span class="font-medium text-sm lg:text-md">
+                            <%= etiquette.nom %>
+                        </span>
+                    </div>
+                <% }); %>
+            </div>
+        <% } %>
+    </div>
+
+    <div class="flex flex-row w-full bg-blue-600 text-white py-4 rounded-xl hover:bg-blue-700 transition duration-300 items-center gap-2 cursor-pointer justify-center" id="vote-button-lateral">
+        <p class="text-xl font-bold">
+            <% if(consultation.statut === 2) { %>
+                Voir les résultats
+            <% } else { %>
+                Voter maintenant
+            <% } %>
+        </p>
+        <span class="material-symbols-outlined ">
+            arrow_forward
+        </span>
+    </div>
+
+    <!-- Share -->
+    <div class="flex flex-row w-full text-blue-600 items-center gap-2 cursor-pointer justify-start" id="share-button-lateral">
+        <span class="material-symbols-outlined ">
+            share
+        </span>
+        <p class="text-lg font-bold">Partager</p>
+    </div>
+  </div>
+</main>
+
+<%- include ("../../partials/footer") %>

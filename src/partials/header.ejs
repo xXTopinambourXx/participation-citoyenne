@@ -52,7 +52,11 @@
       class="flex flex-row items-center justify-center gap-2 md:gap-4 py-2 md:py-4 text-white bg-secondary cursor-pointer md:hidden"
       id="dropdown"
     >
-      <span class="material-symbols-outlined transition-transform duration-300" id="dropdown-icon">menu</span>
+      <span
+        class="material-symbols-outlined transition-transform duration-300"
+        id="dropdown-icon"
+        >menu</span
+      >
 
       <p class="text-lg">Menu</p>
     </div>
@@ -61,31 +65,43 @@
       id="dropdown-links"
       class="max-h-0 overflow-hidden opacity-0 transition-all duration-300 ease-in-out bg-white text-center md:hidden"
     >
-      <li><a href="/" class="block p-4 hover:text-primary border-b-1 border-tertiary/30 border-solid">Accueil</a></li>
       <li>
-        <a href="/consultations" class="block p-4 hover:text-secondary border-b-1 border-tertiary/30 border-solid"
+        <a href="/" class="block p-4 border-b-1 border-tertiary/30 border-solid"
+          >Accueil</a
+        >
+      </li>
+      <li>
+        <a
+          href="/consultations"
+          class="block p-4 border-b-1 border-tertiary/30 border-solid"
           >Consultations</a
         >
       </li>
-      <li><a href="/aide" class="block p-4 hover:text-primary border-b-1 border-tertiary/30 border-solid">Aide</a></li>
       <li>
-        <a href="/admin" class="block p-4 hover:text-primary border-b-1 border-tertiary/30 border-solid">Administrateur</a>
+        <a
+          href="/aide"
+          class="block p-4 border-b-1 border-tertiary/30 border-solid"
+          >Aide</a
+        >
+      </li>
+      <li>
+        <a
+          href="/admin"
+          class="block p-4 border-b-1 border-tertiary/30 border-solid"
+          >Administrateur</a
+        >
       </li>
 
       <div
         class="text-tertiary p-4 flex flex-row justify-center items-center text-md md:text-lg gap-2 md:gap-4"
       >
-        <a href="#" id="open-login-modal" class="text-tertiary font-light">
+        <a href="#" class="text-tertiary font-light open-login-modal">
           Se connecter
         </a>
 
         <div class="h-6 bg-tertiary w-0.5 opacity-20"></div>
 
-        <a
-          href="#"
-          id="open-register-modal"
-          class="text-tertiary font-semibold"
-        >
+        <a href="#" class="text-tertiary font-semibold open-register-modal">
           S'inscrire
         </a>
       </div>
@@ -101,22 +117,19 @@
           class="flex justify-start gap-4 md:gap-16 text-md md:text-lg font-medium"
           id="nav-links"
         >
-          <li>
-            <a href="/" class="hover:text-primary" id="accueil">Accueil</a>
+          <li class="<%= path === '/' ? 'text-primary' : '' %>">
+            <a href="/" id="accueil"> Accueil </a>
           </li>
-          <li>
-            <a
-              href="/consultations"
-              class="hover:text-primary"
-              id="consultations"
-              >Consultations</a
-            >
+          <li
+            class="<%= path.startsWith('/consultations') ? 'text-primary' : '' %>"
+          >
+            <a href="/consultations" id="consultations">Consultations</a>
           </li>
-          <li><a href="/aide" class="hover:text-primary" id="aide">Aide</a></li>
-          <li>
-            <a href="/admin" class="hover:text-primary" id="admin"
-              >Administrateur</a
-            >
+          <li class="<%= path.startsWith('/aide') ? 'text-primary' : '' %>">
+            <a href="/aide" id="aide">Aide</a>
+          </li>
+          <li class="<%= path.startsWith('/admin') ? 'text-primary' : '' %>">
+            <a href="/admin" id="admin">Administrateur</a>
           </li>
         </ul>
       </nav>
@@ -125,17 +138,13 @@
       <div
         class="text-tertiary py-2 md:py-4 mx-4 md:mx-10 flex flex-row items-center text-md md:text-lg gap-2 md:gap-4"
       >
-        <a href="#" id="open-login-modal" class="text-tertiary font-light">
+        <a href="#" class="text-tertiary font-light open-login-modal">
           Se connecter
         </a>
 
         <div class="h-6 bg-tertiary w-0.5 opacity-20"></div>
 
-        <a
-          href="#"
-          id="open-register-modal"
-          class="text-tertiary font-semibold"
-        >
+        <a href="#" class="text-tertiary font-semibold open-register-modal">
           S'inscrire
         </a>
       </div>
