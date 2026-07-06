@@ -28,7 +28,7 @@
   </div>
 
   <div class="flex flex-col xl:flex-row gap-4 md:gap-6">
-    <%- include("../partials/components/infocard", {
+    <%- include("../partials/components/administrateur/infocard", {
         number: consultations.length,
         title: "Consultations",
         icon: "article",
@@ -37,7 +37,7 @@
         iconColor: "text-blue-600"
     }) %>
 
-    <%- include("../partials/components/infocard", {
+    <%- include("../partials/components/administrateur/infocard", {
         number: consultations.filter(c => c.statut === 1).length,
         title: "En cours",
         icon: "schedule",
@@ -46,7 +46,7 @@
         iconColor: "text-green-600"
     }) %>
 
-    <%- include("../partials/components/infocard", {
+    <%- include("../partials/components/administrateur/infocard", {
         number: consultations.filter(c => c.statut === 0).length,
         title: "À venir",
         icon: "calendar_month",
@@ -55,7 +55,7 @@
         iconColor: "text-orange-600"
     }) %>
 
-    <%- include("../partials/components/infocard", {
+    <%- include("../partials/components/administrateur/infocard", {
         number: consultations.filter(c => c.statut === 2).length,
         title: "Terminées",
         icon: "check_circle",
@@ -103,10 +103,10 @@
 
   </div>
 
-  <%- include("../partials/components/list-admin", { consultations }) %>
+  <%- include("../partials/components/administrateur/list-admin", { consultations }) %>
 
   <% consultations.forEach(consultation => { %>
-    <%- include("../partials/components/list-admin-card", { consultation: consultation }) %>
+    <%- include("../partials/components/administrateur/list-admin-card", { consultation: consultation }) %>
   <% }) %>
 </main>
 

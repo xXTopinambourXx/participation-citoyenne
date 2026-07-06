@@ -64,3 +64,12 @@ dropdown.addEventListener("click", () => {
 });
 
 /* ------------------ End of Menu déroulant ------------------ */
+
+/* ------------------ Tri consultations ------------------ */
+const sortSelect = document.getElementById("sort-select");
+
+if (sortSelect) {
+    sortSelect.addEventListener("change", () => {
+        window.location.href = `/consultations?sort=${sortSelect.value}`;
+    });
+}
