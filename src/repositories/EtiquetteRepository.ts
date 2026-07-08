@@ -12,7 +12,7 @@ export class EtiquetteRepository {
             SELECT e.*
             FROM etiquette e
             INNER JOIN consultation_etiquette ce
-                ON ce.etiquette_id = e.id_etiquette
+                ON ce.etiquette_id = e.id
             WHERE ce.consultation_id = ?
             `,
             [consultationId]

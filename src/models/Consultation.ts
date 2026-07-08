@@ -1,19 +1,19 @@
 import type { Etiquette } from "./Etiquette.js";
 
 export interface Consultation {
-    id_consultation: number;
+    id: number;
     titre: string;
-    descr: string;
+    contenu: string;
     statut: number;
-    budget: number;
-    
-    /* Ajout pour les participants via l'interface vote */
-    nbParticipants: number;
-
+    budget?: number;
+    couverture?: string;
     date_creation: number;
     date_debut: number;
     date_fin: number;
-    createur_consultation_id: number;
+    utilisateur_id: number;
+
+    /* Ajout pour les participants via l'interface vote */
+    nbParticipants: number;
 
     /* Ajout des étiquettes */
     etiquettes?: Etiquette[];

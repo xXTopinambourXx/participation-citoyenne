@@ -6,17 +6,9 @@ export class ConsultationController {
 
     static async index(req: Request, res: Response) {
 
-        const consultations = await ConsultationRepository.findAll();
+        const updatedConsultations = await ConsultationRepository.findAll();
 
-        for (const consultation of consultations) {
-
-            consultation.etiquettes =
-                await EtiquetteRepository.findByConsultation(
-                    consultation.id_consultation
-                );
-        }
-
-        res.render("consultations", { consultations });
+        res.render("consultations", { consultations: updatedConsultations });
     }
 
     static async show(req: Request, res: Response) {
@@ -31,7 +23,7 @@ export class ConsultationController {
         }
 
         consultation.etiquettes = await EtiquetteRepository.findByConsultation(
-            consultation.id_consultation
+            consultation.id
         );
 
         res.render("consultation/show", { consultation });
@@ -43,14 +35,14 @@ export class ConsultationController {
 
         await ConsultationRepository.create({
             titre: consultation.titre,
-            descr: consultation.descr,
+            contenu: consultation.contenu,
             statut: consultation.statut,
             budget: consultation.budget,
             nbParticipants: consultation.nbParticipants,
             date_creation: consultation.date_creation,
             date_debut: consultation.date_debut,
             date_fin: consultation.date_fin,
-            createur_consultation_id: consultation.createur_consultation_id
+            utilisateur_id: consultation.utilisateur_id
         });
 
         res.redirect("/consultations");
@@ -60,7 +52,7 @@ export class ConsultationController {
 
         const {d_debut, d_fin} = req.body;
 
-        await ConsultationRepository.update(
+        await ConsultationRepository.updateDate(
             Number(req.params.id),
             {
                 date_debut: d_debut,

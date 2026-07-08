@@ -1,173 +1,138 @@
+DROP DATABASE IF EXISTS participation_citoyenne;
+
+CREATE DATABASE participation_citoyenne
+CHARACTER SET utf8mb4
+COLLATE utf8mb4_unicode_ci;
+
+USE participation_citoyenne;
+
 CREATE TABLE utilisateur (
-    id_utilisateur INT AUTO_INCREMENT PRIMARY KEY,
-
+    id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    nom VARCHAR(100) NOT NULL,
+    prenom VARCHAR(100) NOT NULL,
     email VARCHAR(255) NOT NULL UNIQUE,
-    telephone VARCHAR(20),
-
     mot_de_passe VARCHAR(255) NOT NULL,
-
-    est_admin BOOLEAN NOT NULL DEFAULT FALSE 
+    est_admin TINYINT UNSIGNED NOT NULL DEFAULT 0,
+    PRIMARY KEY (id)
 );
 
 CREATE TABLE consultation (
-    id_consultation INT AUTO_INCREMENT PRIMARY KEY,
-
+    id INT UNSIGNED NOT NULL AUTO_INCREMENT,
     titre VARCHAR(255) NOT NULL,
-    descr TEXT NOT NULL,
-
-    statut TINYINT UNSIGNED NOT NULL,-- 0 : A venir, 1 : En cours, 2 : Terminee
-
+    contenu TEXT NOT NULL,
     budget INT UNSIGNED,
-
+    couverture VARCHAR(255),
+    statut TINYINT UNSIGNED NOT NULL DEFAULT 0, -- 0: brouillon, 1: publié, 2: suspendu, 3: annulé, 4: archivé
     date_creation INT UNSIGNED NOT NULL,
     date_debut INT UNSIGNED NOT NULL,
     date_fin INT UNSIGNED NOT NULL,
-
-    createur_consultation_id INT NOT NULL,
-
-    CONSTRAINT fk_consultation_createur 
-        FOREIGN KEY (createur_consultation_id) 
-        REFERENCES utilisateur(id_utilisateur) 
-        ON DELETE CASCADE
+    utilisateur_id INT UNSIGNED NOT NULL,
+    PRIMARY KEY (id),
+    CONSTRAINT fk_consultation_utilisateur FOREIGN KEY (utilisateur_id) REFERENCES utilisateur(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE proposition (
-    id_proposition INT AUTO_INCREMENT PRIMARY KEY,
-
+    id INT UNSIGNED NOT NULL AUTO_INCREMENT,
     titre VARCHAR(255) NOT NULL,
-    descr TEXT NOT NULL,
-
-    date_creation INT UNSIGNED NOT NULL,
-
-    createur_proposition_id INT NOT NULL,
-
-    CONSTRAINT fk_proposition_createur 
-        FOREIGN KEY (createur_proposition_id) 
-        REFERENCES utilisateur(id_utilisateur) 
-        ON DELETE CASCADE
-);
-
-CREATE TABLE commentaire (
-    id_commentaire INT AUTO_INCREMENT PRIMARY KEY,
-
     contenu TEXT NOT NULL,
-
-    consultation_id INT DEFAULT NULL,
-    proposition_id INT DEFAULT NULL,
-
     date_creation INT UNSIGNED NOT NULL,
-
-    createur_commentaire_id INT NOT NULL,
-
-    CONSTRAINT fk_commentaire_consultation
-        FOREIGN KEY (consultation_id)
-        REFERENCES consultation(id_consultation)
-        ON DELETE CASCADE,
-
-    CONSTRAINT fk_commentaire_proposition
-        FOREIGN KEY (proposition_id)
-        REFERENCES proposition(id_proposition)
-        ON DELETE CASCADE,
-
-    CONSTRAINT fk_commentaire_createur
-        FOREIGN KEY (createur_commentaire_id)
-        REFERENCES utilisateur(id_utilisateur)
-        ON DELETE CASCADE,
-
-    CONSTRAINT chk_commentaire
-        CHECK (
-            (consultation_id IS NOT NULL AND proposition_id IS NULL)
-            OR
-            (consultation_id IS NULL AND proposition_id IS NOT NULL)
-        )
-);
-
-CREATE TABLE vote (
-    id_vote INT AUTO_INCREMENT PRIMARY KEY,
-
-    date_vote INT UNSIGNED NOT NULL,
-
-    consultation_id INT DEFAULT NULL,
-
-    createur_vote_id INT NOT NULL,
-
-    CONSTRAINT fk_vote_consultation
-        FOREIGN KEY (consultation_id)
-        REFERENCES consultation(id_consultation)
-        ON DELETE CASCADE,
-
-    CONSTRAINT fk_vote_createur
-        FOREIGN KEY (createur_vote_id)
-        REFERENCES utilisateur(id_utilisateur)
-        ON DELETE CASCADE,
-
-    CONSTRAINT uq_vote_consultation
-        UNIQUE (createur_vote_id, consultation_id)
-);
-
-CREATE TABLE soutien (
-    id_soutien INT AUTO_INCREMENT PRIMARY KEY,
-
-    date_soutien INT UNSIGNED NOT NULL,
-
-    proposition_id INT NOT NULL,
-
-    createur_soutien_id INT NOT NULL,
-
-    CONSTRAINT fk_soutien_proposition
-        FOREIGN KEY (proposition_id)
-        REFERENCES proposition(id_proposition)
-        ON DELETE CASCADE,
-
-    CONSTRAINT fk_soutien_createur
-        FOREIGN KEY (createur_soutien_id)
-        REFERENCES utilisateur(id_utilisateur)
-        ON DELETE CASCADE,
-
-    CONSTRAINT uq_soutien_proposition
-        UNIQUE (createur_soutien_id, proposition_id)
+    statut TINYINT UNSIGNED NOT NULL DEFAULT 0,
+    utilisateur_id INT UNSIGNED NOT NULL,
+    PRIMARY KEY (id),
+    CONSTRAINT fk_proposition_utilisateur FOREIGN KEY (utilisateur_id) REFERENCES utilisateur(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE etiquette (
-    id_etiquette INT AUTO_INCREMENT PRIMARY KEY,
-
-    nom VARCHAR(255) NOT NULL UNIQUE,
-
-    couleur VARCHAR(7) NOT NULL,
-
-    icone VARCHAR(255) NOT NULL
+    id SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT, -- (max 65 535 étiquettes)
+    nom VARCHAR(100) NOT NULL UNIQUE,
+    icone VARCHAR(50) NOT NULL,
+    couleur CHAR(6) NOT NULL,
+    PRIMARY KEY (id)
 );
 
 CREATE TABLE consultation_etiquette (
-    consultation_id INT NOT NULL,
-    etiquette_id INT NOT NULL,
-
+    consultation_id INT UNSIGNED NOT NULL,
+    etiquette_id SMALLINT UNSIGNED NOT NULL,
     PRIMARY KEY (consultation_id, etiquette_id),
-
-    CONSTRAINT fk_ce_consultation
-        FOREIGN KEY (consultation_id)
-        REFERENCES consultation(id_consultation)
-        ON DELETE CASCADE,
-
-    CONSTRAINT fk_ce_etiquette
-        FOREIGN KEY (etiquette_id)
-        REFERENCES etiquette(id_etiquette)
-        ON DELETE CASCADE
+    CONSTRAINT fk_ce_consultation FOREIGN KEY (consultation_id) REFERENCES consultation(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT fk_ce_etiquette FOREIGN KEY (etiquette_id) REFERENCES etiquette(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE proposition_etiquette (
-    proposition_id INT NOT NULL,
-    etiquette_id INT NOT NULL,
-
+    proposition_id INT UNSIGNED NOT NULL,
+    etiquette_id SMALLINT UNSIGNED NOT NULL,
     PRIMARY KEY (proposition_id, etiquette_id),
+    CONSTRAINT fk_pe_proposition FOREIGN KEY (proposition_id) REFERENCES proposition(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT fk_pe_etiquette FOREIGN KEY (etiquette_id) REFERENCES etiquette(id) ON DELETE CASCADE ON UPDATE CASCADE
+);
 
-    CONSTRAINT fk_pe_proposition
-        FOREIGN KEY (proposition_id)
-        REFERENCES proposition(id_proposition)
-        ON DELETE CASCADE,
+CREATE TABLE commentaire (
+    id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    contenu TEXT NOT NULL,
+    date_commentaire INT UNSIGNED NOT NULL,
+    consultation_id INT UNSIGNED DEFAULT NULL,
+    proposition_id INT UNSIGNED DEFAULT NULL,
+    utilisateur_id INT UNSIGNED NOT NULL,
+    PRIMARY KEY (id),
+    CONSTRAINT fk_commentaire_consultation FOREIGN KEY (consultation_id) REFERENCES consultation(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT fk_commentaire_proposition FOREIGN KEY (proposition_id) REFERENCES proposition(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT fk_commentaire_utilisateur FOREIGN KEY (utilisateur_id) REFERENCES utilisateur(id) ON DELETE CASCADE ON UPDATE CASCADE
+);
 
-    CONSTRAINT fk_pe_etiquette
-        FOREIGN KEY (etiquette_id)
-        REFERENCES etiquette(id_etiquette)
-        ON DELETE CASCADE
+CREATE TABLE signalement (
+    id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    date_signalement INT UNSIGNED NOT NULL,
+    motif TINYINT UNSIGNED NOT NULL,
+    contenu TEXT,
+    commentaire_id INT UNSIGNED DEFAULT NULL,
+    proposition_id INT UNSIGNED DEFAULT NULL,
+    utilisateur_id INT UNSIGNED NOT NULL,
+    PRIMARY KEY (id),
+    CONSTRAINT fk_signalement_commentaire FOREIGN KEY (commentaire_id) REFERENCES commentaire(id) ON DELETE SET NULL ON UPDATE CASCADE,
+    CONSTRAINT fk_signalement_proposition FOREIGN KEY (proposition_id) REFERENCES proposition(id) ON DELETE SET NULL ON UPDATE CASCADE,
+    CONSTRAINT fk_signalement_utilisateur FOREIGN KEY (utilisateur_id) REFERENCES utilisateur(id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE choix_vote (
+    id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    ordre TINYINT UNSIGNED NOT NULL,
+    nom VARCHAR(100) NOT NULL,
+    couleur CHAR(6) NOT NULL,
+    consultation_id INT UNSIGNED NOT NULL,
+    PRIMARY KEY (id),
+    CONSTRAINT fk_choix_vote_consultation FOREIGN KEY (consultation_id) REFERENCES consultation(id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE vote (
+    date_vote INT UNSIGNED NOT NULL,
+    utilisateur_id INT UNSIGNED NOT NULL,
+    consultation_id INT UNSIGNED NOT NULL,
+    choix_vote_id INT UNSIGNED NOT NULL,
+    PRIMARY KEY (utilisateur_id, consultation_id),
+    CONSTRAINT fk_vote_utilisateur FOREIGN KEY (utilisateur_id) REFERENCES utilisateur(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT fk_vote_consultation FOREIGN KEY (consultation_id) REFERENCES consultation(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT fk_vote_choix_vote FOREIGN KEY (choix_vote_id) REFERENCES choix_vote(id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE soutien (
+    date_soutien INT UNSIGNED NOT NULL,
+    utilisateur_id INT UNSIGNED NOT NULL,
+    proposition_id INT UNSIGNED NOT NULL,
+    PRIMARY KEY (utilisateur_id, proposition_id),
+    CONSTRAINT fk_soutien_utilisateur FOREIGN KEY (utilisateur_id) REFERENCES utilisateur(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT fk_soutien_proposition FOREIGN KEY (proposition_id) REFERENCES proposition(id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE mise_a_jour (
+    id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    titre VARCHAR(255) NOT NULL,
+    contenu TEXT NOT NULL,
+    date_mise_a_jour INT UNSIGNED NOT NULL,
+    utilisateur_id INT UNSIGNED NOT NULL,
+    consultation_id INT UNSIGNED DEFAULT NULL,
+    proposition_id INT UNSIGNED DEFAULT NULL,
+    PRIMARY KEY (id),
+    CONSTRAINT fk_maj_consultation FOREIGN KEY (consultation_id) REFERENCES consultation(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT fk_maj_proposition FOREIGN KEY (proposition_id) REFERENCES proposition(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT fk_maj_utilisateur FOREIGN KEY (utilisateur_id) REFERENCES utilisateur(id) ON DELETE CASCADE ON UPDATE CASCADE
 );

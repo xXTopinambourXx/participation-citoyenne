@@ -1,4 +1,4 @@
-import { readFileSync } from "fs";
+import { existsSync, readFileSync } from "fs";
 import { type ConnectionOptions, createPool, type Pool, type ResultSetHeader, type RowDataPacket } from "mysql2";
 import { join } from "path";
 import { logInfo } from "../../utils/logger.js";
@@ -6,6 +6,7 @@ import { ConfigManager } from "../ConfigManager.js";
 import { Transaction } from "./Transaction.js";
 import { fileURLToPath } from 'url';
 import path from 'path';
+import config from "../../../config/config.json" with {type: "json"};
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -14,7 +15,7 @@ export type QueryValue = string | number | null | boolean | Date | Buffer | unkn
 export type RowData = Record<string, QueryValue>;
 
 /**
- * Wrapper d'accès à la base de données MySQL participation citoyenne.
+ * Wrapper d'accès à la base de données MySQL anonymex.
  */
 export class Database {
 
@@ -43,6 +44,10 @@ export class Database {
 
         // Importer le schéma initial si nécessaire
         const bddEstVide = await this.importer();
+        if (!bddEstVide) {
+            // Appliquer les patchs de mise à jour si nécessaire
+            await this.appliquerPatchs();
+        }
 
         return this.pool;
     }
@@ -94,16 +99,71 @@ export class Database {
         if (results[0] && results[0].nbTables === 0) {
 
             // Fichier sql contenant le schéma de la BDD
-            const sqlFilePath = join(__dirname, "..", "..", "..", "config", "schemas", "initial.sql");
+            const sqlFilePath = join(__dirname, "..", "..", "..", "..", "config", "schemas", "initial.sql");
             const sqlFile = readFileSync(sqlFilePath, "utf-8");
 
             await this.executerSQL(sqlFile);
+
+            // Créer la config cachée persistante avec le numéro de patch courant
+            // pour pouvoir mettre à jour la BDD plus tard si besoin.
+            const configCachee = ConfigManager.getConfigCachee() ?? ConfigManager.nouvelleConfigCachee();
+            configCachee.patch = config.patchNb;
+            ConfigManager.enregistrerConfigCachee(configCachee);
 
             logInfo("Database", "Tables créées avec succès.");
             return true;
         }
 
         return false;
+    }
+
+    /**
+     * Appliquer les patchs de mise à jour de la BDD, en fonction du numéro de patch courant (config cachée vs. config).
+     */
+    static async appliquerPatchs(): Promise<void> {
+
+        // Créer la config cachée si inexistante
+        const configCachee = ConfigManager.getConfigCachee();
+        if (!configCachee) {
+            ConfigManager.enregistrerConfigCachee(ConfigManager.nouvelleConfigCachee());
+            return;
+        }
+
+        const numeroPatchActuel = config.patchNb;
+        const dernierPatchApplique = configCachee.patch;
+
+        if (typeof dernierPatchApplique !== 'number') {
+            throw new Error('Configuration cachée mal formée : le numéro de patch doit être un nombre. Voir config/.configCachee.json.');
+        } else if (typeof numeroPatchActuel !== 'number') {
+            throw new Error('Configuration locale mal formée : le numéro de patch doit être un nombre. Voir config/config.json.');
+        }
+
+        // Faut-il appliquer des patchs ?
+        if (dernierPatchApplique < numeroPatchActuel) {
+            logInfo('Database', `Mise à jour de la BDD : application de ${numeroPatchActuel - dernierPatchApplique} patch(s).`);
+
+            const startTime = Date.now();
+
+            // du dernier patch jusqu'au patch actuel..
+            for (let patch = dernierPatchApplique + 1; patch <= numeroPatchActuel; patch++) {
+
+                // lire le fichier de patch
+                const patchFilePath = join(__dirname, "..", "..", "..", "config", "schemas", `patch-${patch}.sql`);
+                if (!existsSync(patchFilePath)) {
+                    throw new Error(`Patch #${patch} introuvable : ${patchFilePath}. Vérifiez votre installation.`);
+                }
+
+                const patchFile = readFileSync(patchFilePath, "utf-8");
+                await this.executerSQL(patchFile);
+
+            }
+
+            logInfo('Database', `Mise à jour de la BDD terminée en ${Date.now() - startTime}ms.`);
+
+            // Mettre à jour le numéro de patch dans la config cachée
+            configCachee.patch = numeroPatchActuel;
+            ConfigManager.enregistrerConfigCachee(configCachee);
+        }
     }
 
     /**

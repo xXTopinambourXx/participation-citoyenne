@@ -7,11 +7,11 @@ export class ConsultationRepository {
         return Database.query<Consultation>(`
             SELECT
                 c.*,
-                COUNT(v.id_vote) AS nbParticipants
+                COUNT(v.utilisateur_id) AS nbParticipants
             FROM consultation c
             LEFT JOIN vote v
-                ON v.consultation_id = c.id_consultation
-            GROUP BY c.id_consultation
+                ON v.consultation_id = c.id
+            GROUP BY c.id
         `);
     }
 
@@ -21,12 +21,12 @@ export class ConsultationRepository {
             `
             SELECT
                 c.*,
-                COUNT(v.id_vote) AS nbParticipants
+                COUNT(v.utilisateur_id) AS nbParticipants
             FROM consultation c
             LEFT JOIN vote v
-                ON v.consultation_id = c.id_consultation
-            WHERE c.id_consultation = ?
-            GROUP BY c.id_consultation
+                ON v.consultation_id = c.id
+            WHERE c.id = ?
+            GROUP BY c.id
             `,
             [id]
         );
@@ -35,37 +35,39 @@ export class ConsultationRepository {
     }
 
     public static async create(
-        consultation: Omit<Consultation, "id_consultation">
+        consultation: Omit<Consultation, "id">
     ) {
 
         return Database.execute(
             `
             INSERT INTO consultation
-            (titre, descr, budget, date_creation, date_debut, date_fin, createur_consultation_id)
-            VALUES (?, ?, ?, ?, ?, ?, ?)
+            (titre, contenu, budget, couverture, statut, date_creation, date_debut, date_fin, utilisateur_id)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
             `,
             [
                 consultation.titre,
-                consultation.descr,
+                consultation.contenu,
                 consultation.budget,
+                consultation.couverture ?? null,
+                consultation.statut ?? 0, // Utilise la valeur par défaut du schéma (brouillon)
                 consultation.date_creation,
                 consultation.date_debut,
                 consultation.date_fin,
-                consultation.createur_consultation_id
+                consultation.utilisateur_id
             ]
         );
     }
 
-    public static async update(
+    public static async updateDate(
         id: number,
-        consultation: Omit<Consultation, "id_consultation" | "titre" | "descr" | "statut" | "nbParticipants" | "budget" | "date_creation" | "createur_consultation_id">
+        consultation: Omit<Consultation, "id" | "titre" | "contenu" | "statut" | "nbParticipants" | "budget" | "couverture" | "date_creation" | "utilisateur_id">
     ) {
 
         return Database.execute(
             `
             UPDATE consultation
             SET date_debut = ?, date_fin = ?
-            WHERE id_consultation = ?
+            WHERE id = ?
             `,
             [
                 consultation.date_debut,
@@ -78,8 +80,16 @@ export class ConsultationRepository {
     public static async delete(id: number) {
 
         return Database.execute(
-            "DELETE FROM consultation WHERE id_consultation = ?",
+            "DELETE FROM consultation WHERE id = ?",
             [id]
         );
+    }
+
+    public static async updateStatut(id: number, statut: number) {
+        return Database.execute(`
+            UPDATE consultation
+            SET statut = ?
+            WHERE id = ?
+        `, [statut, id]);
     }
 }
