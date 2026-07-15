@@ -36,9 +36,6 @@ export class Consultation extends ElementEnCacheBdd<ConsultationData> {
     public dateFin: number;
     public utilisateurId: number;
 
-    /* Ajout pour les participants via l'interface vote */
-    public nbParticipants: number;
-
     /* Ajout pour les choix de votes */
     public choix: ChoixVote[];
 
@@ -50,6 +47,10 @@ export class Consultation extends ElementEnCacheBdd<ConsultationData> {
 
     /* Cache des commentaires de la consultation */
     public commentaires: CommentaireConsultationCache;
+
+    get nbParticipants(): number {
+        return this.votes.size();
+    }
 
     constructor(data: ConsultationDataWithChoix) {
         super();
@@ -63,9 +64,6 @@ export class Consultation extends ElementEnCacheBdd<ConsultationData> {
         this.dateDebut = data.date_debut;
         this.dateFin = data.date_fin;
         this.utilisateurId = data.utilisateur_id;
-
-        /* Ajout pour les participants via l'interface vote */
-        this.nbParticipants = data.nb_participants;
 
         /* Initialisation des choix de votes */
         this.choix = data.choix.map(c => new ChoixVote(c));

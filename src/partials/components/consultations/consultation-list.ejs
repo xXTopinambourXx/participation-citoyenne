@@ -62,21 +62,21 @@
       <div
         class="border-1 border-green-600 bg-none text-green-600 py-3 px-5 rounded-full text-sm font-semibold"
       >
-        En cours (<%= console.log(consultations) %>)
+        En cours (<%= consultations.filter(c => c.statut === 1 && c.date_fin * 1000 > Date.now()).length %>)
       </div>
 
       <!-- Chip -->
       <div
         class="border-1 border-yellow-500 bg-none text-yellow-500 py-3 px-5 rounded-full text-sm font-semibold"
       >
-        À venir (<%= /*consultations.filter(c => c.statut === 1 && c.date_debut * 1000 > Date.now()).length */ 0 %>)
+        À venir (<%= consultations.filter(c => c.statut === 1 && c.date_debut * 1000 > Date.now()).length %>)
       </div>
 
       <!-- Chip -->
       <div
         class="border-1 border-purple-600 bg-none text-purple-600 py-3 px-5 rounded-full text-sm font-semibold"
       >
-        Terminées (<%= /*consultations.filter(c => c.statut === 1 && c.date_fin * 1000 <= Date.now()).length */ 0 %>)
+        Terminées (<%= consultations.filter(c => c.statut === 1 && c.date_fin * 1000 <= Date.now()).length %>)
       </div>
     </div>
 

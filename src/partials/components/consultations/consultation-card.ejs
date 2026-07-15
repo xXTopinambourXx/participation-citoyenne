@@ -1,14 +1,14 @@
-<%  const timeLeft = consultation.date_fin * 1000 - Date.now();
-    const enCours = consultation.statut === 1 && timeLeft > 0 && consultation.date_debut * 1000 <= Date.now();
-    const aVenir = consultation.statut === 1 && timeLeft > 0 && consultation.date_debut * 1000 > Date.now();
-    const terminee = consultation.statut === 1 && timeLeft <= 0;
+<%  
+/*Statut =>  0: brouillon, 1: publié, 2: suspendu, 3: annulé, 4: archivé*/
+const timeLeft = consultation.date_fin * 1000 - Date.now();
+const enCours = consultation.statut === 1 && timeLeft > 0 && consultation.dateDebut * 1000 <= Date.now();
+const aVenir = consultation.statut === 1 && timeLeft > 0 && consultation.dateDebut * 1000 > Date.now();
+const terminee = consultation.statut === 1 && timeLeft <= 0;
 
-    const suspendu = consultation.statut === 2;
-    const annulee = consultation.statut === 3;
+const suspendu = consultation.statut === 2;
+const annulee = consultation.statut === 3;
 
-    const validationEnCours = consultation.validee === 0 && terminee;
-    const validationRefusee = consultation.validee === 2 && terminee;
-    const validationAcceptee = consultation.validee === 1 && terminee;
+const archivee = consultation.statut === 4;
 %>
 
 <div class="w-full h-full rounded-xl bg-white shadow-md flex flex-col">
