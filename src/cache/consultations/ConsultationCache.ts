@@ -1,5 +1,6 @@
 import { Consultation, type ConsultationData } from "./Consultation.js";
 import { DatabaseCacheBase } from "../base/DatabaseCacheBase.js";
+import { etiquetteCache } from "../etiquettes/EtiquetteCache.js";
 
 export class ConsultationCache extends DatabaseCacheBase<number, Consultation, ConsultationData> {
     nomTable = "consultation";

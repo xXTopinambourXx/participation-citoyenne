@@ -41,7 +41,7 @@
           id="sort-select"
           class="h-10 bg-transparent border border-gray-200 rounded-lg px-3 focus:border-primary focus:outline-none text-tertiary"
         >
-          <option value="recentes">Plus récentes</option>
+          <option value="recentes" selected>Plus récentes</option>
           <option value="populaires">Plus populaires</option>
           <option value="anciennes">Plus anciennes</option>
         </select>
@@ -62,27 +62,41 @@
       <div
         class="border-1 border-green-600 bg-none text-green-600 py-3 px-5 rounded-full text-sm font-semibold"
       >
-        En cours (<%= consultations.filter(c => c.statut === 1 && c.date_fin * 1000 > Date.now()).length %>)
+        En cours (<%= consultations.filter(c => c.statut === 1 && c.dateFin * 1000 > Date.now()).length %>)
       </div>
 
       <!-- Chip -->
       <div
         class="border-1 border-yellow-500 bg-none text-yellow-500 py-3 px-5 rounded-full text-sm font-semibold"
       >
-        À venir (<%= consultations.filter(c => c.statut === 1 && c.date_debut * 1000 > Date.now()).length %>)
+        À venir (<%= consultations.filter(c => c.statut === 1 && c.dateDebut * 1000 > Date.now()).length %>)
       </div>
 
       <!-- Chip -->
       <div
         class="border-1 border-purple-600 bg-none text-purple-600 py-3 px-5 rounded-full text-sm font-semibold"
       >
-        Terminées (<%= consultations.filter(c => c.statut === 1 && c.date_fin * 1000 <= Date.now()).length %>)
+        Terminées (<%= consultations.filter(c => c.statut === 1 && c.dateFin * 1000 <= Date.now()).length %>)
+      </div>
+
+      <!-- Chip -->
+      <div
+        class="border-1 border-red-600 bg-none text-red-600 py-3 px-5 rounded-full text-sm font-semibold"
+      >
+        Annulées (<%= consultations.filter(c => c.statut === 3).length %>)
+      </div>
+
+      <!-- Chip -->
+      <div
+        class="border-1 border-gray-500 bg-none text-gray-500 py-3 px-5 rounded-full text-sm font-semibold"
+      >
+        Suspendues (<%= consultations.filter(c => c.statut === 2).length %>)
       </div>
     </div>
 
     <!-- Consultation list container -->
-    <div class="w-full flex-row flex-wrap gap-4 md:gap-6 flex grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 items-stretch">
-      <% consultations.forEach(consultation => { %>
+    <div id="consultations-container" class="w-full flex-row flex-wrap gap-4 md:gap-6 flex grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 items-stretch">
+      <% consultations.filter(c => c.statut !== 4 && c.statut !== 0).forEach(consultation => { %>
         <%- include("./consultation-card", { consultation }) %>
       <%}); %>
     </div>

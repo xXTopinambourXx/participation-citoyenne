@@ -6,10 +6,6 @@ export class EtiquetteCache extends DatabaseCacheBase<number, Etiquette, Etiquet
     nomTable = "etiquette";
     colonnesClePrimaire = ["id"];
 
-    constructor() {
-        super();
-    }
-
     override async getOrFetch(id: number): Promise<Etiquette | undefined> {
         if (!this.tousRecuperes) {
             await this.getAll();
@@ -26,3 +22,5 @@ export class EtiquetteCache extends DatabaseCacheBase<number, Etiquette, Etiquet
         return element.id;
     }
 }
+
+export const etiquetteCache = new EtiquetteCache();

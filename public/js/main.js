@@ -66,10 +66,29 @@ dropdown.addEventListener("click", () => {
 /* ------------------ End of Menu déroulant ------------------ */
 
 /* ------------------ Tri consultations ------------------ */
-const sortSelect = document.getElementById("sort-select");
+const sortSelect = document.getElementById('sort-select');
 
-if (sortSelect) {
-    sortSelect.addEventListener("change", () => {
-        window.location.href = `/consultations?sort=${sortSelect.value}`;
+sortSelect.addEventListener("click", function() {
+    const container = document.getElementById('consultations-container');
+    const cards = Array.from(container.getElementsByClassName('consultation-card'));
+    const sortBy = this.value;
+
+    cards.sort((a, b) => {
+        const dateA = Number(a.dataset.date);
+        const dateB = Number(b.dataset.date);
+        const votesA = Number(a.dataset.votes);
+        const votesB = Number(b.dataset.votes);
+
+        if (sortBy === 'recentes') {
+            return dateB - dateA; // Décroissant
+        } else if (sortBy === 'anciennes') {
+            return dateA - dateB; // Croissant
+        } else if (sortBy === 'populaires') {
+            return votesB - votesA; // Décroissant par nbParticipants
+        }
+        return 0;
     });
-}
+
+    // Ré-injection dans le bon ordre
+    cards.forEach(card => container.appendChild(card));
+});

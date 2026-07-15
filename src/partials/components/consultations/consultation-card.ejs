@@ -1,6 +1,6 @@
 <%  
 /*Statut =>  0: brouillon, 1: publié, 2: suspendu, 3: annulé, 4: archivé*/
-const timeLeft = consultation.date_fin * 1000 - Date.now();
+const timeLeft = consultation.dateFin * 1000 - Date.now();
 const enCours = consultation.statut === 1 && timeLeft > 0 && consultation.dateDebut * 1000 <= Date.now();
 const aVenir = consultation.statut === 1 && timeLeft > 0 && consultation.dateDebut * 1000 > Date.now();
 const terminee = consultation.statut === 1 && timeLeft <= 0;
@@ -11,7 +11,9 @@ const annulee = consultation.statut === 3;
 const archivee = consultation.statut === 4;
 %>
 
-<div class="w-full h-full rounded-xl bg-white shadow-md flex flex-col">
+<div class="w-full h-full rounded-xl bg-white shadow-md flex flex-col consultation-card"
+    data-date="<%= consultation.dateDebut %>"
+    data-votes="<%= consultation.nbParticipants || 0 %>">
     <!-- Header -->
     <div class="flex items-center min-h-32 rounded-t-xl p-4 md:p-6 relative overflow-hidden">
 
@@ -22,7 +24,7 @@ const archivee = consultation.statut === 4;
         </h2>
 
         <div class="absolute top-0 right-0 <% if (enCours) { %>bg-green-600<% } else if (terminee) { %>bg-purple-600<% } else if (aVenir) { %>bg-yellow-400<% } else if (suspendu) { %>bg-gray-600<% } else { %>bg-red-600<% } %> text-white py-2 px-8 rounded-bl-[20px] rounded-tr-xl text-lg font-semibold">
-            <%= enCours ? "En cours" : terminee ? "Terminé" : aVenir ? "À venir" : suspendu ? "Suspendu" : "Annulé" %>
+            <%= enCours ? "En cours" : terminee ? "Terminé" : aVenir ? "À venir" : suspendu ? "Suspendu" : annulee ? "Annulé" : "Archivé" %>
         </div>
     </div>
 
@@ -59,7 +61,7 @@ const archivee = consultation.statut === 4;
                     </span>
 
                     <span class="text-tertiary text-md font-medium">
-                        Fin le <% var dateFin = new Date(consultation.date_fin * 1000); %><%= dateFin.toLocaleDateString("fr-FR", { day: "2-digit", month: "2-digit", year: "numeric" }) %>
+                        Fin le <% var dateFin = new Date(consultation.dateFin * 1000); %><%= dateFin.toLocaleDateString("fr-FR", { day: "2-digit", month: "2-digit", year: "numeric" }) %>
                     </span>
                 </div>
             </div>
@@ -118,21 +120,26 @@ const archivee = consultation.statut === 4;
 
         <div class="flex justify-end w-full mt-auto">
         <a href="/consultations/<%= consultation.id %>" class="bg-primary/80 text-white font-bold rounded-xl px-4 py-2 w-full md:w-auto hover:bg-primary transition-colors flex items-center justify-center gap-2">
-            <% if (consultation.statut === 1) { %>
+            <% if (enCours) { %>
                 <span class="material-symbols-outlined">
                 check
                 </span>
                 Voter maintenant
-            <% } else if (consultation.statut === 2) { %>
+            <% } else if (terminee) { %>
                 <span class="material-symbols-outlined">
                 visibility
                 </span>
                 Voir les résultats
-            <% } else { %>
+            <% } else if (aVenir) { %>
                 <span class="material-symbols-outlined">
                 check
                 </span>
                 Vote à venir
+            <% } else { %>
+                <span class="material-symbols-outlined">
+                block
+                </span>
+                Voir la consultation
             <% } %>
         </a>
         </div>
