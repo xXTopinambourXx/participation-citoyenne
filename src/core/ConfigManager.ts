@@ -64,7 +64,7 @@ export class ConfigManager {
      */
     public static enregistrerConfigCachee(config: ConfigCachee): void {
         this.configCachee = config;
-        writeFileSync(join(__dirname, "..", "..", "..", "config", ".configCachee.json"), JSON.stringify(config, null, 4), "utf-8");
+        writeFileSync(join(__dirname, "..", "..", "config", ".configCachee.json"), JSON.stringify(config, null, 4), "utf-8");
     }
 
     /**

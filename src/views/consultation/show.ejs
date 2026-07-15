@@ -22,7 +22,7 @@
     </div>
 
     <!-- Résultats -->
-    <%- include("../../partials/components/consultations/consultation-result", { consultation: consultation }) %>
+    <%- include("../../partials/components/consultations/show/show-result", { consultation: consultation }) %>
   </div>
 
   <div class="flex flex-col items-start justify-center h-full gap-4 col-span-4">
@@ -113,7 +113,7 @@
         </div>
 
         <!-- Budget -->
-        <% if( consultation.budget !== null && consultation.budget !== undefined) { %>
+        <% if( consultation.budget !== null && consultation.budget !== undefined && consultation.budget !== 0) { %>
             <div class="w-full h-0.5 bg-gray-600/10"></div>
             <div class="flex flex-col gap-2">
                 <p class="text-2xl text-tertiary font-semibold">Budget</p>

@@ -1,0 +1,52 @@
+<div class="flex w-full flex-col">
+  <div class="flex flex-col items-start h-full gap-8">
+    <div class="flex flex-col gap-2">
+      <h1 class="text-xl md:text-4xl font-bold">
+        Résultats (<%= consultation.nbParticipants %> votes)
+      </h1>
+
+      <div class="h-1.5 bg-secondary w-[50%]"></div>
+    </div>
+
+    <!-- Vote -->
+    <% 
+    let resultats = {};
+    console.log(consultation.votes);
+    consultation.votes.forEach(vote => {
+      if (!resultats[vote.choix_vote_id]) {
+        resultats[vote.choix_vote_id] = 0;
+      }
+      resultats[vote.choix_vote_id]++;
+    });
+    %>
+    <div class="flex flex-col w-full gap-6">
+      <% consultation.choixVotes.forEach(choixVote => { %>
+        <div class="flex flex-row items-end gap-4 w-full">
+          <input type="checkbox" class="h-5 w-5" />
+
+          <div class="flex flex-col w-full gap-2">
+            <div class="flex flex-row justify-between w-full">
+              <p class="text-xl"><%= choixVote.nom %></p>
+              <p class="text-xl font-semibold">
+                <% const nbVotes = resultats[choixVote.id] || 0; %>
+                <% const pourcentage = consultation.nbParticipants > 0 ? (nbVotes / consultation.nbParticipants) * 100 : 0; %>
+                <%= pourcentage.toFixed(2) %>%
+                <span class="font-normal">
+                  (<%= nbVotes %> votes)</span
+                >
+              </p>
+            </div>
+
+            <div class="bg-gray-300 w-full h-5 rounded-full">
+              <div
+                class="h-full rounded-full"
+                style="width: <%= pourcentage %>%; background-color: #<%= choixVote.couleur %>;"
+              ></div>
+            </div>
+          </div>
+        </div>
+      <%})%>
+      </div>
+    </div>
+  </div>
+</div>
