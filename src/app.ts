@@ -15,8 +15,7 @@ app.use("/public", express.static("public"));
 /* Variables locales pour le titre et le sous-titre */
 app.use((req, res, next) => {
   res.locals.path = req.path;
-  res.locals.title = "Participation Citoyenne";
-  res.locals.subtitle = "De la ville de Paris";
+  res.locals.ville = "Paris";
   res.locals.sort = req.query.sort || "recentes";
   next();
 });

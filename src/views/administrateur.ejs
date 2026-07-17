@@ -38,7 +38,7 @@
     }) %>
 
     <%- include("../partials/components/administrateur/infocard", {
-        number: consultations.filter(c => c.statut === 1).length,
+        number: consultations.filter(c => c.statut === 1 && c.dateFin * 1000 > Date.now()).length,
         title: "En cours",
         icon: "schedule",
         bgColor: "bg-green-100",
@@ -47,7 +47,7 @@
     }) %>
 
     <%- include("../partials/components/administrateur/infocard", {
-        number: consultations.filter(c => c.statut === 0).length,
+        number: consultations.filter(c => c.statut === 1 && c.dateFin * 1000 > Date.now()).length,
         title: "À venir",
         icon: "calendar_month",
         bgColor: "bg-orange-100",
@@ -56,7 +56,7 @@
     }) %>
 
     <%- include("../partials/components/administrateur/infocard", {
-        number: consultations.filter(c => c.statut === 2).length,
+        number: consultations.filter(c => c.statut === 1 && c.dateFin * 1000 <= Date.now()).length,
         title: "Terminées",
         icon: "check_circle",
         bgColor: "bg-purple-100",

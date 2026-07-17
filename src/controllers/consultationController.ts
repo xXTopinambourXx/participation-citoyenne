@@ -1,13 +1,13 @@
 import type { Request, Response } from "express";
 import { logError } from "../utils/logger.js";
 import { consultationCache } from "../cache/consultations/ConsultationCache.js";
+import { etiquetteCache } from "../cache/etiquettes/EtiquetteCache.js";
 
 export class ConsultationController {
 
     static async index(req: Request, res: Response) {
         try {
             const consultations = await consultationCache.getAll();
-            console.log("Consultations récupérées :", consultations);
             res.render("consultations", { consultations });
         } catch (e) {
             logError("Erreur lors de la récupération des consultations :", e instanceof Error ? e.message : String(e));

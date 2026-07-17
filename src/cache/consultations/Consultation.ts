@@ -3,6 +3,7 @@ import { EtiquetteCache } from "../etiquettes/EtiquetteCache.js";
 import { ChoixVote, type ChoixVoteData } from "./ChoixVote.js";
 import { CommentaireConsultationCache } from "../commentaires/CommentaireConsultationCache.js";
 import { VoteCache } from "./votes/VoteCache.js";
+import { ConsultationEtiquetteCache } from "../etiquettes/consultations_etiquettes/ConsultationEtiquetteCache.js";
 
 export interface ConsultationData {
     id: number;
@@ -24,7 +25,7 @@ export interface ConsultationDataWithChoix extends ConsultationData {
     choix: ChoixVoteData[];
 }
 
-export class Consultation extends ElementEnCacheBdd<ConsultationData> {
+export class Consultation extends ElementEnCacheBdd<ConsultationDataWithChoix> {
     public id: number;
     public titre: string;
     public contenu: string;
@@ -37,10 +38,10 @@ export class Consultation extends ElementEnCacheBdd<ConsultationData> {
     public utilisateurId: number;
 
     /* Ajout pour les choix de votes */
-    public choix: ChoixVote[];
+    public choix: ChoixVote[] = [new ChoixVote({ id: 1, nom: "Option 1", couleur: "blue" })];
 
     /* Cache des étiquettes de la consultation */
-    public etiquettes: EtiquetteCache;
+    public etiquettes: ConsultationEtiquetteCache;
 
     /* Cache des votes de la consultation */
     public votes: VoteCache;
@@ -65,11 +66,13 @@ export class Consultation extends ElementEnCacheBdd<ConsultationData> {
         this.dateFin = data.date_fin;
         this.utilisateurId = data.utilisateur_id;
 
-        /* Initialisation des choix de votes */
-        this.choix = data.choix.map(c => new ChoixVote(c));
+        // Hydratation automatique du tableau d'instances de ChoixVote
+        if (data.choix) {
+            this.choix = data.choix.map(choixData => new ChoixVote(choixData));
+        }
 
         /* Initialisation des caches */
-        this.etiquettes = new EtiquetteCache();
+        this.etiquettes = new ConsultationEtiquetteCache(this.id);
         this.votes = new VoteCache(this.id);
         this.commentaires = new CommentaireConsultationCache(this.id);
     }
@@ -79,7 +82,7 @@ export class Consultation extends ElementEnCacheBdd<ConsultationData> {
         
     }
 
-    public toData(): ConsultationData {
+    public toData(): ConsultationDataWithChoix {
         return {
             id: this.id,
             titre: this.titre,
@@ -91,7 +94,8 @@ export class Consultation extends ElementEnCacheBdd<ConsultationData> {
             date_debut: this.dateDebut,
             date_fin: this.dateFin,
             utilisateur_id: this.utilisateurId,
-            nb_participants: this.nbParticipants
+            nb_participants: this.nbParticipants,
+            choix: this.choix.map(choix => choix.toData())
         };
     }
 }

@@ -13,7 +13,7 @@ const archivee = consultation.statut === 4;
 
 <div class="w-full h-full rounded-xl bg-white shadow-md flex flex-col consultation-card"
     data-date="<%= consultation.dateDebut %>"
-    data-votes="<%= consultation.nbParticipants || 0 %>">
+    data-votes="<%= consultation.nbParticipants %>">
     <!-- Header -->
     <div class="flex items-center min-h-32 rounded-t-xl p-4 md:p-6 relative overflow-hidden">
 
@@ -67,54 +67,42 @@ const archivee = consultation.statut === 4;
             </div>
 
             <!-- Vote -->
-            <div class="flex flex-row items-center">
-                <div class="bg-green-600 w-[25%] h-3 rounded-l-full"></div>
-
-                <div class="bg-yellow-600 w-[25%] h-3"></div>
-
-                <div class="bg-gray-600 w-[25%] h-3"></div>
-
-                <div class="bg-red-600 w-[25%] h-3 rounded-r-full"></div>
+            <div class="flex flex-row items-center rounded-full w-full overflow-hidden bg-gray-100" id="choix-vote-barre">
+                <% consultation.choix.forEach(choix => { %>
+                    <% const largeur = consultation.nbParticipants > 0 ? (choix.nbVotes / consultation.nbParticipants) * 100 : 0; %>
+                    <% if (largeur > 0) { %>
+                        <div class="h-3" style="background-color: #<%= choix.couleur %>; width: <%= largeur %>%"></div>
+                    <% } else { %>
+                        <div class="h-3" style="background-color: #<%= choix.couleur %>; width: 0%"></div>
+                    <% } %>
+                <% }) %>
             </div>
 
             <!-- Legend -->
             <div class="flex flex-row flex-wrap justify-start w-full items-center gap-4">
-                <div class="flex flex-row items-center gap-2">
-                <div class="bg-green-600 w-4 h-4 rounded-full"></div>
-                <p>Très favorable
-                    <span class="font-semibold">
-                    25%
-                    </span>
-                </p>
-                </div>
 
-                <div class="flex flex-row items-center gap-2">
-                <div class="bg-yellow-600 w-4 h-4 rounded-full"></div>
-                <p>Favorable
-                    <span class="font-semibold">
-                    25%
-                    </span>
-                </p>
-                </div>
-
-                <div class="flex flex-row items-center gap-2">
-                <div class="bg-gray-600 w-4 h-4 rounded-full"></div>
-                <p>Neutre
-                    <span class="font-semibold">
-                    25%
-                    </span>
-                </p>
-                </div>
-
-                <div class="flex flex-row items-center gap-2">
-                <div class="bg-red-600 w-4 h-4 rounded-full"></div>
-                <p>Opposé
-                    <span class="font-semibold">
-                    25%
-                    </span>
-                </p>
-                </div>
-
+                <% consultation.choix.forEach(choix => { %>
+                    <% const largeur = consultation.nbParticipants > 0 ? (choix.nbVotes / consultation.nbParticipants) * 100 : 0; %>
+                    <% if (largeur > 0) { %>
+                        <div class="flex flex-row items-center gap-2">
+                        <div class="w-4 h-4 rounded-full shrink-0" style="background-color: #<%= choix.couleur %>"></div>
+                        <p><%= choix.nom %>
+                            <span class="font-semibold">
+                            <%= largeur.toFixed(1) %>%
+                            </span>
+                        </p>
+                        </div>
+                    <% } else { %>
+                        <div class="flex flex-row items-center gap-2">
+                        <div class="w-4 h-4 rounded-full shrink-0" style="background-color: #<%= choix.couleur %>"></div>
+                        <p><%= choix.nom %>
+                            <span class="font-semibold">
+                            0%
+                            </span>
+                        </p>
+                        </div>
+                    <% } %>
+                <% }) %>
             </div>
         </div>
 
