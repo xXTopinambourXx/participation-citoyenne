@@ -5,8 +5,7 @@
 
 
     <!-- Search bar with sorting methods -->
-    <div class="flex flex-col md:flex-row gap-4 md:gap-8">
-
+    <div class="flex flex-col sm:flex-row gap-4 md:gap-8">
 
       <!-- Search bar -->
       <div class="relative md:flex-1 w-full h-14">
@@ -27,13 +26,13 @@
 
       <!-- Filtre -->
       <div
-        class="flex items-center gap-3 h-14 px-4 border-2 border-gray-300 rounded-xl"
+        class="flex items-center gap-3 h-14 border-2 border-gray-300 rounded-xl justify-center px-2"
       >
-        <span class="material-symbols-outlined text-tertiary">
+        <span class="material-symbols-outlined text-tertiary max-[400px]:hidden">
           filter_alt
         </span>
 
-        <label for="sort-select" class="text-tertiary font-semibold whitespace-nowrap">
+        <label for="sort-select" class="text-tertiary font-semibold whitespace-nowrap max-[400px]:hidden">
           Trier par :
         </label>
 
@@ -66,6 +65,7 @@
               else if (finMs <= maintenant) nbTerminees++;
           }
       }
+      let totalFiltrees = nbEnCours + nbAVenir + nbTerminees + nbAnnulees + nbSuspendues;
     %>
 
     <div class="flex flex-wrap items-center gap-4" id="filtres-consultation">
@@ -74,7 +74,7 @@
         data-filter="all"
         class="btn-active filter-btn text-blue-500 [&.btn-active]:bg-blue-500 [&.btn-active]:text-white hover:bg-blue-50 transition-colors"
       >
-        Tous (<%= consultations.length %>)
+        Tous (<%= totalFiltrees %>)
       </button>
 
       <!-- À venir -->
@@ -85,12 +85,36 @@
         À venir (<%= nbAVenir %>)
       </button>
 
+      <!-- En cours -->
+      <button
+        data-filter="en-cours"
+        class="filter-btn text-green-500 [&.btn-active]:bg-green-500 [&.btn-active]:text-white hover:bg-green-50 transition-colors"
+      >
+        En cours (<%= nbEnCours %>)
+      </button>
+
       <!-- Terminées -->
       <button
         data-filter="terminee"
         class="filter-btn text-purple-500 [&.btn-active]:bg-purple-500 [&.btn-active]:text-white hover:bg-purple-50 transition-colors"
       >
         Terminées (<%= nbTerminees %>)
+      </button>
+
+      <!-- Suspendues -->
+      <button
+        data-filter="suspendue"
+        class="filter-btn text-gray-500 [&.btn-active]:bg-gray-500 [&.btn-active]:text-white hover:bg-gray-50 transition-colors"
+      >
+        Suspendues (<%= nbSuspendues %>)
+      </button>
+
+      <!-- Annulées -->
+      <button
+        data-filter="annulee"
+        class="filter-btn text-red-500 [&.btn-active]:bg-red-500 [&.btn-active]:text-white hover:bg-red-50 transition-colors"
+      >
+        Annulées (<%= nbAnnulees %>)
       </button>
     </div>
 

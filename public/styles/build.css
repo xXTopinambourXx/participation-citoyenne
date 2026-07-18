@@ -10,6 +10,7 @@
     --color-red-50: oklch(97.1% 0.013 17.38);
     --color-red-100: oklch(93.6% 0.032 17.717);
     --color-red-200: oklch(88.5% 0.062 18.334);
+    --color-red-500: oklch(63.7% 0.237 25.331);
     --color-red-600: oklch(57.7% 0.245 27.325);
     --color-red-800: oklch(44.4% 0.177 26.899);
     --color-red-900: oklch(39.6% 0.141 25.723);
@@ -47,7 +48,6 @@
     --color-blue-50: oklch(97% 0.014 254.604);
     --color-blue-100: oklch(93.2% 0.032 255.585);
     --color-blue-200: oklch(88.2% 0.059 254.128);
-    --color-blue-300: oklch(80.9% 0.105 251.813);
     --color-blue-500: oklch(62.3% 0.214 259.815);
     --color-blue-600: oklch(54.6% 0.245 262.881);
     --color-blue-700: oklch(48.8% 0.243 264.376);
@@ -78,7 +78,6 @@
     --color-gray-300: oklch(87.2% 0.01 258.338);
     --color-gray-500: oklch(55.1% 0.027 264.364);
     --color-gray-600: oklch(44.6% 0.03 256.802);
-    --color-gray-700: oklch(37.3% 0.034 259.733);
     --color-gray-900: oklch(21% 0.034 264.665);
     --color-stone-200: oklch(92.3% 0.003 48.717);
     --color-stone-800: oklch(26.8% 0.007 34.298);
@@ -371,6 +370,9 @@
   .ml-4 {
     margin-left: calc(var(--spacing) * 4);
   }
+  .box-content {
+    box-sizing: content-box;
+  }
   .block {
     display: block;
   }
@@ -431,6 +433,9 @@
   .h-\[90\%\] {
     height: 90%;
   }
+  .h-auto {
+    height: auto;
+  }
   .h-full {
     height: 100%;
   }
@@ -484,6 +489,9 @@
   }
   .w-\[80\%\] {
     width: 80%;
+  }
+  .w-auto {
+    width: auto;
   }
   .w-full {
     width: 100%;
@@ -858,6 +866,9 @@
   .py-4 {
     padding-block: calc(var(--spacing) * 4);
   }
+  .py-6 {
+    padding-block: calc(var(--spacing) * 6);
+  }
   .py-8 {
     padding-block: calc(var(--spacing) * 8);
   }
@@ -1005,6 +1016,9 @@
   .text-purple-900 {
     color: var(--color-purple-900);
   }
+  .text-red-500 {
+    color: var(--color-red-500);
+  }
   .text-red-600 {
     color: var(--color-red-600);
   }
@@ -1106,13 +1120,6 @@
       }
     }
   }
-  .hover\:bg-blue-100 {
-    &:hover {
-      @media (hover: hover) {
-        background-color: var(--color-blue-100);
-      }
-    }
-  }
   .hover\:bg-blue-600 {
     &:hover {
       @media (hover: hover) {
@@ -1124,6 +1131,13 @@
     &:hover {
       @media (hover: hover) {
         background-color: var(--color-blue-700);
+      }
+    }
+  }
+  .hover\:bg-gray-50 {
+    &:hover {
+      @media (hover: hover) {
+        background-color: var(--color-gray-50);
       }
     }
   }
@@ -1145,6 +1159,13 @@
     &:hover {
       @media (hover: hover) {
         background-color: var(--color-purple-50);
+      }
+    }
+  }
+  .hover\:bg-red-50 {
+    &:hover {
+      @media (hover: hover) {
+        background-color: var(--color-red-50);
       }
     }
   }
@@ -1197,9 +1218,34 @@
       outline-style: none;
     }
   }
+  .max-\[400px\]\:hidden {
+    @media (width < 400px) {
+      display: none;
+    }
+  }
   .sm\:block {
     @media (width >= 40rem) {
       display: block;
+    }
+  }
+  .sm\:hidden {
+    @media (width >= 40rem) {
+      display: none;
+    }
+  }
+  .sm\:flex-row {
+    @media (width >= 40rem) {
+      flex-direction: row;
+    }
+  }
+  .sm\:px-2 {
+    @media (width >= 40rem) {
+      padding-inline: calc(var(--spacing) * 2);
+    }
+  }
+  .sm\:px-4 {
+    @media (width >= 40rem) {
+      padding-inline: calc(var(--spacing) * 4);
     }
   }
   .md\:mx-10 {
@@ -1378,6 +1424,11 @@
       grid-template-columns: repeat(12, minmax(0, 1fr));
     }
   }
+  .lg\:flex-row {
+    @media (width >= 64rem) {
+      flex-direction: row;
+    }
+  }
   .xl\:mx-50 {
     @media (width >= 80rem) {
       margin-inline: calc(var(--spacing) * 50);
@@ -1403,6 +1454,11 @@
       background-color: var(--color-blue-500);
     }
   }
+  .\[\&\.btn-active\]\:bg-gray-500 {
+    &.btn-active {
+      background-color: var(--color-gray-500);
+    }
+  }
   .\[\&\.btn-active\]\:bg-green-500 {
     &.btn-active {
       background-color: var(--color-green-500);
@@ -1411,6 +1467,11 @@
   .\[\&\.btn-active\]\:bg-purple-500 {
     &.btn-active {
       background-color: var(--color-purple-500);
+    }
+  }
+  .\[\&\.btn-active\]\:bg-red-500 {
+    &.btn-active {
+      background-color: var(--color-red-500);
     }
   }
   .\[\&\.btn-active\]\:bg-yellow-500 {
