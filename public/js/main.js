@@ -68,14 +68,16 @@ dropdown.addEventListener("click", () => {
 /* ------------------ Tri consultations ------------------ */
 const sortSelect = document.getElementById('sort-select');
 
-sortSelect.addEventListener("click", function() {
-    const container = document.getElementById('consultations-container');
-    const cards = Array.from(container.getElementsByClassName('consultation-card'));
+const container = document.getElementById('consultations-container');
+
+sortSelect.addEventListener("change", function() {
     const sortBy = this.value;
 
+    const cards = Array.from(container.getElementsByClassName('consultation-card'));
+
     cards.sort((a, b) => {
-        const dateA = Number(a.dataset.date);
-        const dateB = Number(b.dataset.date);
+        const dateA = Number(a.dataset.date)*1000;
+        const dateB = Number(b.dataset.date)*1000;
         const votesA = Number(a.dataset.votes);
         const votesB = Number(b.dataset.votes);
 
@@ -86,9 +88,105 @@ sortSelect.addEventListener("click", function() {
         } else if (sortBy === 'populaires') {
             return votesB - votesA; // Décroissant par nbParticipants
         }
-        return 0;
+        return dateB - dateA; // Par défaut, récentes
     });
 
     // Ré-injection dans le bon ordre
     cards.forEach(card => container.appendChild(card));
 });
+
+/* ------------------ Fin du tri consultations ------------------ */
+
+/* ------------------ Filtres consultations ------------------ */
+const filtreContainer = document.getElementById("filtres-consultation");
+
+const filtreButtons = filtreContainer.getElementsByClassName("filter-btn");
+
+/* Gestion du message d'alerte lorsqu'aucune consultation ne correspond au filtre */
+const noResultMessage = document.getElementById('no-consultations-message');
+const activeFilterLabel = document.getElementById('active-filter-label');
+
+for (const button of filtreButtons) {
+    button.addEventListener("click", () => {
+        const cards = Array.from(container.getElementsByClassName('consultation-card'));
+
+        // Retirer la classe active de tous les boutons
+        for (const btn of filtreButtons) {
+            btn.classList.remove("btn-active");
+        }
+
+        const filterValue = button.dataset.filter;
+        button.classList.add("btn-active");
+
+        // Compteur pour savoir combien de cartes correspondent au filtre
+        let visibleCardsCount = 0;
+
+        // On parcourt toutes les cartes pour les afficher ou les masquer directement
+        cards.forEach(card => {
+            let isMatch = false;
+
+            if (filterValue === "all") {
+                isMatch = true;
+            } else {
+                // IMPORTANT: Conversion en Number pour que le switch fonctionne
+                const statut = Number(card.dataset.statut);
+
+                switch (statut) {
+                    case 1:
+                        const timeLeft = Number(card.dataset.dateFin) * 1000 - Date.now();
+                        const enCours = timeLeft > 0 && Number(card.dataset.date) * 1000 <= Date.now();
+                        const aVenir = timeLeft > 0 && Number(card.dataset.date) * 1000 > Date.now();
+                        
+                        if (enCours) {
+                            isMatch = filterValue === "en-cours";
+                        } else if (aVenir) {
+                            isMatch = filterValue === "a-venir";
+                        } else {
+                            isMatch = filterValue === "terminee"; // Temps écoulé
+                        }
+                        break;
+                    case 2:
+                        isMatch = filterValue === "suspendue";
+                        break;
+                    case 3:
+                        isMatch = filterValue === "annulee";
+                        break;
+                    case 4:
+                        isMatch = filterValue === "archivee";
+                        break;
+                    default:
+                        isMatch = false;
+                }
+            }
+
+            // Si la carte correspond au filtre, on l'affiche, sinon on la masque
+            if (isMatch) {
+                card.classList.remove('hidden');
+                visibleCardsCount++;
+            } else {
+                card.classList.add('hidden');
+            }
+        });
+
+        // --- GESTION DU MESSAGE D'ERREUR ---
+        if (visibleCardsCount === 0) {
+            // On extrait proprement le texte du bouton (ex: "En cours", "Terminées") 
+            // en enlevant le texte optionnel des parenthèses s'il y en a.
+            let buttonText = button.textContent.split('(')[0].trim().toLowerCase();
+            
+            // Si le bouton s'appelle "Tous", on ajuste un peu le texte pour la grammaire
+            if (filterValue === "all") {
+                activeFilterLabel.textContent = "disponible";
+            } else {
+                activeFilterLabel.textContent = `"${buttonText}"`;
+            }
+
+            // On affiche le bloc de message
+            noResultMessage.classList.remove('hidden');
+        } else {
+            // Des cartes sont visibles, on cache le message
+            noResultMessage.classList.add('hidden');
+        }
+    });
+}
+

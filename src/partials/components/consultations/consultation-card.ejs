@@ -13,7 +13,9 @@ const archivee = consultation.statut === 4;
 
 <div class="w-full h-full rounded-xl bg-white shadow-md flex flex-col consultation-card"
     data-date="<%= consultation.dateDebut %>"
-    data-votes="<%= consultation.nbParticipants %>">
+    data-date-fin="<%= consultation.dateFin %>"
+    data-votes="<%= consultation.nbParticipants %>"
+    data-statut="<%= consultation.statut %>">
     <!-- Header -->
     <div class="flex items-center min-h-32 rounded-t-xl p-4 md:p-6 relative overflow-hidden">
 

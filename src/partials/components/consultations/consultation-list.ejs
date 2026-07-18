@@ -50,55 +50,69 @@
 
 
     <!-- Filters container -->
-    <div class="flex flex-wrap items-center gap-4">
-      <!-- Chip -->
-      <div
-        class="bg-primary text-white py-3 px-5 rounded-full text-sm font-semibold"
+    <% 
+      // Pré-calcul des compteurs pour éviter les filtres à répétition
+      const maintenant = Date.now();
+      let nbEnCours = 0, nbAVenir = 0, nbTerminees = 0, nbAnnulees = 0, nbSuspendues = 0;
+
+      for (const c of consultations) {
+          if (c.statut === 3) nbAnnulees++;
+          else if (c.statut === 2) nbSuspendues++;
+          else if (c.statut === 1) {
+              const debutMs = c.dateDebut * 1000;
+              const finMs = c.dateFin * 1000;
+              if (finMs > maintenant && debutMs <= maintenant) nbEnCours++;
+              else if (debutMs > maintenant) nbAVenir++;
+              else if (finMs <= maintenant) nbTerminees++;
+          }
+      }
+    %>
+
+    <div class="flex flex-wrap items-center gap-4" id="filtres-consultation">
+      <!-- Tous -->
+      <button
+        data-filter="all"
+        class="btn-active filter-btn text-blue-500 [&.btn-active]:bg-blue-500 [&.btn-active]:text-white hover:bg-blue-50 transition-colors"
       >
         Tous (<%= consultations.length %>)
-      </div>
+      </button>
 
-      <!-- Chip -->
-      <div
-        class="border-1 border-green-600 bg-none text-green-600 py-3 px-5 rounded-full text-sm font-semibold"
+      <!-- À venir -->
+      <button
+        data-filter="a-venir"
+        class="filter-btn text-yellow-500 [&.btn-active]:bg-yellow-500 [&.btn-active]:text-white hover:bg-yellow-50 transition-colors"
       >
-        En cours (<%= consultations.filter(c => c.statut === 1 && c.dateFin * 1000 > Date.now()).length %>)
-      </div>
+        À venir (<%= nbAVenir %>)
+      </button>
 
-      <!-- Chip -->
-      <div
-        class="border-1 border-yellow-500 bg-none text-yellow-500 py-3 px-5 rounded-full text-sm font-semibold"
+      <!-- Terminées -->
+      <button
+        data-filter="terminee"
+        class="filter-btn text-purple-500 [&.btn-active]:bg-purple-500 [&.btn-active]:text-white hover:bg-purple-50 transition-colors"
       >
-        À venir (<%= consultations.filter(c => c.statut === 1 && c.dateDebut * 1000 > Date.now()).length %>)
-      </div>
+        Terminées (<%= nbTerminees %>)
+      </button>
+    </div>
 
-      <!-- Chip -->
-      <div
-        class="border-1 border-purple-600 bg-none text-purple-600 py-3 px-5 rounded-full text-sm font-semibold"
-      >
-        Terminées (<%= consultations.filter(c => c.statut === 1 && c.dateFin * 1000 <= Date.now()).length %>)
-      </div>
-
-      <!-- Chip -->
-      <div
-        class="border-1 border-red-600 bg-none text-red-600 py-3 px-5 rounded-full text-sm font-semibold"
-      >
-        Annulées (<%= consultations.filter(c => c.statut === 3).length %>)
-      </div>
-
-      <!-- Chip -->
-      <div
-        class="border-1 border-gray-500 bg-none text-gray-500 py-3 px-5 rounded-full text-sm font-semibold"
-      >
-        Suspendues (<%= consultations.filter(c => c.statut === 2).length %>)
-      </div>
+    <!-- Le message d'alerte, caché par défaut grâce à 'hidden' -->
+    <div id="no-consultations-message" class="hidden text-center py-8 text-gray-500 font-medium">
+      Aucune consultation <span id="active-filter-label"></span>.
     </div>
 
     <!-- Consultation list container -->
     <div id="consultations-container" class="w-full flex-row flex-wrap gap-4 md:gap-6 flex grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 items-stretch">
-      <% consultations.filter(c => c.statut !== 4 && c.statut !== 0).forEach(consultation => { %>
-        <%- include("./consultation-card", { consultation }) %>
-      <%}); %>
+      <% const consultationsFiltrees = consultations.filter(c => c.statut !== 4 && c.statut !== 0);
+        const nbConsultations = consultationsFiltrees.length; 
+      %>
+      <% if (nbConsultations === 0) { %>
+        <p class="text-center text-gray-500 col-span-full text-lg">
+          Aucune consultation disponible.
+        </p>
+      <% } else { %>
+        <% consultationsFiltrees.forEach(consultation => { %>
+          <%- include("./consultation-card", { consultation }) %>
+        <% }); %>
+      <% } %>
     </div>
   </div>
 </div>
