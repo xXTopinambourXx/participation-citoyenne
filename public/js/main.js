@@ -123,16 +123,15 @@ for (const button of filtreButtons) {
 
         // On parcourt toutes les cartes pour les afficher ou les masquer directement
         cards.forEach(card => {
+
+            // dès qu'on tombe sur une carte qui correspond au filtre, on la garde visible
             let isMatch = false;
 
             if (filterValue === "all") {
                 isMatch = true;
             } else {
-                // IMPORTANT: Conversion en Number pour que le switch fonctionne
-                const statut = Number(card.dataset.statut);
-
-                switch (statut) {
-                    case 1:
+                switch (card.dataset.status) {
+                    case "1":
                         const timeLeft = Number(card.dataset.dateFin) * 1000 - Date.now();
                         const enCours = timeLeft > 0 && Number(card.dataset.date) * 1000 <= Date.now();
                         const aVenir = timeLeft > 0 && Number(card.dataset.date) * 1000 > Date.now();
@@ -145,13 +144,13 @@ for (const button of filtreButtons) {
                             isMatch = filterValue === "terminee"; // Temps écoulé
                         }
                         break;
-                    case 2:
+                    case "2":
                         isMatch = filterValue === "suspendue";
                         break;
-                    case 3:
+                    case "3":
                         isMatch = filterValue === "annulee";
                         break;
-                    case 4:
+                    case "4":
                         isMatch = filterValue === "archivee";
                         break;
                     default:
@@ -171,8 +170,7 @@ for (const button of filtreButtons) {
         // --- GESTION DU MESSAGE D'ERREUR ---
         if (visibleCardsCount === 0) {
             // On extrait proprement le texte du bouton (ex: "En cours", "Terminées") 
-            // en enlevant le texte optionnel des parenthèses s'il y en a.
-            let buttonText = button.textContent.split('(')[0].trim().toLowerCase();
+            let buttonText = button.textContent.trim().toLowerCase();
             
             // Si le bouton s'appelle "Tous", on ajuste un peu le texte pour la grammaire
             if (filterValue === "all") {

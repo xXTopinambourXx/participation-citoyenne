@@ -3,6 +3,7 @@ import path from "path";
 import "dotenv/config";
 import consultationRoutes from "./routes/consultationRoutes.js";
 import adminRoute from "./routes/adminRoute.js";
+import accueilRoute from "./routes/accueilRoute.js";
 
 const app = express();
 const PORT = Number(process.env.PORT) || 3000;
@@ -20,9 +21,7 @@ app.use((req, res, next) => {
   next();
 });
 
-app.get("/", (_req, res) => {
-  res.render("accueil");
-});
+app.use("/", accueilRoute);
 
 app.use("/consultations", consultationRoutes);
 

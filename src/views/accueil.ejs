@@ -1,7 +1,111 @@
 <%- include("../partials/header") %>
 
-<main>
-  Voici l'accueil
+<main class="m-12 lg:mx-50 lg:mt-15 gap-8 flex flex-col">
+
+  <!-- ==================== Paragraphe d'accueil ==================== -->
+  <section class="flex flex-col gap-6 my-6">
+
+    <div class="flex flex-col gap-2">
+      <h2 class="text-xl md:text-4xl font-bold">Bienvenue sur notre plateforme</h2>
+      <div class="h-1.5 bg-secondary w-20"></div>
+    </div>
+
+    <p class="text-md md:text-lg text-tertiary">Cette plateforme a été conçue pour permettre aux habitants de Paris de s’informer et de participer activement aux projets qui concernent leur commune. Vous pouvez consulter les projets proposés par les différents services municipaux, découvrir leurs objectifs, leur budget prévisionnel et les impacts attendus sur votre cadre de vie. Chaque consultation est ouverte pendant une période définie afin de permettre à chacun de prendre connaissance des informations avant de se prononcer.</p>
+  </section>
+
+  <!-- ==================== Parcours citoyen ==================== -->
+  <section class="flex flex-col gap-6 my-6">
+    <div class="flex flex-col gap-2">
+      <h2 class="text-xl md:text-3xl font-bold">Votre parcours citoyen</h2>
+      <div class="h-1.5 bg-secondary w-20"></div>
+    </div>
+
+    <!-- Étapes du parcours citoyen (Texte de demonstration!)-->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-12 mt-4">
+      <!-- Étape 1 -->
+      <div class="flex flex-col items-start gap-3">
+        <div class="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary font-bold text-xl">1</div>
+        <h3 class="text-xl font-semibold text-gray-950">Informez-vous</h3>
+        <p class="text-gray-500 text-base">
+          Parcourez les dossiers, consultez les dates clés d'ouverture et lisez les propositions détaillées sur chaque projet de loi ou décision locale.
+        </p>
+      </div>
+
+      <!-- Étape 2 -->
+      <div class="flex flex-col items-start gap-3">
+        <div class="w-12 h-12 rounded-xl bg-secondary/10 flex items-center justify-center text-secondary font-bold text-xl">2</div>
+        <h3 class="text-xl font-semibold text-gray-950">Votez & Débattez</h3>
+        <p class="text-gray-500 text-base leading-relaxed">
+          Donnez votre avis de manière sécurisée en fonction de vos droits et de votre rôle. Votre voix est comptabilisée instantanément.
+        </p>
+      </div>
+
+      <!-- Étape 3 -->
+      <div class="flex flex-col items-start gap-3">
+        <div class="w-12 h-12 rounded-xl bg-green-100 flex items-center justify-center text-green-600 font-bold text-xl">3</div>
+        <h3 class="text-xl font-semibold text-gray-950">Suivez l'impact</h3>
+        <p class="text-gray-500 text-base leading-relaxed">
+          Une fois clôturées, retrouvez les consultations archivées pour observer les résultats officiels et l'application concrète des décisions.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== CONSULTATIONS ==================== -->
+  <section class="flex flex-col items-start justify-center h-full gap-8 mt-6">
+    <div class="w-full flex flex-row items-end justify-between">
+      <div class="flex flex-col gap-2">
+        <h1 class="text-xl md:text-3xl font-bold">
+          Dernières consultations publiées
+        </h1>
+        <div class="h-1.5 bg-secondary w-20"></div>
+      </div>
+      
+      <!-- Lien Voir toutes les consultations (desktop) -->
+      <a href="/consultations" class="hidden md:flex items-center gap-2 text-primary font-semibold hover:underline">
+        Voir toutes <span aria-hidden="true">&rarr;</span>
+      </a>
+    </div>
+
+    <div class="w-full grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-6 items-stretch">
+      <% const consultationsFiltrees = consultations.filter(c => c.statut !== 4 && c.statut !== 0);
+        const nbConsultations = consultationsFiltrees.length;
+      %>
+      <% if (nbConsultations === 0) { %>
+        <p class="text-center text-gray-500 col-span-full text-lg">
+          Aucune consultation n'est actuellement disponible.
+        </p>
+      <% } else { %>
+        <% consultationsFiltrees.slice(0, 3).forEach(consultation => { %>
+          <%- include("../partials/components/consultations/consultation-card", { consultation }) %>
+        <% }); %>
+      <% } %>
+    </div>
+    
+    <!-- Lien Voir toutes les consultations (mobile) -->
+    <div class="w-full flex justify-center md:hidden">
+      <a href="/consultations" class="flex items-center gap-2 text-primary font-semibold hover:underline">
+        Voir toutes <span aria-hidden="true">&rarr;</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- ==================== BESOIN D'AIDE ==================== -->
+  <section class="bg-gray-50 rounded-3xl p-8 lg:p-10 border border-gray-200 flex flex-col md:flex-row items-center justify-between gap-6 my-8">
+    <div class="flex flex-col gap-3">
+        <h2 class="text-2xl font-bold text-gray-900">Besoin d'aide ?</h2>
+        <p class="text-gray-600 max-w-2xl">
+            Vous avez des questions sur le fonctionnement de la plateforme ou vous rencontrez des difficultés pour participer ? Notre équipe est là pour vous accompagner.
+        </p>
+    </div>
+    <div class="shrink-0">
+        <a href="/contact" class="border border-gray-300 bg-white text-gray-800 px-6 py-3 rounded-xl font-semibold hover:bg-gray-100 transition-colors inline-block">
+            Contacter le support
+        </a>
+        <!-- un mailto peut être utilisé ici (à méditer)-->
+    </div>
+  </section>
+
 </main>
 
 <%- include("../partials/footer") %>
