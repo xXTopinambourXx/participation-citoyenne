@@ -15,6 +15,7 @@ const archivee = consultation.statut === 4;
     data-date="<%= consultation.dateDebut %>"
     data-date-fin="<%= consultation.dateFin %>"
     data-votes="<%= consultation.nbParticipants %>"
+    data-titre="<%= consultation.titre.toLowerCase() %>"
     data-statut="<%= consultation.statut %>">
     <!-- Header -->
     <div class="flex items-center min-h-32 rounded-t-xl p-4 md:p-6 relative overflow-hidden">
