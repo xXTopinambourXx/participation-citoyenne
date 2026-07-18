@@ -130,7 +130,7 @@ for (const button of filtreButtons) {
             if (filterValue === "all") {
                 isMatch = true;
             } else {
-                switch (card.dataset.status) {
+                switch (card.dataset.statut) {
                     case "1":
                         const timeLeft = Number(card.dataset.dateFin) * 1000 - Date.now();
                         const enCours = timeLeft > 0 && Number(card.dataset.date) * 1000 <= Date.now();
