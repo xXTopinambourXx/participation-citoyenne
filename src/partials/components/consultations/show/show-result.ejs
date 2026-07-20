@@ -9,18 +9,8 @@
     </div>
 
     <!-- Vote -->
-    <% 
-    let resultats = {};
-    console.log(consultation.votes);
-    consultation.votes.forEach(vote => {
-      if (!resultats[vote.choix_vote_id]) {
-        resultats[vote.choix_vote_id] = 0;
-      }
-      resultats[vote.choix_vote_id]++;
-    });
-    %>
     <div class="flex flex-col w-full gap-6">
-      <% consultation.choixVotes.forEach(choixVote => { %>
+      <% consultation.choix.forEach(choixVote => { %>
         <div class="flex flex-row items-end gap-4 w-full">
           <input type="checkbox" class="h-5 w-5" />
 
@@ -28,7 +18,7 @@
             <div class="flex flex-row justify-between w-full">
               <p class="text-xl"><%= choixVote.nom %></p>
               <p class="text-xl font-semibold">
-                <% const nbVotes = resultats[choixVote.id] || 0; %>
+                <% const nbVotes = choixVote.nbVotes || 0; %>
                 <% const pourcentage = consultation.nbParticipants > 0 ? (nbVotes / consultation.nbParticipants) * 100 : 0; %>
                 <%= pourcentage.toFixed(2) %>%
                 <span class="font-normal">

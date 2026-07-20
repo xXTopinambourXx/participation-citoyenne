@@ -116,14 +116,7 @@ nav ul li a:focus::after{
 
 /* Buttons filtre */
 .filter-btn {
-  padding: 0.5rem 1rem;
   border: 1px solid;
   border-radius: calc(infinity * 1px);
   cursor: pointer;
-  transition: all 0.3s ease;
-  font-weight: 500;
-}
-
-.filter-btn.btn-active {
-  border: none;
 }

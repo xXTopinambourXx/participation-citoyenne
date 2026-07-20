@@ -69,7 +69,7 @@ dropdown.addEventListener("click", () => {
 const container = document.getElementById('consultations-container');
 const sortSelect = document.getElementById('sort-select');
 const filtreContainer = document.getElementById("filtres-consultation");
-const filtreButtons = Array.from(filtreContainer.getElementsByClassName("filter-btn"));
+const filtreButtons = Array.from(filtreContainer.children).filter(child => child.tagName === "BUTTON");
 const searchInput = document.getElementById('search-consultation');
 const noResultMessage = document.getElementById('no-consultations-message');
 const activeFilterLabel = document.getElementById('active-filter-label');

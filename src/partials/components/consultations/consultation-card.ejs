@@ -27,7 +27,7 @@ const archivee = consultation.statut === 4;
         </h2>
 
         <div class="absolute top-0 right-0 <% if (enCours) { %>bg-green-600<% } else if (terminee) { %>bg-purple-600<% } else if (aVenir) { %>bg-yellow-400<% } else if (suspendu) { %>bg-gray-600<% } else { %>bg-red-600<% } %> text-white py-2 px-8 rounded-bl-[20px] rounded-tr-xl text-lg font-semibold">
-            <%= enCours ? "En cours" : terminee ? "Terminé" : aVenir ? "À venir" : suspendu ? "Suspendu" : annulee ? "Annulé" : "Archivé" %>
+            <%= enCours ? "En cours" : terminee ? "Terminée" : aVenir ? "À venir" : suspendu ? "Suspendue" : annulee ? "Annulée" : "Archivée" %>
         </div>
     </div>
 
@@ -128,7 +128,7 @@ const archivee = consultation.statut === 4;
                 Vote à venir
             <% } else { %>
                 <span class="material-symbols-outlined">
-                block
+                Visibility
                 </span>
                 Voir la consultation
             <% } %>

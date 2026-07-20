@@ -29,6 +29,7 @@ export class ConsultationController {
                 res.status(404).send("Consultation not found");
                 return;
             }
+            console.log("Consultation found:", consultation);
             res.render("consultation/show", { consultation });
         } catch (e) {
             logError("Erreur lors de la récupération de la consultation :", e instanceof Error ? e.message : String(e));

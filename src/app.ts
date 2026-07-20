@@ -25,7 +25,7 @@ app.use("/", accueilRoute);
 
 app.use("/consultations", consultationRoutes);
 
-app.use("/admin", adminRoute);
+app.use("/administrateur", adminRoute);
 
 app.get("/aide", (_req, res) => {
   res.render("aide");
