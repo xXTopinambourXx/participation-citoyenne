@@ -100,38 +100,45 @@ INSERT INTO proposition_etiquette (proposition_id, etiquette_id) VALUES
 -- ============================================================================
 -- 6. CHOIX DE VOTE POUR LES CONSULTATIONS
 -- ============================================================================
-INSERT INTO choix_vote (id, ordre, nom, couleur, consultation_id) VALUES
+INSERT INTO choix_vote (id, ordre, nom, couleur, consultation_id, nb_votes) VALUES
 -- Consultation 1 (Place Jean-Jaurès)
-(1, 1, 'Scénario 1 : 100% piéton et forêt urbaine', '2ECC71', 1),
-(2, 2, 'Scénario 2 : Mixte avec voie de bus maintenue', 'F39C12', 1),
-(3, 3, 'Scénario 3 : Maintien du parking et végétalisation légère', '95A5A6', 1),
+(1, 1, 'Scénario 1 : 100% piéton et forêt urbaine', '2ECC71', 1, 9),
+(2, 2, 'Scénario 2 : Mixte avec voie de bus maintenue', 'F39C12', 1, 4),
+(3, 3, 'Scénario 3 : Maintien du parking et végétalisation légère', '95A5A6', 1, 2),
+
 -- Consultation 2 (Plan Vélo)
-(4, 1, 'Axe Prioritaire Nord-Sud (Gare <-> Campus)', '3498DB', 2),
-(5, 2, 'Axe Prioritaire Est-Ouest (Zone Commerciale <-> Centre)', '9B59B6', 2),
-(6, 3, 'Boulevard circulaire autour du centre-ville', '1ABC9C', 2),
+(4, 1, 'Axe Prioritaire Nord-Sud (Gare <-> Campus)', '3498DB', 2, 7),
+(5, 2, 'Axe Prioritaire Est-Ouest (Zone Commerciale <-> Centre)', '9B59B6', 2, 2),
+(6, 3, 'Boulevard circulaire autour du centre-ville', '1ABC9C', 2, 3),
+
 -- Consultation 3 (Budget Écoles - Archivée)
-(7, 1, 'Pour la rénovation des 5 cours', '27AE60', 3),
-(8, 2, 'Contre, trop coûteux', 'C0392B', 3),
-(9, 3, 'Abstention / Sans avis', '7F8C8D', 3),
+(7, 1, 'Pour la rénovation des 5 cours', '27AE60', 3, 7),
+(8, 2, 'Contre, trop coûteux', 'C0392B', 3, 2),
+(9, 3, 'Abstention / Sans avis', '7F8C8D', 3, 1),
+
 -- Consultation 4 (Éclairage public)
-(10, 1, 'Oui, extinction totale de 1h à 5h', '2ECC71', 4),
-(11, 2, 'Oui, mais uniquement de 2h à 4h', 'F1C40F', 4),
-(12, 3, 'Non, maintien de l’éclairage toute la nuit', 'E74C3C', 4),
+(10, 1, 'Oui, extinction totale de 1h à 5h', '2ECC71', 4, 6),
+(11, 2, 'Oui, mais uniquement de 2h à 4h', 'F1C40F', 4, 2),
+(12, 3, 'Non, maintien de l’éclairage toute la nuit', 'E74C3C', 4, 2),
+
 -- Consultation 5 (Centre culturel)
-(13, 1, 'Dominante musiques actuelles et studios de répétition', 'E67E22', 5),
-(14, 2, 'Dominante arts plastiques, expositions et ateliers participatifs', '34495E', 5),
-(15, 3, 'Espace polyvalent et coworking associatif', '16A085', 5),
+(13, 1, 'Dominante musiques actuelles et studios de répétition', 'E67E22', 5, 3),
+(14, 2, 'Dominante arts plastiques, expositions et ateliers participatifs', '34495E', 5, 1),
+(15, 3, 'Espace polyvalent et coworking associatif', '16A085', 5, 3),
+
 -- Consultation 6 (Collège Hugo)
-(16, 1, 'Installation de ralentisseurs et plateau traversant', '2980B9', 6),
-(17, 2, 'Mise en sens unique de la rue Victor Hugo', 'D35400', 6),
-(18, 3, 'Piétonnisation définitive aux heures d’entrée/sortie', '8E44AD', 6),
+(16, 1, 'Installation de ralentisseurs et plateau traversant', '2980B9', 6, 0),
+(17, 2, 'Mise en sens unique de la rue Victor Hugo', 'D35400', 6, 0),
+(18, 3, 'Piétonnisation définitive aux heures d’entrée/sortie', '8E44AD', 6, 0),
+
 -- Consultation 7 (Terrasses)
-(19, 1, 'Harmonisation stricte (tonalités beiges et gris foncé)', 'BDC3C7', 7),
-(20, 2, 'Charte souple autorisant les couleurs végétales', '2ECC71', 7),
+(19, 1, 'Harmonisation stricte (tonalités beiges et gris foncé)', 'BDC3C7', 7, 0),
+(20, 2, 'Charte souple autorisant les couleurs végétales', '2ECC71', 7, 0),
+
 -- Consultation 8 (Nom du parc)
-(21, 1, 'Parc Arnaud Beltrame', '34495E', 8),
-(22, 2, 'Parc de la Canopée', '27AE60', 8),
-(23, 3, 'Parc des Rives du Fleuve', '3498DB', 8);
+(21, 1, 'Parc Arnaud Beltrame', '34495E', 8, 1),
+(22, 2, 'Parc de la Canopée', '27AE60', 8, 3),
+(23, 3, 'Parc des Rives du Fleuve', '3498DB', 8, 1);
 
 -- ============================================================================
 -- 7. VOTES DES UTILISATEURS (Clé primaire : utilisateur_id, consultation_id)

@@ -99,6 +99,7 @@ CREATE TABLE choix_vote (
     nom VARCHAR(100) NOT NULL,
     couleur CHAR(6) NOT NULL,
     consultation_id INT UNSIGNED NOT NULL,
+    nb_votes INT UNSIGNED NOT NULL,
     PRIMARY KEY (id),
     CONSTRAINT fk_choix_vote_consultation FOREIGN KEY (consultation_id) REFERENCES consultation(id) ON DELETE CASCADE ON UPDATE CASCADE
 );

@@ -4,9 +4,7 @@ export interface ChoixVoteData {
     id: number;
     nom: string;
     couleur: string;
-
-    // Ajout du compteur de votes pour ce choix spécifique
-    nb_votes?: number;
+    nb_votes: number;
 }
 
 export class ChoixVote extends ElementEnCacheBdd<ChoixVoteData> {

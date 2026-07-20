@@ -11,10 +11,7 @@ export class ConsultationCache extends DatabaseCacheBase<number, Consultation, C
     private consultationsOrdredByDate: Consultation[] = [];
 
     fromDatabase(data: ConsultationData): Consultation {
-        return new Consultation({
-            ...data,
-            choix: [], // Les choix seront récupérés séparément
-        });
+        return new Consultation(data);
     }
 
     getComposanteCache(element: Consultation): number {
@@ -28,29 +25,31 @@ export class ConsultationCache extends DatabaseCacheBase<number, Consultation, C
 
         const consultations = await super.getAll(clause, force);
 
-        await Promise.all(consultations.map(async (consultation) => {
+        // getAll equitettes 
+        const etiquettes = await etiquetteCache.getAll();
 
-            // A. On récupère les choix de vote liés à CETTE consultation
-            // On utilise 'ordre' pour que l'affichage respecte ce qui est prévu en BDD
-            const choixDonnees = await Database.query<ChoixVoteData>(
-                `SELECT cv.id, cv.nom, cv.couleur, COUNT(utilisateur_id) as nb_votes 
-                FROM choix_vote cv
-                LEFT JOIN vote v ON v.choix_vote_id = cv.id
-                WHERE cv.consultation_id = ?
-                GROUP BY cv.id
-                ORDER BY cv.ordre ASC`,
-                [consultation.id]
-            );
+        // SELECT idEtiq associations etiquettes, for each pour les assigner a leurs consultations
+        // .query(SELECT *) -> consultation.etiquettes.push(INSTANCE -> cacheEtiquettes.get(idEtiq))
+        const etiquetteAssociations = await Database.query<
+            {etiquette_id: number, consultation_id: number}
+        >("SELECT * FROM consultation_etiquette");
 
-            // B. On les injecte directement dans l'instance (le constructeur ou la propriété)
-            consultation.choix = choixDonnees.map(c => new ChoixVote(c));
+        for(const etiquetteAssociation of etiquetteAssociations){
+            const consult = consultationCache.get(etiquetteAssociation.consultation_id);
+            const etiq = etiquetteCache.get(etiquetteAssociation.etiquette_id);
+            if (consult && etiq) consult.etiquettes.push(etiq);
+        }
+        
+        // idem choixVotes -> new ChoixVote(..data..)
+        const choixVotes = await Database.query<ChoixVoteData & {consultation_id: number}>("SELECT * FROM choix_vote");
 
-            // Récupérer les étiquettes pour chaque consultation
-            await consultation.etiquettes.getAll();
+        for(const choixVote of choixVotes){
+            const consult = consultationCache.get(choixVote.consultation_id);
+            const choix = new ChoixVote(choixVote);
+            if(consult) consult.choix.push(choix);
+        }
+        
 
-            // Récupérer les votes pour chaque consultation
-            await consultation.votes.getAll();
-        }));
         this.consultationsOrdredByDate = consultations.sort((a, b) => a.dateDebut - b.dateDebut);
         
         return this.consultationsOrdredByDate;
