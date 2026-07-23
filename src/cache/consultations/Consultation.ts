@@ -1,7 +1,6 @@
 import { ElementEnCacheBdd } from "../base/ElementEnCacheBdd.js";
 import { ChoixVote, type ChoixVoteData } from "./ChoixVote.js";
 import { CommentaireConsultationCache } from "../commentaires/CommentaireConsultationCache.js";
-import { VoteCache } from "./votes/VoteCache.js";
 import { Etiquette, type EtiquetteData } from "../etiquettes/Etiquette.js";
 
 export interface ConsultationData {
@@ -67,7 +66,7 @@ export class Consultation extends ElementEnCacheBdd<ConsultationDataWithChoixEti
         this.utilisateurId = data.utilisateur_id;
 
         /* Initialisation deu cache */
-        this.commentaires = new CommentaireConsultationCache(this.id);
+        this.commentaires = new CommentaireConsultationCache();
     }
 
     public async changerStatut(nouveauStatut: number): Promise<void> {

@@ -79,6 +79,16 @@ CREATE TABLE commentaire (
     CONSTRAINT fk_commentaire_utilisateur FOREIGN KEY (utilisateur_id) REFERENCES utilisateur(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
+CREATE TABLE like_commentaire (
+    utilisateur_id INT UNSIGNED NOT NULL,
+    commentaire_id INT UNSIGNED NOT NULL,
+
+    aime TINYINT UNSIGNED, -- 0: aime, 1: aime pas
+
+    CONSTRAINT fk_uc_commentaire FOREIGN KEY (commentaire_id) REFERENCES commentaire(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT fk_uc_utilisateur FOREIGN KEY (utilisateur_id) REFERENCES utilisateur(id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
 CREATE TABLE signalement (
     id INT UNSIGNED NOT NULL AUTO_INCREMENT,
     date_signalement INT UNSIGNED NOT NULL,

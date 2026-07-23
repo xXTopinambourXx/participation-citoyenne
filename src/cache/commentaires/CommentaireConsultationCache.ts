@@ -5,6 +5,8 @@ export class CommentaireConsultationCache extends DatabaseCacheBase<number, Comm
     nomTable = "commentaire";
     colonnesClePrimaire = ["id"];
 
+    private rankedCommentaires: Commentaire[] = [];
+
     /**
      * Instancie un cache de commentaires pour une consultation spécifique.
      * @param consultationId L'identifiant de la consultation pour laquelle le cache de commentaires est créé.
@@ -20,4 +22,6 @@ export class CommentaireConsultationCache extends DatabaseCacheBase<number, Comm
     getComposanteCache(element: Commentaire): number {
         return element.id;
     }
+
+    private updateRanking(): void {};
 }
