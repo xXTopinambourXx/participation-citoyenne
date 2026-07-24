@@ -237,6 +237,61 @@ INSERT INTO commentaire (id, contenu, date_commentaire, consultation_id, proposi
 (25, 'Arrêtez avec le vélo, les automobilistes payent déjà assez de taxes comme ça !!!', 1740845000, 2, NULL, 16);
 
 -- ============================================================================
+-- 9.1. LIKE ET DISLIKE DES COMMENTAIRES (Clé primaire : utilisateur_id, commentaire_id)
+-- ============================================================================
+INSERT INTO like_commentaire (utilisateur_id, commentaire_id, aime) VALUES
+-- Commentaire 1 (Très soutenu)
+(5, 1, 1), (7, 1, 1), (8, 1, 1), (11, 1, 1), (13, 1, 1),
+-- Commentaire 2 (Nuancé / partagé)
+(4, 2, 0), (12, 2, 1), (14, 2, 1),
+-- Commentaire 3 (Soutien au com 1)
+(4, 3, 1), (5, 3, 1), (10, 3, 1),
+-- Commentaire 4 (Compromis bus)
+(6, 4, 1), (18, 4, 1),
+-- Commentaire 5 (Sécurité vélo)
+(4, 5, 1), (8, 5, 1), (17, 5, 1),
+-- Commentaire 6 (Arceaux gare)
+(5, 6, 1), (7, 6, 1),
+-- Commentaire 7 (Carrefours)
+(12, 7, 1), (19, 7, 1),
+-- Commentaire 8 (Éclairage public - désaccord)
+(10, 8, 0), (13, 8, 0), (16, 8, 1),
+-- Commentaire 9 (Faune nocturne)
+(4, 9, 1), (5, 9, 1), (7, 9, 1), (11, 9, 1),
+-- Commentaire 10 (Composteur)
+(7, 10, 1), (9, 10, 1), (12, 10, 1),
+-- Commentaire 11 (Question entretien)
+(5, 11, 1), (10, 11, 1),
+-- Commentaire 12 (Bénévolat compost)
+(4, 12, 1), (5, 12, 1), (8, 12, 1), (13, 12, 1),
+-- Commentaire 13 (Référence Dunkerque)
+(7, 13, 1), (11, 13, 1), (20, 13, 1),
+-- Commentaire 14 (Inquiétude impôts)
+(6, 14, 0), (8, 14, 1), (18, 14, 1),
+-- Commentaire 15 (Parc de la Bourrelière)
+(4, 15, 1), (11, 15, 1),
+-- Commentaire 16 (Padel)
+(10, 16, 1), (18, 16, 1), (20, 16, 1),
+-- Commentaire 17 (Éclairage LED)
+(6, 17, 1), (18, 17, 1),
+-- Commentaire 18 (Santé publique)
+(5, 18, 1), (8, 18, 1), (13, 18, 1), (14, 18, 1),
+-- Commentaire 19 (Critique de la mairie - contesté / signalement #1)
+(1, 19, 0), (4, 19, 0), (5, 19, 0), (7, 19, 0), (16, 19, 1),
+-- Commentaire 20 (Modération mairie)
+(4, 20, 1), (6, 20, 1), (9, 20, 1),
+-- Commentaire 21 (Terrasses sans chauffage)
+(1, 21, 1), (4, 21, 1), (8, 21, 1), (13, 21, 1),
+-- Commentaire 22 (Tarifs réduits culture)
+(5, 22, 1), (7, 22, 1), (15, 22, 1), (19, 22, 1),
+-- Commentaire 23 (Nom de femme pour le parc)
+(5, 23, 1), (9, 23, 1), (11, 23, 1), (13, 23, 1),
+-- Commentaire 24 (Suggestions noms)
+(8, 24, 1), (11, 24, 1), (17, 24, 1),
+-- Commentaire 25 (Agressif anti-vélo - fortement désapprouvé / signalement #2)
+(4, 25, 0), (5, 25, 0), (7, 25, 0), (8, 25, 0), (11, 25, 0), (12, 25, 0), (14, 25, 1);
+
+-- ============================================================================
 -- 10. SIGNALEMENTS DE MODÉRATION
 -- ============================================================================
 INSERT INTO signalement (id, date_signalement, motif, contenu, commentaire_id, proposition_id, utilisateur_id) VALUES

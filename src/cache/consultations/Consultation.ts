@@ -66,7 +66,7 @@ export class Consultation extends ElementEnCacheBdd<ConsultationDataWithChoixEti
         this.utilisateurId = data.utilisateur_id;
 
         /* Initialisation deu cache */
-        this.commentaires = new CommentaireConsultationCache();
+        this.commentaires = new CommentaireConsultationCache(this.id);
     }
 
     public async changerStatut(nouveauStatut: number): Promise<void> {

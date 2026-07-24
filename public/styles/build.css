@@ -78,7 +78,6 @@
     --color-gray-400: oklch(70.7% 0.022 261.325);
     --color-gray-500: oklch(55.1% 0.027 264.364);
     --color-gray-600: oklch(44.6% 0.03 256.802);
-    --color-gray-700: oklch(37.3% 0.034 259.733);
     --color-gray-800: oklch(27.8% 0.033 256.848);
     --color-gray-900: oklch(21% 0.034 264.665);
     --color-gray-950: oklch(13% 0.028 261.692);
@@ -301,26 +300,8 @@
   .right-0 {
     right: 0;
   }
-  .right-3 {
-    right: calc(var(--spacing) * 3);
-  }
-  .right-6 {
-    right: calc(var(--spacing) * 6);
-  }
-  .right-30 {
-    right: calc(var(--spacing) * 30);
-  }
-  .right-60 {
-    right: calc(var(--spacing) * 60);
-  }
   .right-63 {
     right: calc(var(--spacing) * 63);
-  }
-  .right-65 {
-    right: calc(var(--spacing) * 65);
-  }
-  .right-70 {
-    right: calc(var(--spacing) * 70);
   }
   .-bottom-6 {
     bottom: calc(var(--spacing) * -6);
@@ -465,9 +446,6 @@
   }
   .h-16 {
     height: calc(var(--spacing) * 16);
-  }
-  .h-20 {
-    height: calc(var(--spacing) * 20);
   }
   .h-\[75px\] {
     height: 75px;
@@ -692,9 +670,6 @@
     --tw-border-style: solid;
     border-style: solid;
   }
-  .border-gray-100 {
-    border-color: var(--color-gray-100);
-  }
   .border-gray-200 {
     border-color: var(--color-gray-200);
   }
@@ -727,9 +702,6 @@
   }
   .bg-blue-200 {
     background-color: var(--color-blue-200);
-  }
-  .bg-blue-500 {
-    background-color: var(--color-blue-500);
   }
   .bg-blue-600 {
     background-color: var(--color-blue-600);
@@ -934,9 +906,6 @@
   }
   .py-4 {
     padding-block: calc(var(--spacing) * 4);
-  }
-  .py-5 {
-    padding-block: calc(var(--spacing) * 5);
   }
   .py-8 {
     padding-block: calc(var(--spacing) * 8);

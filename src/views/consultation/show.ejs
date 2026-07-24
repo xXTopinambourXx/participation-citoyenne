@@ -128,44 +128,46 @@
         </div>
       </div>
 
-      <div id="commentaires-container">
-        <% if(1 > 0){%>
-          <div class="rounded-xl border-2 border-gray-200 p-4 w-full flex flex-col gap-2">
-            <div class="flex flex-row justify-between items-start w-full">
-              <div>
-                <h2 class="text-xl font-semibold">Thomas. D</h3>
-                <p class="text-md text-gray-800">Posté le 18/09/2026 18:67</p>
+      <div id="commentaires-container" class="flex flex-col gap-8">
+        <% if(consultation.commentaires.rankedCommentaires.length > 0){%>
+          <% consultation.commentaires.rankedCommentaires.forEach(commentaire => { %>
+            <div class="rounded-xl border-2 border-gray-200 p-4 w-full flex flex-col gap-2">
+              <div class="flex flex-row justify-between items-start w-full">
+                <div>
+                  <h2 class="text-xl font-semibold"><%= commentaire.utilisateurPrenom %>. <%= commentaire.utilisateurNom[0] %></h2>
+                  <p class="text-md text-gray-800">Posté le <%= new Date(commentaire.dateCommentaire * 1000).toLocaleDateString("fr-FR", { day: "2-digit", month: "2-digit", year: "numeric", hour: "2-digit", minute: "2-digit" }) %></p>
+                </div>
+
+                <span
+                  class="material-symbols-outlined cursor-pointer"
+                >
+                  more_horiz
+                </span>
               </div>
 
-              <span
-                class="material-symbols-outlined cursor-pointer"
-              >
-                more_horiz
-              </span>
+              <p class="text-lg"><%= commentaire.contenu %></p>
+
+              <div class="flex w-full justify-end gap-4">
+                <button class="flex gap-2 rounded-xl cursor-pointer border border-gray-200 hover:border-gray-400 px-4 py-2 items-center text-gray-800 transition-colors">
+                    <span
+                      class="material-symbols-outlined cursor-pointer"
+                    >
+                      thumb_up
+                    </span>
+                    <p class="text-xl font-semibold"><%= commentaire.nbLikes || 0 %></p>
+                </button>
+
+                <button class="flex gap-2 rounded-xl cursor-pointer border border-gray-200 hover:border-gray-400 px-4 py-2 items-center text-gray-800 transition-colors">
+                    <span
+                      class="material-symbols-outlined cursor-pointer"
+                    >
+                      thumb_down
+                    </span>
+                    <p class="text-xl font-semibold"><%= commentaire.nbDislikes || 0 %></p>
+                </button>
+              </div>
             </div>
-
-            <p class="text-lg">Fusce dapibus lectus ultrices consectetur condimentum. Aenean ex enim,  laoreet vitae porttitor id, blandit eget nisi. Fusce sodales ante quis  efficitur condimentum. Integer finibus erat vitae tortor venenatis,  semper interdum quam ornare.</p>
-
-            <div class="flex w-full justify-end gap-4">
-              <button class="flex gap-2 rounded-xl cursor-pointer border border-gray-200 hover:border-gray-400 px-4 py-2 items-center text-gray-800 transition-colors">
-                  <span
-                    class="material-symbols-outlined cursor-pointer"
-                  >
-                    thumb_up
-                  </span>
-                  <p class="text-xl font-semibold">12</p>
-              </button>
-
-              <button class="flex gap-2 rounded-xl cursor-pointer border border-gray-200 hover:border-gray-400 px-4 py-2 items-center text-gray-800 transition-colors">
-                  <span
-                    class="material-symbols-outlined cursor-pointer"
-                  >
-                    thumb_down
-                  </span>
-                  <p class="text-xl font-semibold">9</p>
-              </button>
-            </div>
-          </div>
+          <% }) %>
         <%} else {%>
           <p class="text-center text-gray-500 col-span-full text-lg">
             Aucun commentaire disponible.

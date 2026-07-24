@@ -7,6 +7,12 @@ export interface CommentaireData {
     utilisateur_id: number;
     consultation_id: number | null;
     proposition_id: number | null;
+
+    nb_likes?: number;
+    nb_dislikes?: number;
+
+    utilisateur_prenom: string;
+    utilisateur_nom: string;
 }
 
 export class Commentaire extends ElementEnCacheBdd<CommentaireData> {
@@ -17,6 +23,12 @@ export class Commentaire extends ElementEnCacheBdd<CommentaireData> {
     public consultationId: number | null;
     public propositionId: number | null;
 
+    public nbLikes: number;
+    public nbDislikes: number;
+
+    public utilisateurPrenom: string;
+    public utilisateurNom: string;
+
     constructor(data: CommentaireData) {
         super();
         this.id = data.id;
@@ -25,16 +37,28 @@ export class Commentaire extends ElementEnCacheBdd<CommentaireData> {
         this.utilisateurId = data.utilisateur_id;
         this.consultationId = data.consultation_id;
         this.propositionId = data.proposition_id;
+
+        this.nbLikes = data.nb_likes ?? 0;
+        this.nbDislikes = data.nb_dislikes ?? 0;
+
+        this.utilisateurPrenom = data.utilisateur_prenom;
+        this.utilisateurNom = data.utilisateur_nom;
     }
     
-    toData() {
+    toData(): CommentaireData {
         return {
             id: this.id,
             contenu: this.contenu,
             date_commentaire: this.dateCommentaire,
             utilisateur_id: this.utilisateurId,
             consultation_id: this.consultationId,
-            proposition_id: this.propositionId
+            proposition_id: this.propositionId,
+
+            nb_likes: this.nbLikes,
+            nb_dislikes: this.nbDislikes,
+
+            utilisateur_prenom: this.utilisateurPrenom,
+            utilisateur_nom: this.utilisateurNom 
         };
     }
 }
