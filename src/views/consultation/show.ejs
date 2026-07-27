@@ -65,7 +65,7 @@
         </div>
       </div>
 
-        <!-- Call to action -->
+      <!-- Box pour voter -->
       <div class="flex items-center justify-start w-full bg-blue-200 px-6 py-3 rounded-3xl gap-4">
         <span class="material-symbols-outlined text-blue-600 text-3xl md:text-4xl infocard">
           how_to_vote
@@ -92,50 +92,75 @@
 
     </section>
 
-    <!-- Commentaires -->
+    <!-- Section Commentaires -->
     <section class="flex flex-col gap-8 w-full">
+
+      <!-- Titre section commentaire -->
       <div class="flex flex-col gap-2">
           <h1 class="text-xl md:text-4xl font-bold">
-            Suggestions (<%= consultation.commentaires.length %>)
+            Suggestions (<%= consultation.commentaires.rankedCommentaires.length %>)
           </h1>
 
           <div class="h-1.5 bg-secondary w-[10%]"></div>
       </div>
 
-      <!-- Input -->
+
       <div class="relative md:flex-1 w-full">
-        <!-- Mood icon -->
-        <span
-          class="material-symbols-outlined absolute right-63 top-1/2 -translate-y-1/2 text-tertiary cursor-pointer"
-        >
-          mood
-        </span>
-
-        <!-- Input field pour taper un commentaire-->
         <div class="flex flex-row gap-4">
-          <input
-            type="text"
-            placeholder="Ajouter un commentaire..."
-            class="w-full h-full border-2 border-gray-300 rounded-xl pr-12 pl-4 py-4 focus:border-primary focus:outline-none text-lg"
-            id="write-commentary"
-          />
+          
+          <!-- Conteneur relatif pour l'input, l'icône et le picker -->
+          <div class="relative w-full">
+            <input
+              type="text"
+              placeholder="Ajouter un commentaire..."
+              class="w-full h-full border-2 border-gray-300 rounded-xl pr-12 pl-4 py-4 focus:border-primary focus:outline-none text-lg"
+              id="write-commentary"
+            />
 
-          <div class="flex flex-row w-[30%] bg-blue-600 text-white py-4 rounded-xl hover:bg-blue-700 transition duration-300 items-center gap-2 cursor-pointer justify-center" id="vote-boutton-box">
-            <p class="text-xl font-bold">
-                Envoyer
-            </p>
+            <!-- Icône positionnée à droite à l'intérieur de l'input -->
+            <span
+              class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-tertiary cursor-pointer select-none"
+              id="emoji-picker-btn"
+            >
+              mood
+            </span>
+
+            <!-- Conteneur du picker (s'affiche au-dessus de l'input) -->
+            <div 
+              id="picker-container" 
+              class="hidden absolute right-0 bottom-full mb-2 z-50"
+            >
+              <emoji-picker class="light"></emoji-picker>
+            </div>
           </div>
+
+          <!-- Bouton d'envoi -->
+          <div 
+            class="flex flex-row w-[30%] bg-blue-600 text-white py-4 rounded-xl hover:bg-blue-700 transition duration-300 items-center gap-2 cursor-pointer justify-center" 
+            id="vote-boutton-box"
+          >
+            <p class="text-xl font-bold">Envoyer</p>
+          </div>
+
         </div>
       </div>
 
       <div id="commentaires-container" class="flex flex-col gap-8">
         <% if(consultation.commentaires.rankedCommentaires.length > 0){%>
           <% consultation.commentaires.rankedCommentaires.forEach(commentaire => { %>
+            <!-- Commentaire -->
             <div class="rounded-xl border-2 border-gray-200 p-4 w-full flex flex-col gap-2">
+
+              <!-- Entete du commentaire -->
               <div class="flex flex-row justify-between items-start w-full">
-                <div>
-                  <h2 class="text-xl font-semibold"><%= commentaire.utilisateurPrenom %>. <%= commentaire.utilisateurNom[0] %></h2>
-                  <p class="text-md text-gray-800">Posté le <%= new Date(commentaire.dateCommentaire * 1000).toLocaleDateString("fr-FR", { day: "2-digit", month: "2-digit", year: "numeric", hour: "2-digit", minute: "2-digit" }) %></p>
+
+                <div class="flex flex-row gap-4">
+                  <p class="flex rounded-full bg-primary h-12 w-12 text-white items-center justify-center shrink-0 text-2xl font-medium"><%= commentaire.utilisateurPrenom[0] %></p>
+
+                  <div>
+                    <h2 class="text-xl font-semibold"><%= commentaire.utilisateurPrenom %>. <%= commentaire.utilisateurNom[0] %></h2>
+                    <p class="text-md text-gray-800">Posté le <%= new Date(commentaire.dateCommentaire * 1000).toLocaleDateString("fr-FR", { day: "2-digit", month: "2-digit", year: "numeric", hour: "2-digit", minute: "2-digit" }) %></p>
+                  </div>
                 </div>
 
                 <span
@@ -301,5 +326,57 @@
     </div>
   </div>
 </main>
+
+<!-- Modal de vote -->
+
+<!-- overlay -->
+<div id="vote-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/50"> 
+
+  <!-- conteneur -->
+  <div class="flex flex-col bg-white rounded-xl p-8 pt-6 w-full max-w-lg relative gap-8">
+
+    <!-- Entete -->
+    <div class="flex justify-between">
+
+      <div class="flex flex-col gap-1">
+        <h2 id="modal-title" class="text-xl font-semibold">
+          Quel est votre choix sur "<%= consultation.titre %>" ?
+        </h2>
+
+        <div class="h-1.5 bg-primary w-[50%]"></div>
+      </div>
+
+      <button
+        id="close-modal"
+        class="h-full cursor-pointer"
+      >
+        <span class="material-symbols-outlined">
+          close
+        </span>
+      </button>
+
+    </div>
+
+    <!-- Choix -->
+    <div class="flex flex-col gap-4" id="liste-choix">
+      <% consultation.choix.forEach(choix => { %>
+        <div data-couleur="#<%= choix.couleur %>" class="w-full px-2 py-1 rounded-lg border-3 cursor-pointer text-lg text-center font-medium transition duration-300" style="color: #<%= choix.couleur %>; border-color: #<%= choix.couleur %>;" id="<%= choix.id %>"><%= choix.nom %></div>
+      <%})%>
+    </div>
+
+    <!-- separateur -->
+    <div class="h-0.5 w-full bg-gray-200"></div>
+
+    <!-- bouton de vote -->
+    <button class="flex flex-row w-full bg-blue-600 text-white py-3 rounded-xl hover:bg-blue-700 transition duration-300 items-center gap-2 cursor-pointer justify-center" id="vote-button-modal">
+      <p class="text-lg font-bold">
+        Valider le vote
+      </p>
+      <span class="material-symbols-outlined">
+        arrow_forward
+      </span>
+    </button>
+  </div>
+</div>
 
 <%- include ("../../partials/footer") %>

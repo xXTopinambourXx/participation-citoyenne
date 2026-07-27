@@ -56,6 +56,14 @@ export class ConsultationCache extends DatabaseCacheBase<number, Consultation, C
 
     }
 
+    async getDernieres(n: number): Promise<Consultation[]> {
+        if(n <= 0) return [];
+
+        const consultations = await this.getAll();
+
+        return consultations.slice(-n-1).reverse();
+    }
+
 }
 
 export const consultationCache = new ConsultationCache();

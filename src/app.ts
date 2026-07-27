@@ -1,9 +1,7 @@
 import express from "express";
 import path from "path";
 import "dotenv/config";
-import consultationRoutes from "./routes/consultationRoutes.js";
-import adminRoute from "./routes/adminRoute.js";
-import accueilRoute from "./routes/accueilRoute.js";
+import { indexRouter } from "./routes/index.js";
 
 const app = express();
 const PORT = Number(process.env.PORT) || 3000;
@@ -11,6 +9,7 @@ const PORT = Number(process.env.PORT) || 3000;
 app.set("view engine", "ejs");
 app.set("views", path.join(process.cwd(), "src/views"));
 
+app.use(express.json());
 app.use("/public", express.static("public"));
 
 /* Variables locales pour le titre et le sous-titre */
@@ -21,15 +20,7 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use("/", accueilRoute);
-
-app.use("/consultations", consultationRoutes);
-
-app.use("/administrateur", adminRoute);
-
-app.get("/aide", (_req, res) => {
-  res.render("aide");
-});
+app.use("/", indexRouter);
 
 app.listen(PORT, () => {
   console.log(`Serveur démarré sur le port ${PORT}`);
