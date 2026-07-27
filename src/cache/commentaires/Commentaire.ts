@@ -8,8 +8,8 @@ export interface CommentaireData {
     consultation_id: number | null;
     proposition_id: number | null;
 
-    nb_likes?: number;
-    nb_dislikes?: number;
+    nb_likes: number;
+    nb_dislikes: number;
 
     utilisateur_prenom: string;
     utilisateur_nom: string;
@@ -38,8 +38,8 @@ export class Commentaire extends ElementEnCacheBdd<CommentaireData> {
         this.consultationId = data.consultation_id;
         this.propositionId = data.proposition_id;
 
-        this.nbLikes = data.nb_likes ?? 0;
-        this.nbDislikes = data.nb_dislikes ?? 0;
+        this.nbLikes = data.nb_likes;
+        this.nbDislikes = data.nb_dislikes;
 
         this.utilisateurPrenom = data.utilisateur_prenom;
         this.utilisateurNom = data.utilisateur_nom;

@@ -73,6 +73,8 @@ CREATE TABLE commentaire (
     consultation_id INT UNSIGNED DEFAULT NULL,
     proposition_id INT UNSIGNED DEFAULT NULL,
     utilisateur_id INT UNSIGNED NOT NULL,
+    nb_likes INT SIGNED NOT NULL DEFAULT 0,
+    nb_dislikes INT SIGNED NOT NULL DEFAULT 0,
     PRIMARY KEY (id),
     CONSTRAINT fk_commentaire_consultation FOREIGN KEY (consultation_id) REFERENCES consultation(id) ON DELETE CASCADE ON UPDATE CASCADE,
     CONSTRAINT fk_commentaire_proposition FOREIGN KEY (proposition_id) REFERENCES proposition(id) ON DELETE CASCADE ON UPDATE CASCADE,

@@ -1,8 +1,6 @@
 import { Router } from "express";
-import { useRest } from "../useRest.js";
-import { getUtilisateurs } from "./getUtilisateurs.js";
-import { deleteUtilisateur } from "./deleteUtilisateur.js";
-import { authRouteur } from "./auth/index.js";
+import { utilisateurController } from "../controllers/utilisateurController.js";
+import { authRouteur } from "./authRouter.js";
 
 const utilisateursRouter = Router();
 
@@ -10,10 +8,12 @@ utilisateursRouter.use("/auth", authRouteur);
 
 // GET /utilisateurs/
 utilisateursRouter.get("/", (req, res) =>
-    useRest(getUtilisateurs, req, res));
+    utilisateurController.getUtilisateurs(req, res)
+);
 
 // DELETE /utilisateurs/:id/
 utilisateursRouter.delete("/:id", (req, res) =>
-    useRest(() => deleteUtilisateur(req.params.id), req, res));
+   utilisateurController.deleteUtilisateur(req.params.id)
+);
 
 export { utilisateursRouter as utilisateursRouter };
