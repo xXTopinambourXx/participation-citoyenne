@@ -26,7 +26,6 @@ export class UtilisateurCache extends DatabaseCacheBase<number, Utilisateur, Uti
         }
         return this.aucunUtilisateurEnregistre;
     }
-
 }
 
 export const utilisateurCache = new UtilisateurCache();

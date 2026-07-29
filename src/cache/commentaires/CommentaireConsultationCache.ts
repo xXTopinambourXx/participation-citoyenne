@@ -16,11 +16,12 @@ export class CommentaireConsultationCache {
     async fetchMore(count: number): Promise<boolean> {
         if (this.isAllFetched) return false;
 
-        const a = 1.5;
+        const a = 1.5; // Coefficient pour pondérer l'importance des likes
+        const b = 0.8; // Coefficient pour pondérer l'importance des dislikes
 
         const commentairesData = await Database.query<CommentaireData>(
-            "SELECT c.*, u.prenom AS utilisateur_prenom, u.nom AS utilisateur_nom, (SIGN(c.nb_likes - c.nb_dislikes) * (? * LOG(ABS(c.nb_likes - c.nb_dislikes) + 1))) AS score FROM commentaire c JOIN utilisateur u ON c.utilisateur_id = u.id WHERE c.consultation_id = ? ORDER BY score DESC LIMIT ? OFFSET ?",
-            [a, this.consultationId, count, this.fetchedUntil]
+            "SELECT c.*, u.prenom AS utilisateur_prenom, u.nom AS utilisateur_nom, (? *LOG(c.nb_likes + 1) - ? * LOG(c.nb_dislikes + 1)) AS score FROM commentaire c JOIN utilisateur u ON c.utilisateur_id = u.id WHERE c.consultation_id = ? ORDER BY score DESC LIMIT ? OFFSET ?",
+            [a, b, this.consultationId, count, this.fetchedUntil]
         );
 
         // On instancie les commentaires récupérés et on les ajoute à la liste des commentaires classés

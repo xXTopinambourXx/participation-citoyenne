@@ -1,9 +1,6 @@
 import type { Request, Response } from "express";
-import { Utilisateur, type UtilisateurData } from "../cache/utilisateur/Utilisateur.js";
+import { Utilisateur } from "../cache/utilisateur/Utilisateur.js";
 import { utilisateurCache } from "../cache/utilisateur/UtilisateurCache.js";
-import { Database } from "../core/database/Database.js";
-import { logError, logInfo } from "../utils/logger.js";
-import bcrypt from "bcrypt";
 
 export class utilisateurController {
 

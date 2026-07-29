@@ -77,7 +77,7 @@
         </p>
       <% } else { %>
         <% consultationsFiltrees.slice(0, 3).forEach(consultation => { %>
-          <%- include("../partials/components/consultations/consultation-card", { consultation }) %>
+          <%- include("../partials/components/consultation-card", { consultation }) %>
         <% }); %>
       <% } %>
     </div>

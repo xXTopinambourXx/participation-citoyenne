@@ -1,0 +1,93 @@
+<!-- Overlay -->
+<div class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/50" id="inscription-modal">
+
+    <!-- Conteneur du modal d'inscription -->
+    <div class="bg-white rounded-xl p-8 pt-6 w-full max-w-md relative">
+
+        <!-- Entete modal-->
+        <div class="flex justify-between items-center mb-4">
+            <div class="flex flex-col gap-1">
+                <!-- Titre du modal -->
+                <h2 class="text-3xl font-semibold">Création du compte</h2>
+
+                <!-- Ligne de séparation -->
+                <div class="h-1.5 bg-primary w-[50%]"></div>
+            </div>
+
+            <!-- Bouton de fermeture du modal -->
+            <button id="close-modal" class="align-center cursor-pointer">
+                <span class="material-symbols-outlined"> close </span>
+            </button>
+        </div>
+
+        <!-- Formulaire d'inscription -->  
+        <form id="form-inscription">
+
+            <!-- Étape 1: Informations personnelles -->
+            <div id="step-1">
+                <div>
+                    <label for="last-name" class="block text-sm font-medium">Nom</label>
+                    <input type="text" id="last-name" name="last-name" required class="w-full p-2 border rounded mt-1">
+                </div>
+
+                <div>
+                    <label for="first-name" class="block text-sm font-medium">Prénom</label>
+                    <input type="text" id="first-name" name="first-name" required class="w-full p-2 border rounded mt-1">
+                </div>
+            </div>
+
+            <!-- Étape 2: Informations email-->
+            <div id="step-2" class="hidden">
+                <div>
+                    <label for="email" class="block text-sm font-medium">Adresse e-mail</label>
+                    <input type="email" id="email" name="email" required class="w-full p-2 border rounded mt-1">
+                </div>
+
+                <div>
+                    <label for="email-confirm" class="block text-sm font-medium">Confirmer l'adresse e-mail</label>
+                    <input type="email" id="email-confirm" name="email-confirm" required class="w-full p-2 border rounded mt-1">
+                </div>
+            </div>
+
+            <!-- Étape 3: Informations mot de passe -->
+            <div id="step-3" class="hidden">
+                <div>
+                    <label for="password" class="block text-sm font-medium">Mot de passe</label>
+                    <input type="password" id="password" name="password" required class="w-full p-2 border rounded mt-1">
+                </div>
+
+                <div>
+                    <label for="password-confirm" class="block text-sm font-medium">Confirmer le mot de passe</label>
+                    <input type="password" id="password-confirm" name="password-confirm" required class="w-full p-2 border rounded mt-1">
+                </div>
+
+                <label for="cgu" class="block text-sm font-medium mt-4">J'accepte les Conditions Générales d'Utilisation et certifie avoir pris connaissance de la politique de gestion des données à caractère personnel *</label>
+                <input type="checkbox" id="cgu" class="mt-2">
+            </div>
+
+            <!-- Message d'erreur -->
+            <div id="error-message-inscription" class="text-red-500 text-sm mt-2 hidden"></div>
+
+            <!-- Boutons de navigation -->
+            <div class="flex justify-between mt-6">
+                <button type="button" id="prev-step" class="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400">Précédent</button>
+                <button type="button" id="next-step" class="px-4 py-2 bg-primary text-white rounded-md hover:bg-blue-600">Suivant</button>
+                <button type="submit" id="btn-submit" class="hidden ml-auto px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">S'inscrire</button>
+            </div>
+
+            <!-- Informations de navigation -->
+            <div class="flex justify-center items-center mt-4">
+                <p class="text-sm text-gray-500 mt-2">
+                    Étape <span id="current-step">1</span> sur 3
+                </p>
+
+                <div class="flex">
+                    <div class="w-8 h-1 bg-gray-300 rounded-full mx-1" id="step-indicator-1"></div>
+                    <div class="w-8 h-1 bg-gray-300 rounded-full mx-1" id="step-indicator-2"></div>
+                    <div class="w-8 h-1 bg-gray-300 rounded-full mx-1" id="step-indicator-3"></div>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>

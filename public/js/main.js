@@ -26,21 +26,26 @@ dropdown.addEventListener("click", () => {
 const container = document.getElementById('consultations-container');
 const sortSelect = document.getElementById('sort-select');
 const filtreContainer = document.getElementById("filtres-consultation");
-const filtreButtons = Array.from(filtreContainer.children).filter(child => child.tagName === "BUTTON");
+let filtreButtons = [];
+if(filtreContainer) {
+    filtreButtons = Array.from(filtreContainer.children).filter(child => child.tagName === "BUTTON");
+}
 const searchInput = document.getElementById('search-consultation');
 const noResultMessage = document.getElementById('no-consultations-message');
 const activeFilterLabel = document.getElementById('active-filter-label');
 
 /* ------------------ Initialisation des données des cartes ------------------ */
-const cardsData = Array.from(container.getElementsByClassName('consultation-card')).map(card => ({
-    element: card,
-    dateDebut: Number(card.dataset.date) * 1000,
-    dateFin: Number(card.dataset.dateFin) * 1000,
-    votes: Number(card.dataset.votes),
-    statut: card.dataset.statut,
-    titre: (card.dataset.titre).toLowerCase()
-}));
-
+let cardsData = [];
+if(container) {
+    cardsData = Array.from(container.getElementsByClassName('consultation-card')).map(card => ({
+        element: card,
+        dateDebut: Number(card.dataset.date) * 1000,
+        dateFin: Number(card.dataset.dateFin) * 1000,
+        votes: Number(card.dataset.votes),
+        statut: card.dataset.statut,
+        titre: (card.dataset.titre).toLowerCase()
+    }));
+}
 /* ------------------ État Global ------------------ */
 // On stocke l'état actuel du tri, du filtre et de la recherche
 const state = {
@@ -129,18 +134,20 @@ if (sortSelect) {
 }
 
 // Filtres
-filtreButtons.forEach(button => {
-    button.addEventListener("click", (e) => {
-        // MAJ de l'UI des boutons
-        filtreButtons.forEach(btn => btn.classList.remove("btn-active"));
-        const currentBtn = e.currentTarget;
-        currentBtn.classList.add("btn-active");
+if(filtreContainer) {
+    filtreButtons.forEach(button => {
+        button.addEventListener("click", (e) => {
+            // MAJ de l'UI des boutons
+            filtreButtons.forEach(btn => btn.classList.remove("btn-active"));
+            const currentBtn = e.currentTarget;
+            currentBtn.classList.add("btn-active");
 
-        // MAJ de l'état et rendu
-        state.filter = currentBtn.dataset.filter;
-        renderConsultations();
+            // MAJ de l'état et rendu
+            state.filter = currentBtn.dataset.filter;
+            renderConsultations();
+        });
     });
-});
+}
 
 // Recherche
 if (searchInput) {

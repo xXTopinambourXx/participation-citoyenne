@@ -1,72 +1,124 @@
-const modal = document.getElementById("auth-modal");
+/* Bouton accueil */
+const openLoginModalButton = document.getElementById('open-login-modal');
+const openRegisterModalButton = document.getElementById('open-register-modal');
 
-/* Boutons d'ouverture */
-const loginBtns = document.getElementsByClassName("open-login-modal");
-const registerBtns = document.getElementsByClassName("open-register-modal");
-
-/* Éléments de la modale */
-const modalTitle = document.getElementById("modal-title");
-const modalForm = document.getElementById("modal-form");
-const closeBtn = document.getElementById("close-modal");
-
-/* Écouteurs pour le Mode Connexion */
-for (const btn of loginBtns) {
-    btn.addEventListener("click", () => {
-        currentMode = "login";
-        modalTitle.textContent = "Se connecter";
-        modal.classList.remove("hidden");
+if(openLoginModalButton) {
+    openLoginModalButton.addEventListener('click', (event) => {
+        event.preventDefault();
+        showModalConnexion();
     });
 }
 
-/* Écouteurs pour le Mode Inscription */
-for (const btn of registerBtns) {
-    btn.addEventListener("click", () => {
-        currentMode = "register";
-        modalTitle.textContent = "Inscription";
-        modal.classList.remove("hidden");
+if(openRegisterModalButton) {
+    openRegisterModalButton.addEventListener('click', (event) => {
+        event.preventDefault();
+        showModalInscription();
     });
 }
 
-/* Fermeture de la modale */
-closeBtn.addEventListener("click", () => modal.classList.add("hidden"));
+/* Partie connexion */
+const modalConnexion = document.getElementById('modal-connexion');
+const closeModalConnexion = document.getElementById('close-modal-connexion');
+const formConnexion = document.getElementById('form-connexion');
 
-window.addEventListener("click", (event) => {
-    if (event.target === modal) {
-        modal.classList.add("hidden");
+const submitButtonConnexion = document.getElementById('submit-button-connexion');
+
+// Partie erreur
+const containerErreurConnexion = document.getElementById('error-container-connexion');
+const errorMessageConnexion = document.getElementById('error-message-connexion');
+
+// Fonction pour afficher le modal de connexion
+function showModalConnexion() {
+    modalConnexion.classList.remove('hidden');
+}
+
+// Fonction pour fermer le modal de connexion
+function closeModalConnexionFunc() {
+    modalConnexion.classList.add('hidden');
+    afficheErreur(null); // Réinitialiser le message d'erreur
+    formConnexion.reset(); // Réinitialiser le formulaire
+}
+
+closeModalConnexion.addEventListener('click', closeModalConnexionFunc);
+
+modalConnexion.addEventListener('click', (event) => {
+    if (event.target === modalConnexion) {
+        closeModalConnexionFunc();
     }
 });
 
-/* Soumission dynamique du formulaire */
-modalForm.addEventListener("submit", async (e) => {
-    e.preventDefault();
 
-    // On récupère dynamiquement les champs selon le formulaire
-    const emailInput = document.getElementById("email-input-login");
-    const passwordInput = document.getElementById("password-input-login");
+const emailInputConnexion = document.getElementById('email-input-connexion');
+const passwordInputConnexion = document.getElementById('password-input-connexion');
 
-    if (!emailInput || !passwordInput) return;
+function afficheErreur(message) {
+    if (message) {
+        errorMessageConnexion.textContent = message;
+        containerErreurConnexion.classList.remove('hidden');
+        containerErreurConnexion.style.display = 'flex'; 
+    } else {
+        errorMessageConnexion.textContent = '';
+        containerErreurConnexion.classList.add('hidden');
+        containerErreurConnexion.style.display = 'none';
+    }
+}
 
-    const payload = {
-        email: emailInput.value,
-        password: passwordInput.value,
-    };
+function handleConnexionSubmit(event) {
+    event.preventDefault();
 
-    try {
-        const response = await fetch("/utilisateurs/auth/login", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(payload),
-        });
+    const email = emailInputConnexion.value.trim();
+    const password = passwordInputConnexion.value.trim();
 
-        if (response.ok) {
-            console.log("Connexion réussie !");
+    if (!email || !password) {
+        afficheErreur('Veuillez remplir tous les champs.');
+        return;
+    }
+
+    fetch('/utilisateurs/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password })
+    })
+    .then(async (response) => {
+        const data = await response.json();
+
+        // On vérifie à la fois le statut HTTP (response.ok) et le booléen data.success
+        if (response.ok && data.success) {
+            window.location.href = '/';
         } else {
-            const errorMsg = await response.text();
-            alert("Erreur : " + errorMsg);
+            // Affiche le message renvoyé par l'API
+            afficheErreur(data.message || 'Une erreur est survenue. Veuillez réessayer.');
         }
-    } catch (err) {
-        console.error("Erreur réseau :", err);
-    }
-});
+    })
+    .catch((error) => {
+        console.error('Erreur réseau ou parsing:', error);
+        afficheErreur('Une erreur réseau est survenue. Veuillez réessayer.');
+    });
+}
+
+
+formConnexion.addEventListener('submit', handleConnexionSubmit);
+
+function handleDisconnect() {
+    fetch('/utilisateurs/auth/logout', {
+        method: 'GET',
+    })
+    .then((response) => {
+        if (response.ok) {
+            window.location.href = '/';
+        } else {
+            console.error('Erreur lors de la déconnexion:', response.statusText);
+        }
+    })
+    .catch((error) => {
+        console.error('Erreur réseau lors de la déconnexion:', error);
+    });
+}
+
+const logoutButton = document.getElementById('logout-button');
+if(logoutButton) {
+    logoutButton.addEventListener('click', (event) => {
+        event.preventDefault();
+        handleDisconnect();
+    });
+}

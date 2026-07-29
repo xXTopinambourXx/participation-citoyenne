@@ -9,4 +9,9 @@ authRouteur.post("/login", (req, res) => authController.postLoginUtilisateur(req
 // POST /utilisateurs/auth/creer
 authRouteur.post("/creer", (req, res) => authController.postCreerUtilisateur(req, res));
 
+authRouteur.get("/logout", (req, res) => {
+    res.clearCookie("jeton_auth");
+    res.redirect("/");
+});
+
 export { authRouteur as authRouteur };
