@@ -30,4 +30,15 @@ export class utilisateurController {
             throw new Error("Erreur interne lors de la suppression de l'utilisateur.");
         }
     }
+
+    static async checkEmailExiste(req: Request, res: Response) {
+        const email = req.query.email as string;
+
+        if (!email) {
+            return res.status(400).json({ error: "Email manquant" });
+        }
+
+        const existe = await utilisateurCache.emailExiste(email);
+        return res.json({ existe });
+    }
 }

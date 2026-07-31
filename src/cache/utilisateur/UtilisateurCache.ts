@@ -26,6 +26,15 @@ export class UtilisateurCache extends DatabaseCacheBase<number, Utilisateur, Uti
         }
         return this.aucunUtilisateurEnregistre;
     }
+
+    /**
+     * Renvoit vrai s'il n'y a aucun utilisateur avec cet email enregistré dans la BDD.
+     */
+    public async emailExiste(email: string): Promise<boolean> {
+        const utilisateurs = await utilisateurCache.getAll();
+
+        return utilisateurs.some(u => u.email.toLowerCase() === email.toLowerCase())
+    }
 }
 
 export const utilisateurCache = new UtilisateurCache();

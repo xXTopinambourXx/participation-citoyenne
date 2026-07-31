@@ -14,6 +14,10 @@ router.get("/aide", (req, res) => {
     return res.render("aide");
 });
 
+router.get("/cgu", (req, res) =>{
+    return res.render("cgu");
+});
+
 router.use("/consultations", consultationsRouter);
 router.use("/utilisateurs", utilisateursRouter);
 

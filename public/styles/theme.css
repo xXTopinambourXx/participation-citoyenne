@@ -118,5 +118,4 @@ nav ul li a:focus::after{
 .filter-btn {
   border: 1px solid;
   border-radius: calc(infinity * 1px);
-  cursor: pointer;
 }
