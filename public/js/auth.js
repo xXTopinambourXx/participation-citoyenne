@@ -35,10 +35,7 @@ function showModal(element) {
 // Fonction pour fermer le modal
 function closeModal(modalElement, errorTextElement, errorContainerElement, formElement) {
     modalElement.classList.add('hidden');
-    
-    // On vide le texte de l'erreur, pas le modal entier !
     afficheErreur(errorTextElement, errorContainerElement, null); 
-    
     formElement.reset(); 
 }
 
@@ -79,25 +76,33 @@ function handleConnexionSubmit(event) {
         return;
     }
 
-    fetch('/utilisateurs/auth/login', {
+   fetch('/utilisateurs/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password })
     })
     .then(async (response) => {
-        const data = await response.json();
+        let data = {};
+        try {
+            data = await response.json();
+        } catch (e) {
+            console.error('Erreur lors du parsing JSON:', e);
+        }
 
-        // On vérifie à la fois le statut HTTP (response.ok) et le booléen data.success
         if (response.ok && data.success) {
             window.location.href = '/';
         } else {
-            // Affiche le message renvoyé par l'API
-            afficheErreur(errorMessageConnexion, containerErreurConnexion ,data.message || 'Une erreur est survenue. Veuillez réessayer.');
+            
+            const message = data.message || (response.status === 401 
+                ? 'Identifiants incorrects ou inexistant.' 
+                : 'Une erreur est survenue. Veuillez réessayer.');
+
+            afficheErreur(errorMessageConnexion, containerErreurConnexion, message);
         }
     })
     .catch((error) => {
-        console.error('Erreur réseau ou parsing:', error);
-        afficheErreur(errorMessageConnexion, containerErreurConnexion, 'Une erreur réseau est survenue. Veuillez réessayer.');
+        console.error('Erreur réseau ou connexion impossible :', error);
+        afficheErreur(errorMessageConnexion, containerErreurConnexion, 'Erreur réseau : impossible de contacter le serveur.');
     });
 }
 
@@ -169,27 +174,27 @@ const btnNext = document.getElementById('next-step');
 const btnPrev = document.getElementById('prev-step');
 const btnSubmit = document.getElementById('btn-submit');
 
-formInscription.addEventListener('keydown', (event) => {
-    if (event.key === 'Enter' && currentStep < 3) {
-        event.preventDefault();
-        validerEtAvancer();
+formInscription.addEventListener('keydown', async (e) => {
+    if (e.key === 'Enter' && currentStep < 3) {
+        e.preventDefault();
+        await validerEtAvancer();
     }
 });
 
-if(btnNext) {
-    btnNext.addEventListener('click', (event) => {
+if (btnNext) {
+    btnNext.addEventListener('click', async (e) => {
         e.preventDefault();
-        validerEtAvancer();
+        await validerEtAvancer();
         console.log('Current Step:', currentStep);
     });
 }
 
-if(btnPrev) {
-    btnPrev.addEventListener('click', (event) => {
-        if(currentStep === 1) {
+if (btnPrev) {
+    btnPrev.addEventListener('click', (e) => {
+        e.preventDefault();
+        if (currentStep === 1) {
             btnPrev.disabled = true;
         } else {
-            event.preventDefault();
             afficheErreur(errorMessageInscription, containerErreurInscription, null);
             changerEtape(currentStep - 1);
         }
@@ -206,7 +211,7 @@ async function verifierEmailBdd(email) {
         return data.existe; // Retourne true si déjà utilisé, false sinon
     } catch (error) {
         console.error('Erreur lors de la vérification:', error);
-        return false; // En cas d'erreur serveur, on peut laisser passer ou bloquer selon tes besoins
+        return false;
     }
 }
 
@@ -248,22 +253,25 @@ async function validerEtAvancer() {
             return;
         }
 
-        btnNext.disabled = true; // Empêche les clics multiples pendant le fetch
+        btnNext.disabled = true;
     
-        const emailExiste = await verifierEmailBdd(email);
+        try {
+            const emailExiste = await verifierEmailBdd(email);
 
-        btnNext.disabled = false;
-
-        if (emailExiste) {
-            afficheErreur(errorMessageInscription, containerErreurInscription,'Cette adresse e-mail est déjà associée à un compte.');
-            return;
+            if (emailExiste) {
+                afficheErreur(errorMessageInscription, containerErreurInscription, 'Cette adresse e-mail est déjà associée à un compte.');
+                return;
+            }
+        } finally {
+            btnNext.disabled = false;
         }
     }
     changerEtape(currentStep + 1);
 }
 
 function changerEtape(nouvelleEtape) {
-    if(nouvelleEtape > 1){
+    /* Bouton précédent */
+    if(nouvelleEtape > 1) {
         btnPrev.classList.remove('text-gray-500');
         btnPrev.classList.add('cursor-pointer', 'text-gray-700');
     } else {
@@ -271,15 +279,38 @@ function changerEtape(nouvelleEtape) {
         btnPrev.classList.remove('cursor-pointer', 'text-gray-700');
     }
 
-    // 1. On cache l'étape ACTUELLE avant de changer la variable
+    /* Bouton suivant */
+    if(nouvelleEtape === 3) {
+        btnNext.classList.add('hidden');
+        btnSubmit.classList.remove('hidden');
+    } else {
+        btnNext.classList.remove('hidden');
+        btnSubmit.classList.add('hidden');
+    }
+
+    // On cache l'étape ACTUELLE avant de changer la variable
     document.getElementById(`step-${currentStep}`).classList.add('hidden');
     
-    // 2. On met à jour l'étape
+    // On met à jour l'étape
     currentStep = nouvelleEtape;
 
-    // 3. On affiche la NOUVELLE étape
+    // On affiche la NOUVELLE étape
     document.getElementById('current-step').textContent = currentStep;
     document.getElementById(`step-${currentStep}`).classList.remove('hidden');
+
+    // On met à jour les indicateurs d'étape
+    stepIndicators.forEach((indicator, index) => {
+        if (index + 1 <= currentStep) {
+            indicator.classList.add('bg-primary/80', 'border-primary');
+            indicator.classList.remove('border-gray-300');
+        } else {
+            indicator.classList.remove('bg-primary/80', 'border-primary');
+            indicator.classList.add('border-gray-300');
+        }
+    });
+
+    // On réinitialise les messages d'erreur à chaque changement d'étape
+    afficheErreur(errorMessageInscription, containerErreurInscription, null);
 }
 
 formInscription.addEventListener('submit', (event) => {
@@ -287,7 +318,6 @@ formInscription.addEventListener('submit', (event) => {
 
     afficheErreur(errorMessageInscription, containerErreurInscription, null); // On réinitialise
 
-    // On suppose que tes inputs HTML ont les IDs "password" et "confirm-password"
     const password = document.getElementById('password').value.trim();
     const confirmPassword = document.getElementById('password-confirm').value.trim();
 
@@ -306,7 +336,7 @@ formInscription.addEventListener('submit', (event) => {
         return;
     }
 
-    const accepteCgu = document.getElementById('accepteCgu').checked;
+    const accepteCgu = document.getElementById('cgu').checked;
     if (!accepteCgu) {
         afficheErreur(errorMessageInscription, containerErreurInscription, 'Vous devez accepter les conditions d’utilisation.');
         return;
@@ -314,12 +344,12 @@ formInscription.addEventListener('submit', (event) => {
 
     const payload = {
         email: document.getElementById('email').value.trim(),
-        motDePasse: password, // On utilise la variable déjà vérifiée
+        motDePasse: password,
         nom: document.getElementById('nom').value.trim(),
         prenom: document.getElementById('prenom').value.trim()
     };
 
-    fetch('/utilisateurs/auth/register', {
+    fetch('/utilisateurs/auth/creer', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)

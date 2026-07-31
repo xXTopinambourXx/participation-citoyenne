@@ -87,6 +87,7 @@ CREATE TABLE like_commentaire (
 
     aime TINYINT UNSIGNED, -- 0: aime pas, 1: aime
 
+    PRIMARY KEY (utilisateur_id, commentaire_id),
     CONSTRAINT fk_uc_commentaire FOREIGN KEY (commentaire_id) REFERENCES commentaire(id) ON DELETE CASCADE ON UPDATE CASCADE,
     CONSTRAINT fk_uc_utilisateur FOREIGN KEY (utilisateur_id) REFERENCES utilisateur(id) ON DELETE CASCADE ON UPDATE CASCADE
 );

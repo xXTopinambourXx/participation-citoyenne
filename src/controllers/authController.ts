@@ -82,6 +82,8 @@ export class authController {
 
         const jeton = generateJwtToken(utilisateurBrut.id);
         setJetonAuthentication(res, jeton);
+
+        logInfo("Connexion", `Utilisateur connecté avec l'ID : ${utilisateurBrut.id} et l'email : ${utilisateurBrut.email}`);
     
         res.json({success: true});
     }

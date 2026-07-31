@@ -4,26 +4,26 @@ USE participation_citoyenne;
 -- 1. UTILISATEURS (3 Admins, 17 Citoyens)
 -- ============================================================================
 INSERT INTO utilisateur (id, nom, prenom, email, mot_de_passe, est_admin) VALUES
-(1, 'Martin', 'Claire', 'claire.martin@mairie-citoyenne.fr', '$2y$10$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW', 1),
-(2, 'Bernard', 'Thomas', 'thomas.bernard@mairie-citoyenne.fr', '$2y$10$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW', 1),
-(3, 'Dubois', 'Sophie', 'sophie.dubois@mairie-citoyenne.fr', '$2y$10$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW', 1),
-(4, 'Petit', 'Lucas', 'lucas.petit@gmail.com', '$2y$10$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW', 0),
-(5, 'Robert', 'Emma', 'emma.robert@outlook.fr', '$2y$10$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW', 0),
-(6, 'Richard', 'Antoine', 'antoine.richard@yahoo.fr', '$2y$10$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW', 0),
-(7, 'Durand', 'Camille', 'camille.durand@free.fr', '$2y$10$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW', 0),
-(8, 'Leroy', 'Nicolas', 'nicolas.leroy@gmail.com', '$2y$10$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW', 0),
-(9, 'Moreau', 'Julie', 'julie.moreau@wanadoo.fr', '$2y$10$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW', 0),
-(10, 'Simon', 'Maxime', 'maxime.simon@laposte.net', '$2y$10$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW', 0),
-(11, 'Laurent', 'Chloé', 'chloe.laurent@gmail.com', '$2y$10$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW', 0),
-(12, 'Lefebvre', 'Alexandre', 'alex.lef@sfr.fr', '$2y$10$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW', 0),
-(13, 'Michel', 'Sarah', 'sarah.michel@gmail.com', '$2y$10$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW', 0),
-(14, 'Garcia', 'David', 'david.garcia@orange.fr', '$2y$10$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW', 0),
-(15, 'David', 'Léa', 'lea.david@gmail.com', '$2y$10$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW', 0),
-(16, 'Bertrand', 'Paul', 'paul.bertrand@outlook.com', '$2y$10$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW', 0),
-(17, 'Roux', 'Manon', 'manon.roux@free.fr', '$2y$10$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW', 0),
-(18, 'Vincent', 'Julien', 'julien.vincent@gmail.com', '$2y$10$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW', 0),
-(19, 'Fournier', 'Laura', 'laura.fournier@yahoo.fr', '$2y$10$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW', 0),
-(20, 'Morel', 'Guillaume', 'g.morel@gmail.com', '$2y$10$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW', 0);
+(1, 'Martin', 'Claire', 'claire.martin@mairie-citoyenne.fr', '$2b$10$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW', 1),
+(2, 'Bernard', 'Thomas', 'thomas.bernard@mairie-citoyenne.fr', '$2b$10$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW', 1),
+(3, 'Dubois', 'Sophie', 'sophie.dubois@mairie-citoyenne.fr', '$2b$10$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW', 1),
+(4, 'Petit', 'Lucas', 'lucas.petit@gmail.com', '$2b$10$OAkRoXHJMZnT/MAcNJgb5u33W/zGdT7gLVxGA24yDfyFB4RBSvErK', 0), /* Mot de passe : "tulipe" */
+(5, 'Robert', 'Emma', 'emma.robert@outlook.fr', '$2b$10$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW', 0),
+(6, 'Richard', 'Antoine', 'antoine.richard@yahoo.fr', '$2b$10$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW', 0),
+(7, 'Durand', 'Camille', 'camille.durand@free.fr', '$2b$10$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW', 0),
+(8, 'Leroy', 'Nicolas', 'nicolas.leroy@gmail.com', '$2b$10$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW', 0),
+(9, 'Moreau', 'Julie', 'julie.moreau@wanadoo.fr', '$2b$10$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW', 0),
+(10, 'Simon', 'Maxime', 'maxime.simon@laposte.net', '$2b$10$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW', 0),
+(11, 'Laurent', 'Chloé', 'chloe.laurent@gmail.com', '$2b$10$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW', 0),
+(12, 'Lefebvre', 'Alexandre', 'alex.lef@sfr.fr', '$2b$10$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW', 0),
+(13, 'Michel', 'Sarah', 'sarah.michel@gmail.com', '$2b$10$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW', 0),
+(14, 'Garcia', 'David', 'david.garcia@orange.fr', '$2b$10$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW', 0),
+(15, 'David', 'Léa', 'lea.david@gmail.com', '$2b$10$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW', 0),
+(16, 'Bertrand', 'Paul', 'paul.bertrand@outlook.com', '$2b$10$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW', 0),
+(17, 'Roux', 'Manon', 'manon.roux@free.fr', '$2b$10$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW', 0),
+(18, 'Vincent', 'Julien', 'julien.vincent@gmail.com', '$2b$10$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW', 0),
+(19, 'Fournier', 'Laura', 'laura.fournier@yahoo.fr', '$2b$10$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW', 0),
+(20, 'Morel', 'Guillaume', 'g.morel@gmail.com', '$2b$10$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW', 0);
 
 -- ============================================================================
 -- 2. ÉTIQUETTES (Thématiques - Google Material Icons)
