@@ -97,15 +97,23 @@
       <div
         class="text-tertiary p-4 flex flex-row justify-center items-center text-md md:text-lg gap-2 md:gap-4"
       >
-        <a href="#" class="text-tertiary font-light open-login-modal">
-          Se connecter
-        </a>
+        <% if(!user) { %>
+          <a href="#" class="text-tertiary font-light open-login-modal">
+            Se connecter
+          </a>
 
-        <div class="h-6 bg-tertiary w-0.5 opacity-20"></div>
+          <div class="h-6 bg-tertiary w-0.5 opacity-20"></div>
 
-        <a href="#" class="text-tertiary font-semibold open-register-modal">
-          S'inscrire
-        </a>
+          <a href="#" class="text-tertiary font-semibold open-register-modal">
+            S'inscrire
+          </a>
+        <% } else { %>
+          <span class="text-tertiary font-light">Bonjour, <%= user.prenom %> <%= user.nom %></span>
+          <div class="h-6 bg-tertiary w-0.5 opacity-20"></div>
+          <a href="#" class="text-tertiary font-semibold logout-button">
+            Se déconnecter
+          </a>
+        <% } %>
       </div>
     </ul>
 
@@ -141,19 +149,19 @@
         class="text-tertiary py-2 md:py-4 mx-4 md:mx-10 flex flex-row items-center text-md md:text-lg gap-2 md:gap-4"
       >
       <% if(!user) { %>
-        <a href="#" class="text-tertiary font-light" id="open-login-modal">
+        <a href="#" class="text-tertiary font-light open-login-modal">
           Se connecter
         </a>
 
         <div class="h-6 bg-tertiary w-0.5 opacity-20"></div>
 
-        <a href="#" class="text-tertiary font-semibold" id="open-register-modal">
+        <a href="#" class="text-tertiary font-semibold open-register-modal">
           S'inscrire
         </a>
       <% } else { %>
         <span class="text-tertiary font-light">Bonjour, <%= user.prenom %> <%= user.nom %></span>
         <div class="h-6 bg-tertiary w-0.5 opacity-20"></div>
-        <a href="#" class="text-tertiary font-semibold" id="logout-button">
+        <a href="#" class="text-tertiary font-semibold logout-button">
           Se déconnecter
         </a>
       <% } %>

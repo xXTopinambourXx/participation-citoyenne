@@ -1,16 +1,15 @@
-/* Bouton accueil */
-const openLoginModalButton = document.getElementById('open-login-modal');
-const openRegisterModalButton = document.getElementById('open-register-modal');
+const openLoginModalButtons = document.getElementsByClassName('open-login-modal');
+const openRegisterModalButtons = document.getElementsByClassName('open-register-modal');
 
-if(openLoginModalButton) {
-    openLoginModalButton.addEventListener('click', (event) => {
+for (const button of openLoginModalButtons) {
+    button.addEventListener('click', (event) => {
         event.preventDefault();
         showModal(modalConnexion);
     });
 }
 
-if(openRegisterModalButton) {
-    openRegisterModalButton.addEventListener('click', (event) => {
+for (const button of openRegisterModalButtons) {
+    button.addEventListener('click', (event) => {
         event.preventDefault();
         showModal(modalInscription);
     });
