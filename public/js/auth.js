@@ -124,9 +124,9 @@ function handleDisconnect() {
     });
 }
 
-const logoutButton = document.getElementById('logout-button');
-if(logoutButton) {
-    logoutButton.addEventListener('click', (event) => {
+const logoutButtons = document.getElementsByClassName('logout-button');
+for (const button of logoutButtons) {
+    button.addEventListener('click', (event) => {
         event.preventDefault();
         handleDisconnect();
     });
@@ -180,25 +180,21 @@ formInscription.addEventListener('keydown', async (e) => {
     }
 });
 
-if (btnNext) {
-    btnNext.addEventListener('click', async (e) => {
-        e.preventDefault();
-        await validerEtAvancer();
-        console.log('Current Step:', currentStep);
-    });
-}
+btnNext.addEventListener('click', async (e) => {
+    e.preventDefault();
+    await validerEtAvancer();
+    console.log('Current Step:', currentStep);
+});
 
-if (btnPrev) {
-    btnPrev.addEventListener('click', (e) => {
-        e.preventDefault();
-        if (currentStep === 1) {
-            btnPrev.disabled = true;
-        } else {
-            afficheErreur(errorMessageInscription, containerErreurInscription, null);
-            changerEtape(currentStep - 1);
-        }
-    });
-}
+btnPrev.addEventListener('click', (e) => {
+    e.preventDefault();
+    if (currentStep === 1) {
+        btnPrev.disabled = true;
+    } else {
+        afficheErreur(errorMessageInscription, containerErreurInscription, null);
+        changerEtape(currentStep - 1);
+    }
+});
 
 // Fonction pour vérifier l'e-mail auprès de l'API
 async function verifierEmailBdd(email) {
@@ -367,3 +363,12 @@ formInscription.addEventListener('submit', (event) => {
         afficheErreur(errorMessageInscription, containerErreurInscription, 'Une erreur réseau est survenue. Veuillez réessayer.');
     });
 });
+
+const urlParams = new URLSearchParams(window.location.search);
+if (urlParams.get("connexion") === "requise") {
+    // Déclenche l'ouverture de ton modal de connexion
+    showModal(modalConnexion);
+    
+    // Optionnel : afficher un message dans le modal ou en toast
+    console.log("Veuillez vous connecter pour accéder à cette page.");
+}

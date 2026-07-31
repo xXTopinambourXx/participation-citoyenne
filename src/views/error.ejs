@@ -1,0 +1,15 @@
+<%- include("../partials/header") %>
+
+<main class="flex flex-col gap-8 items-center m-12">
+    <p class="text-9xl font-semibold text-primary"><%= error %></p>
+
+    <p class="text-3xl"><%= titre %></p>
+
+    <p class="text-lg"><%= message %></p>
+
+    <a href="/" class="flex bg-blue-600 text-white px-12 py-4 rounded-xl hover:bg-blue-700 transition duration-300 items-center gap-2 cursor-pointer justify-center text-xl font-semibold">
+        Retourner à l'accueil
+    </a>
+</main>
+
+<%- include("../partials/footer") %>

@@ -86,13 +86,15 @@
           >Aide</a
         >
       </li>
-      <li>
-        <a
-          href="/admin"
-          class="block p-4 border-b-1 border-tertiary/30 border-solid"
-          >Administrateur</a
-        >
-      </li>
+      <% if(user && user.estAdmin === 1) { %>
+        <li>
+          <a
+            href="/admin"
+            class="block p-4 border-b-1 border-tertiary/30 border-solid"
+            >Administrateur</a
+          >
+        </li>
+      <% } %>
 
       <div
         class="text-tertiary p-4 flex flex-row justify-center items-center text-md md:text-lg gap-2 md:gap-4"
@@ -138,9 +140,11 @@
           <li class="<%= path.startsWith('/aide') ? 'text-primary' : '' %>">
             <a href="/aide" id="aide">Aide</a>
           </li>
-          <li class="<%= path.startsWith('/administrateur') ? 'text-primary' : '' %>">
-            <a href="/administrateur" id="admin">Administrateur</a>
-          </li>
+          <% if(user && user.estAdmin === 1) { %>
+            <li class="<%= path.startsWith('/administrateur') ? 'text-primary' : '' %>">
+              <a href="/administrateur" id="admin">Administrateur</a>
+            </li>
+          <% } %>
         </ul>
       </nav>
 

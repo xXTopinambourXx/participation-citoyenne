@@ -31,9 +31,40 @@ if (emojiBtn && pickerContainer && commentInput && picker) {
 }
 
 /* ------------------ Vote ------------------ */
+function showModal(modal) {
+    modal.classList.remove("hidden");
+}
+
+function closeModal(modal) {
+    modal.classList.add("hidden");
+}
+
 const voteModal = document.getElementById("vote-modal");
 const choixContainer = document.getElementById("liste-choix");
 const choix = choixContainer ? Array.from(choixContainer.children) : [];
+
+const voteBoutonLateral = document.getElementById("vote-button-lateral");
+const voteBoutonBox = document.getElementById("vote-boutton-box");
+
+const closeModalButton = document.getElementById("button-close-modal");
+
+voteBoutonLateral?.addEventListener("click", () => {
+    showModal(voteModal);
+});
+
+voteBoutonBox?.addEventListener("click", () => {
+    showModal(voteModal);
+});
+
+voteModal?.addEventListener("click", (e) => {
+    if (e.target === voteModal) {
+        closeModal(voteModal);
+    }
+});
+
+closeModalButton?.addEventListener("click", () => {
+    closeModal(voteModal);
+});
 
 let choixPrecedent = null;
 let selectedChoiceId = null;
@@ -62,6 +93,4 @@ choix.forEach((c) => {
         }
     });
 });
-
-const boutonVoteModal = document.getElementById("vote-button-modal");
 

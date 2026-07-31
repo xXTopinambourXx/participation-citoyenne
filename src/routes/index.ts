@@ -3,12 +3,14 @@ import { utilisateursRouter } from "./utilisateurController.js";
 import { consultationsRouter } from "./consultationsRouter.js";
 import { accueilController } from "../controllers/accueilController.js";
 import { administrateurController } from "../controllers/administrateurController.js";
+import { adminMiddleware } from "../middlewares/adminMiddleware.js";
+import { authMiddleware } from "../middlewares/authMiddleware.js";
+import { adminRouter } from "./adminRouter.js";
 
 
 const router = Router();
 
 router.get("/", accueilController.getAccueil);
-router.get("/administrateur", administrateurController.getAdmin);
 
 router.get("/aide", (req, res) => {
     return res.render("aide");
@@ -18,6 +20,7 @@ router.get("/cgu", (req, res) =>{
     return res.render("cgu");
 });
 
+router.use("/administrateur", adminRouter);
 router.use("/consultations", consultationsRouter);
 router.use("/utilisateurs", utilisateursRouter);
 

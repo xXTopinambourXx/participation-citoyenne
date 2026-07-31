@@ -41,15 +41,15 @@
 
             <div class="flex flex-col w-full gap-2">
 
-              <div class="flex flex-row justify-between w-full">
-                <p class="text-xl">
+              <div class="flex flex-row justify-between w-full gap-4">
+                <p class="md:text-xl text-md">
                   <%= choixVote.nom %>
                 </p>
-                <p class="text-xl font-semibold">
+                <p class="md:text-xl text-md font-semibold flex flex-wrap">
                   <% const nbVotes=choixVote.nbVotes || 0; %>
                   <% const pourcentage=consultation.nbParticipants> 0 ? (nbVotes / consultation.nbParticipants) * 100 : 0; %>
                   <%= pourcentage.toFixed(2) %>%
-                  <span class="font-normal">
+                  <span class="font-normal hidden md:flex">
                     (<%= nbVotes %> votes)</span>
                 </p>
               </div>
@@ -66,17 +66,21 @@
       </div>
 
       <!-- Box pour voter -->
-      <div class="flex items-center justify-start w-full bg-blue-200 px-6 py-3 rounded-3xl gap-4">
-        <span class="material-symbols-outlined text-blue-600 text-3xl md:text-4xl infocard">
-          how_to_vote
-        </span>
+      <div class="flex flex-col md:flex-row items-center justify-start w-full bg-blue-200 px-6 py-3 rounded-3xl gap-4">
+        <div class="flex flex-row items-center gap-4 md:gap-8 w-full md:w-[70%]">
+          <span class="material-symbols-outlined text-blue-600 text-3xl md:text-4xl infocard">
+            how_to_vote
+          </span>
 
-        <div>
-          <h2 class="text-2xl font-bold">Votre avis compte!</h2>
-          <p class="text-lg text-gray-800">Participez au vote pour aider la ville à prendre la meilleure décision.</p>
+          <div>
+            <h2 class="md:text-2xl text-lg font-bold">Votre avis compte!</h2>
+            <p class="md:text-lg text-md text-gray-800">
+              Participez au vote pour aider la ville à prendre la meilleure décision.
+            </p>
+          </div>
         </div>
 
-        <div class="flex flex-row w-[30%] bg-blue-600 text-white py-4 rounded-xl hover:bg-blue-700 transition duration-300 items-center gap-2 cursor-pointer justify-center" id="vote-boutton-box">
+        <div class="flex flex-row md:w-[30%] w-full bg-blue-600 text-white py-4 rounded-xl hover:bg-blue-700 transition duration-300 items-center gap-2 cursor-pointer justify-center" id="vote-boutton-box">
           <p class="text-xl font-bold">
               <% if(consultation.statut===2) { %>
               Voir les résultats
@@ -119,7 +123,7 @@
 
             <!-- Icône positionnée à droite à l'intérieur de l'input -->
             <span
-              class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-tertiary cursor-pointer select-none"
+              class="hidden material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-tertiary cursor-pointer select-none"
               id="emoji-picker-btn"
             >
               mood
@@ -139,7 +143,10 @@
             class="flex flex-row w-[30%] bg-blue-600 text-white py-4 rounded-xl hover:bg-blue-700 transition duration-300 items-center gap-2 cursor-pointer justify-center" 
             id="vote-boutton-box"
           >
-            <p class="text-xl font-bold">Envoyer</p>
+            <p class="text-xl font-bold hidden md:block">Envoyer</p>
+            <span class="material-symbols-outlined md:hidden">
+                arrow_forward
+            </span>
           </div>
 
         </div>
@@ -158,8 +165,8 @@
                   <p class="flex rounded-full bg-primary h-12 w-12 text-white items-center justify-center shrink-0 text-2xl font-medium"><%= commentaire.utilisateurPrenom[0] %></p>
 
                   <div>
-                    <h2 class="text-xl font-semibold"><%= commentaire.utilisateurPrenom %>. <%= commentaire.utilisateurNom[0] %></h2>
-                    <p class="text-md text-gray-800">Posté le <%= new Date(commentaire.dateCommentaire * 1000).toLocaleDateString("fr-FR", { day: "2-digit", month: "2-digit", year: "numeric", hour: "2-digit", minute: "2-digit" }) %></p>
+                    <h2 class="md:text-xl text-lg font-semibold"><%= commentaire.utilisateurPrenom %>. <%= commentaire.utilisateurNom[0] %></h2>
+                    <p class="md:text-md text-sm text-gray-800">Posté le <%= new Date(commentaire.dateCommentaire * 1000).toLocaleDateString("fr-FR", { day: "2-digit", month: "2-digit", year: "numeric", hour: "2-digit", minute: "2-digit" }) %></p>
                   </div>
                 </div>
 
@@ -170,7 +177,7 @@
                 </span>
               </div>
 
-              <p class="text-lg"><%= commentaire.contenu %></p>
+              <p class="md:text-lg text-md"><%= commentaire.contenu %></p>
 
               <div class="flex w-full justify-end gap-4">
                 <button class="flex gap-2 rounded-xl cursor-pointer border border-gray-200 hover:border-gray-400 px-4 py-2 items-center text-gray-800 transition-colors">
@@ -330,7 +337,7 @@
 <!-- Modal de vote -->
 
 <!-- overlay -->
-<div id="vote-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/50"> 
+<div id="vote-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/50"> 
 
   <!-- conteneur -->
   <div class="flex flex-col bg-white rounded-xl p-8 pt-6 w-full max-w-lg relative gap-8">
@@ -347,7 +354,7 @@
       </div>
 
       <button
-        id="close-modal"
+        id="button-close-modal"
         class="h-full cursor-pointer"
       >
         <span class="material-symbols-outlined">
