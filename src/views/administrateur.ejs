@@ -27,6 +27,18 @@
     </a>
   </div>
 
+  <% 
+    const now = Date.now();
+
+    const valides = consultations.filter(c => c.statut === 1);
+
+    const enCours = valides.filter(c => c.dateDebut * 1000 <= now && c.dateFin * 1000 > now).length;
+    const aVenir = valides.filter(c => c.dateDebut * 1000 > now).length;
+    const terminees = valides.filter(c => c.dateFin * 1000 <= now).length;
+
+    const autres = consultations.filter(c => c.statut !== 1).length;
+  %>
+
   <div class="flex flex-col xl:flex-row gap-4 md:gap-6">
     <%- include("../partials/components/administrateur/infocard", {
         number: consultations.length,
@@ -38,7 +50,7 @@
     }) %>
 
     <%- include("../partials/components/administrateur/infocard", {
-        number: consultations.filter(c => c.statut === 1 && c.dateFin * 1000 > Date.now()).length,
+        number: enCours,
         title: "En cours",
         icon: "schedule",
         bgColor: "bg-green-100",
@@ -47,7 +59,7 @@
     }) %>
 
     <%- include("../partials/components/administrateur/infocard", {
-        number: consultations.filter(c => c.statut === 1 && c.dateFin * 1000 > Date.now()).length,
+        number: aVenir,
         title: "À venir",
         icon: "calendar_month",
         bgColor: "bg-orange-100",
@@ -56,7 +68,7 @@
     }) %>
 
     <%- include("../partials/components/administrateur/infocard", {
-        number: consultations.filter(c => c.statut === 1 && c.dateFin * 1000 <= Date.now()).length,
+        number: terminees,
         title: "Terminées",
         icon: "check_circle",
         bgColor: "bg-purple-100",
@@ -65,27 +77,31 @@
     }) %>
   </div>
 
-  <div class="flex flex-row flex-wrap justify-between h-12">
+  <div class="flex flex-row flex-wrap justify-between gap-4 md:gap-6 items-center">
     <div class="flex gap-6 flex-wrap">
       <button class="bg-primary text-white px-6 py-2 rounded-xl">
         Toutes (<%= consultations.length %>)
       </button>
 
       <button class="border-2 border-gray-300 bg-none px-6 py-2 rounded-xl">
-        En cours (<%= consultations.filter(c => c.statut === 1).length %>)
+        En cours (<%= enCours %>)
       </button>
 
       <button class="border-2 border-gray-300 bg-none px-6 py-2 rounded-xl">
-        À venir (<%= consultations.filter(c => c.statut === 0).length %>)
+        À venir (<%= aVenir %>)
       </button>
 
       <button class="border-2 border-gray-300 bg-none px-6 py-2 rounded-xl">
-        Terminées (<%= consultations.filter(c => c.statut === 2).length %>)
+        Terminées (<%= terminees %>)
+      </button>
+
+      <button class="border-2 border-gray-300 bg-none px-6 py-2 rounded-xl flex items-center gap-2">
+        Autres (<%= autres %>)
       </button>
     </div>
 
     <!-- Search bar -->
-    <div class="relative w-[30%] h-full">
+    <div class="relative xl:w-[30%] w-full h-12">
       <!-- Search icon -->
       <span
         class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-tertiary"
@@ -103,10 +119,122 @@
 
   </div>
 
-  <%- include("../partials/components/administrateur/list-admin", { consultations }) %>
+    <div class="w-full flex flex-col gap-4">
+        <div class="grid grid-cols-12 flex items-center gap-4 border-2 border-gray-300 rounded-xl px-6 py-4 font-semibold text-sm md:text-base">
+
+            <div class="col-span-4 flex items-center gap-4">
+                <input type="checkbox" class="w-4 h-4 cursor-pointer" id="select-all">
+                <p class="text-lg">Titre</p>
+                <span class="material-symbols-outlined cursor-pointer">unfold_more</span>
+            </div>
+
+            <div class="col-span-2 text-lg flex items-center cursor-pointer justify-center">
+                Statut
+            </div>
+
+            <div class="col-span-3 text-lg flex items-center cursor-pointer justify-center">
+                Étiquettes
+            </div>
+
+            <div class="col-span-2 flex items-center gap-2 cursor-pointer">
+                <p>Date</p>
+                <span class="material-symbols-outlined">unfold_more</span>
+            </div>
+
+            <div class="col-span-1 text-center">
+                Actions
+            </div>
+        </div>
+    </div>
 
   <% consultations.forEach(consultation => { %>
-    <%- include("../partials/components/administrateur/list-admin-card", { consultation: consultation }) %>
+    <% const now=Date.now(); 
+        const timeLeft=consultation.dateFin * 1000 - now;
+        const enCours=consultation.statut===1 && timeLeft> 0 && consultation.dateDebut * 1000 <= now;
+        const aVenir=consultation.statut===1 && timeLeft> 0 && consultation.dateDebut * 1000 > now;
+        const terminee = consultation.statut === 1 && timeLeft <= 0; 
+        const suspendu=consultation.statut===2;
+        const annulee=consultation.statut===3; 
+        const archivee=consultation.statut===4;
+    %>
+    <div class="grid grid-cols-12 gap-4 w-full border-2 border-gray-200 bg-white px-6 py-4 rounded-xl items-center">
+
+        <div class="flex flex-row gap-4 items-center justify-start col-span-4 min-w-0">
+            <input type="checkbox" class="w-4 h-4 cursor-pointer" id="select-<%= consultation.id %>" name="select-<%= consultation.id %>">
+            <div class="bg-[url('../../public/assets/consultation-list-header.jpg')] bg-cover bg-center w-16 h-12 rounded-lg flex-shrink-0"></div>
+            <div class="flex flex-col min-w-0">
+                <h2 class="text-lg font-bold text-gray-900 truncate" title="<%= consultation.titre %>">
+                    <%= consultation.titre %>
+                </h2>
+                <p class="text-sm text-gray-500 font-mono">#id-<%= consultation.id %></p>
+            </div>
+        </div>
+
+        <div class="flex items-center justify-center col-span-2">
+            <% 
+                let badgeBg = 'bg-gray-100 text-gray-700 border-gray-300';
+                let dotBg = 'bg-gray-500';
+                let libelle = 'Archivée';
+
+                if (enCours) {
+                    badgeBg = 'bg-green-50 text-green-800 border-green-200';
+                    dotBg = 'bg-green-600';
+                    libelle = 'En cours';
+                } else if (aVenir) {
+                    badgeBg = 'bg-orange-50 text-orange-800 border-orange-200';
+                    dotBg = 'bg-orange-600';
+                    libelle = 'À venir';
+                } else if (terminee) {
+                    badgeBg = 'bg-purple-50 text-purple-800 border-purple-200';
+                    dotBg = 'bg-purple-600';
+                    libelle = 'Terminée';
+                } else if (suspendu) {
+                    badgeBg = 'bg-gray-50 text-gray-800 border-gray-200';
+                    dotBg = 'bg-gray-600';
+                    libelle = 'Suspendue';
+                } else if (annulee) {
+                    badgeBg = 'bg-red-50 text-red-800 border-red-200';
+                    dotBg = 'bg-red-600';
+                    libelle = 'Annulée';
+                }
+            %>
+            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold border <%= badgeBg %>">
+                <span class="w-2 h-2 rounded-full <%= dotBg %>"></span>
+                <%= libelle %>
+            </span>
+        </div>
+
+        <div class="flex flex-wrap gap-1.5 items-center justify-center col-span-3">
+            <% if(consultation.etiquettes && consultation.etiquettes.length > 0) { %>
+                <% consultation.etiquettes.forEach(tag => { %>
+                    <span class="text-xs font-medium bg-blue-50 text-blue-700 border border-blue-200 px-2.5 py-1 rounded-full truncate">
+                        <%= tag.nom %>
+                    </span>
+                <% }); %>
+            <% } else { %>
+                <span class="text-xs text-gray-400 italic">Aucune étiquette</span>
+            <% } %>
+        </div>
+
+        <div class="flex flex-col justify-center col-span-2 text-xs text-gray-600 font-medium">
+            <span>Du 01/01/2024</span>
+            <span>au 31/01/2024</span>
+        </div>
+
+        <div class="flex flex-row gap-1 items-center justify-end col-span-1">
+            <button type="button" class="p-1.5 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors" title="Éditer">
+                <span class="material-symbols-outlined text-lg leading-none">edit</span>
+            </button>
+
+            <button type="button" class="p-1.5 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors" title="Voir">
+                <span class="material-symbols-outlined text-lg leading-none">visibility</span>
+            </button>
+
+            <button type="button" class="p-1.5 text-red-600 hover:bg-red-50 rounded-lg transition-colors" title="Supprimer">
+                <span class="material-symbols-outlined text-lg leading-none">delete</span>
+            </button>
+        </div>
+    </div>
   <% }) %>
 </main>
 
