@@ -42,7 +42,6 @@ export class administrateurController {
 
             const formattedContenu = JSON.stringify(contenu);
 
-            // 1. Insertion SQL brute via ta méthode insert
             const newConsultation = await consultationCache.insert({
                 titre: titre,
                 contenu: formattedContenu,
@@ -58,21 +57,14 @@ export class administrateurController {
             const newId = newConsultation.insertId;
             logInfo("Nouvelle consultation créée avec l'ID :", newId.toString());
 
-            // 3. Ajout des étiquettes
-            if (Array.isArray(etiquettes)) {
-                for (const etiquetteId of etiquettes) {
-                    await consultationCache.addEtiquetteToConsultation(newId, parseInt(etiquetteId, 10));
-                }
+            for (const etiquetteId of etiquettes) {
+                await consultationCache.addEtiquetteToConsultation(newId, parseInt(etiquetteId, 10));
             }
 
-            // 4. Ajout des choix
-            if (Array.isArray(choix)) {
-                for (const choixData of choix) {
-                    await consultationCache.addChoixToConsultation(newId, choixData);
-                }
+            for (const choixData of choix) {
+                await consultationCache.addChoixToConsultation(newId, choixData);
             }
 
-            // 5. Réponse JSON pour le fetch client
             res.status(201).json({
                 success: true,
                 consultationId: newId

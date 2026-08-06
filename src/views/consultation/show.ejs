@@ -10,9 +10,27 @@
 
       <div class="h-1.5 bg-secondary w-[10%]"></div>
 
-      <p class="text-md md:text-lg text-tertiary">
-      <%= consultation.contenu %>
-      </p>
+      <div class="consultation-content prose max-w-none text-md md:text-lg text-tertiary">
+        <% const blocks = typeof consultation.contenu === 'string' ? JSON.parse(consultation.contenu) : consultation.contenu; %>
+        
+        <% blocks.forEach(block => { %>
+            <% if (block.type === 'paragraph') { %>
+                <p class="mb-4 leading-relaxed">
+                    <%- block.data.text %>
+                </p>
+            <% } else if (block.type === 'header') { %>
+                <h<%- block.data.level %> class="font-bold my-3 text-xl">
+                    <%- block.data.text %>
+                </h<%- block.data.level %>>
+            <% } else if (block.type === 'list') { %>
+                <ul class="list-disc pl-5 mb-4">
+                    <% block.data.items.forEach(item => { %>
+                        <li><%- item %></li>
+                    <% }) %>
+                </ul>
+            <% } %>
+        <% }); %>
+    </div>
     </section>
 
     <!-- Image d'illustration -->
