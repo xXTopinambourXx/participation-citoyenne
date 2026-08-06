@@ -62,6 +62,51 @@ export class ConsultationCache extends DatabaseCacheBase<number, Consultation, C
         return this.consultationsOrdredByDate.slice(-n-1).reverse();
     }
 
+    async addEtiquetteToConsultation(consultationId: number, etiquetteId: number): Promise<void> {
+        await Database.query(
+            "INSERT INTO consultation_etiquette (consultation_id, etiquette_id) VALUES (?, ?)",
+            [consultationId, etiquetteId]
+        );
+
+        let consultation = this.get(consultationId);
+        const etiquette = etiquetteCache.get(etiquetteId);
+
+        if (consultation && etiquette) {
+            // Évite les doublons dans la liste locale si déjà présente
+            if (!consultation.etiquettes.some(e => e.id === etiquette.id)) {
+                consultation.etiquettes.push(etiquette);
+            }
+        }
+    }
+
+    async addChoixToConsultation(consultationId: number, choixData: ChoixVoteData): Promise<ChoixVote> {
+        const nbVotes = choixData.nb_votes ?? (choixData as ChoixVoteData).nb_votes ?? 0;
+        const ordre = choixData.ordre ?? 0;
+
+        await Database.query(
+            "INSERT INTO choix_vote (nom, couleur, ordre, nb_votes, consultation_id) VALUES (?, ?, ?, ?, ?)",
+            [choixData.nom, choixData.couleur, ordre, nbVotes, consultationId]
+        );
+
+        const choix = new ChoixVote({ 
+            id: choixData.id, 
+            nom: choixData.nom,
+            couleur: choixData.couleur,
+            ordre: ordre,
+            nb_votes: nbVotes
+        });
+
+        const consultation = this.get(consultationId);
+        if (consultation) {
+            if (!consultation.choix) {
+                consultation.choix = [];
+            }
+            consultation.choix.push(choix);
+        }
+
+        return choix;
+    }
+
 }
 
 export const consultationCache = new ConsultationCache();

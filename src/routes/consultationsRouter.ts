@@ -9,8 +9,6 @@ consultationsRouter.get("/", (req, res) =>
 );
 
 // GET /consultations/:id
-consultationsRouter.get("/:id", (req, res) =>
-    consultationController.getConsultation(req, res)
-);
+consultationsRouter.get("/:id", consultationController.getConsultation);
 
 export { consultationsRouter };

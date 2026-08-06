@@ -1,10 +1,7 @@
 import { Router } from "express";
-import { utilisateursRouter } from "./utilisateurController.js";
+import { utilisateursRouter } from "./utilisateurRouter.js";
 import { consultationsRouter } from "./consultationsRouter.js";
 import { accueilController } from "../controllers/accueilController.js";
-import { administrateurController } from "../controllers/administrateurController.js";
-import { adminMiddleware } from "../middlewares/adminMiddleware.js";
-import { authMiddleware } from "../middlewares/authMiddleware.js";
 import { adminRouter } from "./adminRouter.js";
 
 

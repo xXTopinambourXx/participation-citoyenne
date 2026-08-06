@@ -1,0 +1,163 @@
+<%- include ("../../partials/header") %>
+
+<main class="m-12 xl:mx-50 xl:mt-15">
+    <form id="form-consultation" class="flex grid grid-cols-12 gap-16" enctype="multipart/form-data">
+        <div class="flex flex-col gap-8 grid col-span-8">
+
+            <!-- Titre -->
+            <section class="flex flex-col gap-2 w-full">
+                <h2 class="text-xl md:text-4xl font-bold">Ajouter une consultation</h2>
+                <div class="h-1.5 bg-secondary w-20"></div>
+            </section>
+
+
+            <!-- Titre -->
+            <section class="flex flex-col gap-2 w-full">
+                <div class="flex flex-col">
+                    <h2 class="text-2xl font-semibold">Titre</h2>
+                    <div class="h-1 bg-secondary w-[3%]"></div>
+                </div>
+                <input type="text" id="titre-consultation-input" class="border rounded p-3 text-lg w-full border-gray-300 focus:border-primary focus:outline-hidden" required placeholder="Nom de la consultation"/>
+            </section>
+
+            <!-- Description -->
+            <section class="flex flex-col gap-2 w-full">
+                <div class="flex flex-col">
+                    <h2 class="text-2xl font-semibold">Description</h2>
+                    <div class="h-1 bg-secondary w-[3%]"></div>
+                </div>
+                <div id="editorjs" class="flex justify-start w-full min-h-[600px] py-2 px-18 border border-gray-300 rounded-xl bg-white focus-within:ring focus-within:ring-primary"></div>
+            </section>
+
+            <!-- Choix de votes -->
+            <section class="flex flex-col gap-4 w-full">
+                <div class="flex flex-col">
+                    <h2 class="text-2xl font-semibold" id="nb-choix-selected">Choix (0)</h2>
+                    <div class="h-1 bg-secondary w-[3%]"></div>
+                </div>
+                <div class="border-2 border-gray-300 bg-gray-100 hover:bg-gray-200 transition-colors rounded-lg flex flex-row gap-6 items-center justify-center p-4 text-gray-700 cursor-pointer" id="ajout-choix">
+                    <span class="material-symbols-outlined">
+                        add
+                    </span>
+
+                    <p class="text-xl">Ajouter un choix</p>
+                </div>
+
+                <div id="choix-list" class="flex flex-col gap-2">
+                    <!-- Les choix de vote -->
+                </div>
+            </section>
+        </div>
+
+        <div class="flex flex-col col-span-4 gap-4">
+            <div class="flex flex-col gap-6 rounded-xl border border-gray-300 px-8 py-6">
+                <!-- Image de courverture -->
+                <section class="flex flex-col gap-4">
+                    <h2 class="text-2xl font-semibold">Image de couverture</h2>
+                    <div class="w-full flex justify-center items-center bg-gray-200 p-10 rounded-md bg-contain bg-center bg-no-repeat" id="container-couverture">
+
+                        <input 
+                            type="file" 
+                            id="file-input" 
+                            class="hidden" 
+                            accept=".png, .jpg, .jpeg, .webp" 
+                        />
+
+                        <button class="flex flex-row gap-4 text-center text-white font-semibold bg-blue-600 px-4 py-2 rounded-xl items-center cursor-pointer hover:bg-blue-700 transition-colors shrink-0" id="upload-button">
+                            <span class="material-symbols-outlined">
+                                cloud_upload
+                            </span>
+                            Choisir une image
+                        </button>
+                    </div>
+
+                    <p class="text-gray-500 text-sm">Formats acceptés: .png .jpg .webp .jpeg</p>
+                </section>
+
+                <!-- Calendrier -->
+                <section class="flex flex-col gap-4">
+                    <h2 class="text-2xl font-semibold">Durée</h2>
+                    <div class="w-full flex justify-center items-center">
+                        <input 
+                            type="text" 
+                            id="date-consultation-picker" 
+                            placeholder="Sélectionner une période..." 
+                            class="w-full border border-gray-300 p-4 rounded-md focus:border-primary focus:outline-hidden"
+                        />
+                    </div>
+                </section>
+
+                <div class="w-full h-0.5 bg-black/20"></div>
+
+                <!-- Budget -->
+                <section class="flex flex-col gap-4">
+                    <h2 class="text-2xl font-semibold">Budget</h2>
+                    <div class="w-full flex justify-center items-center">
+                        <input 
+                            type="text" 
+                            id="budget-consultation-input" 
+                            placeholder="Ex: 20 000€ (Facultatif)" 
+                            class="border rounded p-3 text-lg w-full border-gray-300 focus:border-primary focus:outline-hidden"
+                        />
+                    </div>
+                </section>
+
+                <div class="w-full h-0.5 bg-black/20"></div>
+
+                <!-- Etiquettes -->
+                <section class="flex flex-col gap-4">
+                    <h2 class="text-2xl font-semibold" id="nb-etiquettes-selected">Étiquettes (0)</h2>
+                    <div class="flex flex-col gap-4">
+                        <div class="relative md:flex-1 w-full">
+                            <!-- Search icon -->
+                            <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-tertiary">
+                                search
+                            </span>
+
+                            <span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-tertiary cursor-pointer" id="add-tag-button">
+                                add
+                            </span>
+
+
+                            <!-- Input field for searching étiquettes -->
+                            <input type="text" placeholder="Rechercher une étiquette..." class="w-full h-full border-2 border-gray-300 rounded-xl pl-12 pr-4 py-4 focus:border-primary focus:outline-none" id="search-etiquette"/>
+
+                            <% if (etiquettes && etiquettes.length > 0) { %>
+                                <ul id="etiquette-list" class="hidden absolute z-10 w-full bg-white border border-gray-300 rounded-xl mt-1 max-h-60 overflow-y-auto">
+                                    <% etiquettes.forEach(etiquette => { %>
+                                        <li class="flex p-2 cursor-pointer hover:bg-gray-200 items-center gap-4" data-etiquette-id="<%= etiquette.id %>" data-etiquette-couleur="<%= etiquette.couleur %>" data-etiquette-icone="<%= etiquette.icone %>">
+                                            <span class="material-symbols-outlined text-primary">
+                                                <%= etiquette.icone %>
+                                            </span>
+                                            <p class="font-medium text-sm lg:text-md" id="etiquette-texte-<%= etiquette.id %>"><%= etiquette.nom %></p>
+                                        </li>
+                                    <% }); %>
+                                </ul>
+                            <% } else { %>
+                                <p class="text-gray-500 mt-2">Aucune étiquette disponible.</p>
+                            <% } %>
+                        </div>
+
+                        <div id="selected-etiquettes-container" class="flex flex-row flex-wrap gap-2">
+                            <!-- Selected étiquettes-->
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <div class="flex flex-row w-full">
+                <a href="#" class="w-full hidden md:flex items-center text-primary text-lg font-medium hover:underline">
+                    sauvegarder le brouillon
+                </a>
+
+                <button type="submit" class="w-full text-center text-white text-lg font-semibold bg-blue-600 px-4 py-2 rounded-xl cursor-pointer hover:bg-blue-700 transition-colors ">
+                    Publier
+                </button>
+            </div>
+        </div>
+    </form>
+
+    <%- include("../../partials/components/administrateur/choix-vote-modal") %>
+</main>
+
+<%- include ("../../partials/footer") %>

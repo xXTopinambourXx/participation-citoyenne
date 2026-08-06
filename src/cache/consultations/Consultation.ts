@@ -8,8 +8,8 @@ export interface ConsultationData {
     titre: string;
     contenu: string;
     statut: number;
-    budget: number | undefined;
-    couverture: string | undefined;
+    budget: number | null;
+    couverture: string | null;
     date_creation: number;
     date_debut: number;
     date_fin: number;
@@ -29,8 +29,8 @@ export class Consultation extends ElementEnCacheBdd<ConsultationDataWithChoixEti
     public titre: string;
     public contenu: string;
     public statut: number;
-    public budget: number | undefined;
-    public couverture: string | undefined;
+    public budget: number | null;
+    public couverture: string | null;
     public dateCreation: number;
     public dateDebut: number;
     public dateFin: number;

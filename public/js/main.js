@@ -126,24 +126,37 @@ function renderConsultations() {
 /* ------------------ Écouteurs d'Événements ------------------ */
 
 // Tri
-if (sortSelect) {
-    sortSelect.addEventListener("change", (e) => {
-        state.sort = e.target.value;
-        renderConsultations();
-    });
-}
+sortSelect?.addEventListener("change", (e) => {
+    state.sort = e.target.value;
+    renderConsultations();
+});
 
 // Filtres
-if(filtreContainer) {
+if (filtreContainer) {
     filtreButtons.forEach(button => {
         button.addEventListener("click", (e) => {
-            // MAJ de l'UI des boutons
-            filtreButtons.forEach(btn => btn.classList.remove("btn-active"));
             const currentBtn = e.currentTarget;
-            currentBtn.classList.add("btn-active");
+            const filterValue = currentBtn.dataset.filter;
 
-            // MAJ de l'état et rendu
-            state.filter = currentBtn.dataset.filter;
+            // Si on clique sur le filtre déjà actif (et que ce n'est pas déjà "tous")
+            if (state.filter === filterValue && state.filter !== 'all') {
+                // On remet la valeur par défaut
+                state.filter = 'all';
+
+                // On retire la classe active de tous les boutons
+                filtreButtons.forEach(btn => btn.classList.remove("btn-active"));
+
+                // On réactive le bouton "Tous"
+                const btnTous = Array.from(filtreButtons).find(btn => btn.dataset.filter === 'all');
+                if (btnTous) {
+                    btnTous.classList.add("btn-active");
+                }
+            } else {
+                // sélection d'un nouveau filtre
+                filtreButtons.forEach(btn => btn.classList.remove("btn-active"));
+                currentBtn.classList.add("btn-active");
+                state.filter = filterValue;
+            }
             renderConsultations();
         });
     });

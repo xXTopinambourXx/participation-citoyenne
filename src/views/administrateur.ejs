@@ -222,15 +222,15 @@
         </div>
 
         <div class="flex flex-row gap-1 items-center justify-end col-span-1">
-            <button type="button" class="p-1.5 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors" title="Éditer">
+            <button type="button" class="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors cursor-pointer flex items-center" title="Éditer">
                 <span class="material-symbols-outlined text-lg leading-none">edit</span>
             </button>
 
-            <button type="button" class="p-1.5 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors" title="Voir">
+            <a href='/consultations/<%= consultation.id %>' class="p-2 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors cursor-pointer flex items-center" title="Voir">
                 <span class="material-symbols-outlined text-lg leading-none">visibility</span>
-            </button>
+            </a>
 
-            <button type="button" class="p-1.5 text-red-600 hover:bg-red-50 rounded-lg transition-colors" title="Supprimer">
+            <button type="button" class="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors cursor-pointer flex items-center" title="Supprimer">
                 <span class="material-symbols-outlined text-lg leading-none">delete</span>
             </button>
         </div>

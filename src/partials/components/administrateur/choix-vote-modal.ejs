@@ -1,0 +1,41 @@
+<!-- Overlay -->
+<div id="modal-choix" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+    <!-- Conteneur du modal de choix vote -->
+    <div class="bg-white rounded-xl p-8 pt-6 w-full max-w-md relative">
+        <!-- Entete modal (Titre + Ligne de séparation + bouton fermeture)-->
+        <div class="flex justify-between items-center mb-4">
+            <div class="flex flex-col gap-1">
+                <h2 class="text-3xl font-semibold">Nouveau choix</h2>
+
+                <div class="h-1.5 bg-primary w-[50%]"></div>
+            </div>
+
+            <button id="close-modal-choix" class="align-center cursor-pointer">
+                <span class="material-symbols-outlined"> close </span>
+            </button>
+        </div>
+
+        <form class="flex flex-col gap-4 w-full" id="form-choix">
+            <div>
+                <p class="font-medium color-black">Nom</p>
+                <input type="text" id="nom-choix-input" class="border rounded p-2 w-full border-gray-300 focus:border-primary focus:outline-hidden" required />
+            </div>
+
+            <div>
+                <p class="font-medium color-black">Couleur</p>
+                <input type="text" id="couleur-choix-input" class="border rounded p-2 w-full border-gray-300 focus:border-primary focus:outline-hidden" data-coloris required>
+            </div>
+
+            <!-- Message d'erreur -->
+            <div class="bg-red-100 rounded-lg text-red-700 p-2 flex flex-row justify-start items-center gap-4 hidden" role="alert" id="error-container-choix">
+                <span class="material-symbols-outlined"> error </span>
+                <p class="font-medium" id="error-message-choix"></p>
+            </div>
+
+            <button type="submit" id="submit-button-choix"
+                class="bg-primary/80 text-white font-bold rounded p-2 w-full hover:bg-primary transition-colors cursor-pointer">
+                Valider le choix
+            </button>
+        </form>
+    </div>
+</div>
