@@ -4,14 +4,14 @@
     <form id="form-consultation" class="flex grid grid-cols-12 gap-16" enctype="multipart/form-data">
         <div class="flex flex-col gap-8 grid col-span-8">
 
-            <!-- Titre -->
+            <!-- Titre de la page -->
             <section class="flex flex-col gap-2 w-full">
                 <h2 class="text-xl md:text-4xl font-bold">Ajouter une consultation</h2>
                 <div class="h-1.5 bg-secondary w-20"></div>
             </section>
 
 
-            <!-- Titre -->
+            <!-- Titre de la consultation -->
             <section class="flex flex-col gap-2 w-full">
                 <div class="flex flex-col">
                     <h2 class="text-2xl font-semibold">Titre</h2>
@@ -145,14 +145,22 @@
                 </section>
             </div>
 
+            <!-- Boutons de submit -->
             <div class="flex flex-row w-full">
+                <!-- Publication (Statut 0)-->
                 <a href="#" class="w-full hidden md:flex items-center text-primary text-lg font-medium hover:underline">
                     sauvegarder le brouillon
                 </a>
 
+                <!-- Publication (Statut 1)-->
                 <button type="submit" class="w-full text-center text-white text-lg font-semibold bg-blue-600 px-4 py-2 rounded-xl cursor-pointer hover:bg-blue-700 transition-colors ">
                     Publier
                 </button>
+            </div>
+
+            <!-- Gestion des messages d'erreur -->
+            <div id="message-erreur-consultation">
+
             </div>
         </div>
     </form>

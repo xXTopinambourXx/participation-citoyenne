@@ -25,7 +25,15 @@ const editor = new EditorJS({
                 defaultLevel: 3
             }
         },
-        image: SimpleImage,
+        image: {
+            class: ImageTool,
+            config: {
+                endpoints: {
+                    byFile: '/administrateur/upload-image-temp' // backend file uploader endpoint
+                },
+                field: 'image',
+            }
+        },
         list: EditorjsList,
         linkTool: LinkTool,
         embed: Embed,
@@ -51,17 +59,6 @@ const editor = new EditorJS({
                 defaultFontFamily: "Roboto",
             },
         },
-
-        image: {
-            class: ImageTool,
-            config: {
-                endpoints: {
-                byFile: 'http://localhost:8008/uploadFile', // Your backend file uploader endpoint
-                byUrl: 'http://localhost:8008/fetchUrl', // Your endpoint that provides uploading by Url
-                }
-            }
-        }  
-    
     },
 
     onReady: () => {

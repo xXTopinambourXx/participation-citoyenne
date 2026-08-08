@@ -72,14 +72,13 @@
         let nbEnCours = 0, nbAVenir = 0, nbTerminees = 0, nbAnnulees = 0, nbSuspendues = 0;
 
         for (const c of consultations) {
+            console.log(c.id);
             if (c.statut === 3) nbAnnulees++;
             else if (c.statut === 2) nbSuspendues++;
             else if (c.statut === 1) {
-                const debutMs = c.dateDebut * 1000;
-                const finMs = c.dateFin * 1000;
-                if (finMs > maintenant && debutMs <= maintenant) nbEnCours++;
-                else if (debutMs > maintenant) nbAVenir++;
-                else if (finMs <= maintenant) nbTerminees++;
+                if (c.dateFin > maintenant && c.dateDebut <= maintenant) nbEnCours++;
+                else if (c.dateDebut > maintenant) nbAVenir++;
+                else if (c.dateFin <= maintenant) nbTerminees++;
             }
         }
         let totalFiltrees = nbEnCours + nbAVenir + nbTerminees + nbAnnulees + nbSuspendues;

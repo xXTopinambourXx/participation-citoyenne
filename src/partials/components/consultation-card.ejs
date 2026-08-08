@@ -36,7 +36,52 @@ const archivee = consultation.statut === 4;
 
         <!-- Description -->
         <div class="text-tertiary text-md md:text-lg">
-            <%= consultation.contenu %>
+            <%
+                let blocks = [];
+                let isJSON = false;
+
+                if (typeof consultation.contenu === 'string') {
+                    try {
+                        blocks = JSON.parse(consultation.contenu);
+                        isJSON = true;
+                    } catch (e) {
+                        blocks = consultation.contenu;
+                    }
+                } else {
+                    blocks = consultation.contenu;
+                }
+
+                let premierBlock;
+                if(isJSON){
+                    premierBlock = blocks[0];
+                } else {
+                    premierBlock = blocks;
+                }
+            %>
+        
+            <% if (premierBlock.type === 'paragraph') { %>
+                <p class="mb-4 leading-relaxed">
+                    <%- premierBlock.data.text %>
+                </p>
+            <% } else if (premierBlock.type === 'header') { %>
+                <h<%- premierBlock.data.level %> class="font-bold my-3 text-xl">
+                    <%- premierBlock.data.text %>
+                </h<%- premierBlock.data.level %>>
+            <% } else if (premierBlock.type === 'list') { %>
+                <ul class="list-disc pl-5 mb-4">
+                    <% premierBlock.data.items.forEach(item => { %>
+                        <li><%- item %></li>
+                    <% }) %>
+                </ul>
+            <% } else if(premierBlock.type === 'image') { %>
+                <p class="mb-4 leading-relaxed">
+                    Contenu non pris en charge
+                </p>
+            <% } else {%>
+                <div class="mb-4 leading-relaxed whitespace-pre-line">
+                    <%- premierBlock %>
+                </div>
+            <%}%>
         </div>
 
         <!-- Informations -->

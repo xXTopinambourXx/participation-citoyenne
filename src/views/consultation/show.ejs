@@ -10,7 +10,7 @@
 
       <div class="h-1.5 bg-secondary w-[10%]"></div>
 
-      <div class="consultation-content prose max-w-none text-md md:text-lg text-tertiary">
+      <div class="consultation-content prose max-w-none text-md md:text-lg">
         <% const blocks = typeof consultation.contenu === 'string' ? JSON.parse(consultation.contenu) : consultation.contenu; %>
         
         <% blocks.forEach(block => { %>
@@ -28,6 +28,19 @@
                         <li><%- item %></li>
                     <% }) %>
                 </ul>
+            <% } else if (block.type === 'image') { %>
+                <figure class="my-6 my-auto text-center">
+                    <img 
+                        src="<%= block.data.file.url %>" 
+                        alt="<%= block.data.caption || 'Image de consultation' %>"
+                        class="rounded-lg max-h-[500px] mx-auto object-cover <% if (block.data.stretched) { %> w-full <% } %> <% if (block.data.withBorder) { %> border border-gray-200 <% } %> <% if (block.data.withBackground) { %> bg-gray-100 p-4 <% } %>"
+                    />
+                    <% if (block.data.caption) { %>
+                        <figcaption class="text-sm text-gray-500 mt-2 italic">
+                            <%= block.data.caption %>
+                        </figcaption>
+                    <% } %>
+                </figure>
             <% } %>
         <% }); %>
     </div>

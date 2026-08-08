@@ -1,3 +1,4 @@
+/* Partie concernant le bouton d'upload pour la couverture */
 const fileInput = document.getElementById("file-input");
 const uploadButton = document.getElementById("upload-button");
 const uploadContainer = document.getElementById("container-couverture");
@@ -36,6 +37,9 @@ fileInput?.addEventListener("change", (e) => {
     }
 });
 
+/**
+ * Rénitialise le bouton d'upload de couverture
+ */
 function resetUploadButton() {
     uploadButton.textContent = "";
 
@@ -52,7 +56,7 @@ function resetUploadButton() {
     uploadButton.appendChild(uploadIcon);
     uploadButton.appendChild(label);
 }
-
+/*---------------------------------------------------------------------------*/
 
 
 const searchEtiquetteInput = document.getElementById("search-etiquette");
